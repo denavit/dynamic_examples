@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta
+      charset="UTF-8"
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    />
+    <title>Wide Flange Steel Members Calculator</title>
+    <link
+      href="static/responsive_design.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+
+  <body>
+    <form action="/" method="POST">
+      <div class="row">
+        <div class="col-2 alignment">
+          <label
+            class="member_select_label"
+            for="member_dropdown"
+            style="vertical-align: middle"
+            >Selected Member:
+          </label>
+          <select
+            class="member_dropdown"
+            id="member_dropdown"
+            name="member_dropdown"
+          >
+            {% for member in member_list %}
+            <option id="{{member}}" value="{{member}}">{{member}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <script>
+          document.getElementById("member_dropdown").onchange = function () {
+            localStorage.setItem(
+              "selectedItem",
+              document.getElementById("member_dropdown").value
+            );
+            this.form.submit();
+          };
+
+          if (localStorage.getItem("selectedItem")) {
+            document.getElementById("member_dropdown").options[
+              localStorage.getItem("selectedItem")
+            ].selected = true;
+          }
+        </script>
+
+        <div class="header1 col-9">
+          <h1>Wide Flange Steel Members Calculator</h1>
+          <h4>
+            Input Values to Right First, Select Member at Left to Calculate
+          </h4>
+        </div>
+        <div class="col-2">
+          <label class="member member_space">{{member}}</label> <br />
+          <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
+          <input
+            class="user_input"
+            type="text"
+            id="Fy"
+            value="{{'%g'%(Fy)}}"
+            name="Fy"
+          />
+          <label class="unit"> ksi</label> <br />
+
+          <label class="user_input-label" for="E">E : </label>
+          <input
+            class="user_input"
+            type="text"
+            id="E"
+            value="{{'%g'%(E)}}"
+            name="E"
+          />
+          <label class="unit"> ksi</label> <br />
+
+          <label class="user_input-label" for="Lcx">L<sub>cx</sub> : </label>
+          <input
+            class="user_input"
+            type="text"
+            id="Lcx"
+            value="{{'%g'%(Lcx)}}"
+            name="Lcx"
+          />
+          <label class="unit"> in</label> <br />
+
+          <label class="user_input-label" for="Lcy">L<sub>cy</sub> : </label>
+          <input
+            class="user_input"
+            type="text"
+            id="Lcy"
+            value="{{'%g'%(Lcy)}}"
+            name="Lcy"
+          />
+          <label class="unit"> in</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <p class="ind-1">
+            From AISC <l>Manual</l> Table 1-1, the geometric properties are as
+            follows:
+          </p>
+          <p class="ind-2">{{member}}</p>
+          <p class="ind-2">
+            <i>A<sub>g</sub></i> = {{A}} in.<sup>2</sup>
+          </p>
+          <p class="ind-2">
+            <i>r<sub>x</sub></i> = {{rx}} in.
+          </p>
+          <p class="ind-2">
+            <i>r<sub>y</sub></i> = {{ry}} in.
+          </p>
+          <p class="ind-2"><i><sup>b<sub>f</sub></sup>/<sub>2t<sub>f</sub></i> = {{bf2tf}}</p>
+          <p class = "ind-2"><i><sup>h</sup>/<sub>t<sub>w</sub></i> = {{htw}}</p>
+          <br>
+          <p class = "ind-1"><i>Width-to-Thickness Ratio</i></p>
+          <p class = "ind-1">The width-to-thickness ratio of the flanges of the {{member}} is:</p>
+          <p class = "ind-2"><i><sup>b<sub>f</sub></sup>/<sub>2t<sub>f</sub></i> = {{bf2tf}}</p>
+          <p class = "ind-1">From AISC <i>Specification</i> Table B4.1a, Case 1, the limiting width-to-thickness ratio of the flanges is:</p>
+          <p class = "ind-2">0.56( <i><sup>E</sup>/<sub>F<sub>y</sub></i> )<sup>0.5</sup> = 0.56( <sup>{{E}} ksi</sup>/<sub>{{Fy}} ksi</sub> )</p>
+          <p class = "ind-3">= {{lambdar_flange}} > {{bf2tf}}; therefore, the flanges are {{flange_slenderness}}</p>
+          <p class = "ind-1">The width-to-thickness ratio of the web of the {{member}} is:</p>
+          <p class = "ind-2"><i><sup>h</sup>/<sub>t<sub>w</sub></i> = {{htw}}</p>
+          <p class = "ind-1">From AISC <i>Specification</i> Table B4.1a, Case 5, the limiting width-to-thickness ratio of the web is:</p>
+          <p class = "ind-2">1.49( <i><sup>E</sup>/<sub>F<sub>y</sub></i> )<sup>0.5</sup> = 1.49( <sup>{{E}} ksi</sup>/<sub>{{Fy}} ksi</sub> )</p>
+          <p class = "ind-3">= {{lambdar_web}} > {{htw}}; therefore, the web is {{web_slenderness}}</p>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

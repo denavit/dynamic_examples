@@ -1,0 +1,280 @@
+/* Overall Formatting */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+body {
+  background-color: #58595b;
+}
+
+.header1 {
+  color: black;
+  padding: 15px;
+  text-align: center;
+  margin: auto;
+}
+
+.header2 {
+  color: black;
+  padding: 0 15px 0 15px;
+  text-align: left;
+}
+
+.row-header {
+  padding: 15px;
+}
+
+.section-header {
+  margin: 0;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px 15px 15px 0px;
+  display: table-cell;
+}
+
+input {
+  padding: 5px;
+}
+
+select {
+  padding: 5px;
+}
+
+.unit {
+  font-size: 12px;
+  width: 5%;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row {
+  flex-wrap: wrap;
+  display: flex;
+  margin-right: -15px;
+}
+
+.alignment {
+  margin: auto;
+}
+
+/* Label Formatting */
+
+label:not(.div_flange, .div_web, .unit) {
+  font-size: 15px;
+  vertical-align: middle;
+}
+
+.member_select_label {
+  padding-left: 20%;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.member_space {
+  padding-left: 43%;
+  vertical-align: middle;
+}
+
+.space {
+  padding-left: 15px;
+  vertical-align: middle;
+}
+
+.div_flange {
+  font-size: 20px;
+  padding-left: 43%;
+  vertical-align: middle;
+}
+
+.div_web {
+  font-size: 20px;
+  padding-left: 45%;
+  vertical-align: middle;
+}
+
+.blank {
+  visibility: hidden;
+}
+
+.bfh-label,
+.flange-label,
+.web-label,
+.user_input-label,
+.rxry-label,
+.F-label,
+.A-label,
+.buckling-label,
+.L-label {
+  text-align: right;
+  float: left;
+  clear: left;
+  width: 35%;
+  padding-right: 2px;
+  margin-left: -20%;
+  vertical-align: middle;
+}
+
+/* Input Formatting */
+
+.flange_slenderness,
+.web_slenderness,
+.axis_control,
+.buckling_elasticity {
+  background-color: rgb(207, 207, 207);
+  border: none;
+  width: 69.75%;
+  margin-left: 0.1%;
+  text-align: center;
+  font-weight: bold;
+}
+
+input:not(
+    .flange_slenderness,
+    .web_slenderness,
+    .axis_control,
+    .buckling_elasticity
+  ) {
+  width: 70%;
+}
+
+/* Hidden Popup Formatting */
+
+.show-flange-web,
+.show-axial {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  margin: auto;
+}
+
+.active,
+.show-flange-web:hover,
+.show-axial:hover {
+  background-color: #555;
+}
+
+.flange-web-collapse,
+.axial-collapse {
+  display: none;
+  overflow: hidden;
+}
+
+.flange-web-collapse-text,
+.axial-collapse-text {
+  margin: 10px 15px;
+}
+
+.padding {
+  padding: 10px 10px;
+}
+
+.math {
+  font-size: 125%;
+}
+
+.border {
+  border-right: 4px solid black;
+}
+/* Specifying Column Width */
+
+.col-1 {
+  width: 10%;
+}
+
+.col-2 {
+  width: 27.5%;
+}
+
+.col-3 {
+  width: 42.86%;
+}
+
+.col-4 {
+  width: 60%;
+}
+
+.col-5 {
+  width: 100%;
+}
+
+.col-6 {
+  width: 72.5%;
+}
+
+.col-7 {
+  width: 16.67%;
+}
+
+.col-8 {
+  width: 4.37%;
+}
+
+.col-9 {
+  width: 45%;
+}
+
+.col-10 {
+  width: 25%;
+}
+
+.col-11 {
+  width: 50%;
+}
+
+.col-12 {
+  width: 33.333%;
+}
+
+/* Indent Width */
+
+.ind-1 {
+  margin-left: 5%;
+}
+
+.ind-2 {
+  margin-left: 7.5%;
+}
+
+.ind-3 {
+  margin-left: 10%;
+}
+
+.top {
+  border-bottom: solid black 1px;
+  display: inline-block;
+  float: left;
+}
+
+.bottom {
+  display: inline-block;
+  clear: left;
+  float: left;
+}
+
+.spacing-top {
+  margin-top: 4%;
+}
+
+/* Specifying Media Width */
+
+@media only screen and (max-width: 768px) {
+  [class*="col-"] {
+    width: 100%;
+  }
+
+  .header2 {
+    text-align: center;
+  }
+}
