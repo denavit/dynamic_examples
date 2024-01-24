@@ -304,9 +304,9 @@ def calculations():
                 <br />
                 <li><b>ASD:</b></li>
                 <ul>
-                  <li>$&#937;_{{c}}$ = 1.67</li>
+                  <li>$\\Omega_{{c}} = 1.67$</li>
                   <li>
-                    $\\frac{{P_{{n}}}}{{&#937;_{{c}}}} = \\frac{{{'%.2f'%Pn}\\text{{
+                    $\\frac{{P_{{n}}}}{{\\Omega_{{c}}}} = \\frac{{{'%.2f'%Pn}\\text{{
                     kips}}}}{{1.67}} = {'%.2f'%omegaPn}\\text{{ kips}}$
                   </li>
                 </ul>
