@@ -275,16 +275,6 @@ def calculations():
         phiPn = 0.9 * Pn
         omegaPn = Pn / 1.67
 
-        if phiPn > 840:
-            phiPn_sign = '>'
-        else:
-            phiPn_sign = '<'
-
-        if omegaPn > 560:
-            omegaPn_sign = '>'
-        else:
-            omegaPn_sign = '<'
-
         nominal_strength_text = f'''
             <ul>
               <li>
@@ -305,11 +295,10 @@ def calculations():
               <ul>
                 <li><b>LRFD:</b></li>
                 <ul>
-                  <li>$&#934;_{{c}}$ = 0.90</li>
+                  <li>$\\phi_{{c}} = 0.90$</li>
                   <li>
-                    $&#934;_{{c}}P_{{n}} = 0.90({'%.2f'%Pn}\\text{{ kips}}) =
-                    {'%.2f'%phiPn}\\text{{ kips}} {phiPn_sign} 840.00\\text{{ kips}}$
-                    <b>o.k.</b> -- TO FIX LATER, ADD CONDITIONS FOR WHEN NOT OK -- WHAT IS THE 840
+                    $\\phi_{{c}}P_{{n}} = 0.90({'%.2f'%Pn}\\text{{ kips}}) =
+                    {'%.2f'%phiPn}\\text{{ kips}}$
                   </li>
                 </ul>
                 <br />
@@ -318,8 +307,7 @@ def calculations():
                   <li>$&#937;_{{c}}$ = 1.67</li>
                   <li>
                     $\\frac{{P_{{n}}}}{{&#937;_{{c}}}} = \\frac{{{'%.2f'%Pn}\\text{{
-                    kips}}}}{{1.67}} = {'%.2f'%omegaPn} {omegaPn_sign} 560.00\\text{{ kips}}$
-                    <b>o.k.</b> -- TO FIX LATER, ADD CONDITIONS FOR WHEN NOT OK -- WHAT IS THE 560
+                    kips}}}}{{1.67}} = {'%.2f'%omegaPn}\\text{{ kips}}$
                   </li>
                 </ul>
               </ul>
