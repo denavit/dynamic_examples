@@ -1,3 +1,10 @@
+<!--
+  IDEAS
+  Add hyperlinks to noted standards
+  Option for user to save a member in a dropdown that will automatically populate fields with saved values
+    Very unsure of how to go about this
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,11 +25,21 @@
       async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
     ></script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [["$", "$"]],
+        },
+        svg: {
+          fontCache: "global",
+        },
+      };
+    </script>
   </head>
 
   <body>
     <form action="/" method="POST">
-      <div class="row">
+      <div class="section">
         <div class="col-2 alignment">
           <label
             class="member_select_label"
@@ -40,7 +57,6 @@
             {% endfor %}
           </select>
         </div>
-
         <script>
           document.getElementById("member_dropdown").onchange = function () {
             localStorage.setItem(
@@ -56,7 +72,6 @@
             ].selected = true;
           }
         </script>
-
         <div class="header1 col-9">
           <h1>Wide Flange Steel Members Calculator</h1>
           <h4>
@@ -106,37 +121,29 @@
           <label class="unit"> in</label>
         </div>
       </div>
+      <hr />
 
-      <div class="row">
-        <div class="col-5">
-          <p class="ind-1">
-            From AISC <l>Manual</l> Table 1-1, the geometric properties are as
-            follows:
-          </p>
-          <p class="ind-2">{{member}}</p>
-          <p class="ind-2">
-            <i>A<sub>g</sub></i> = {{A}} in.<sup>2</sup>
-          </p>
-          <p class="ind-2">
-            <i>r<sub>x</sub></i> = {{rx}} in.
-          </p>
-          <p class="ind-2">
-            <i>r<sub>y</sub></i> = {{ry}} in.
-          </p>
-          <p class="ind-2"><i><sup>b<sub>f</sub></sup>/<sub>2t<sub>f</sub></i> = {{bf2tf}}</p>
-          <p class = "ind-2"><i><sup>h</sup>/<sub>t<sub>w</sub></i> = {{htw}}</p>
-          <br>
-          <p class = "ind-1"><i>Width-to-Thickness Ratio</i></p>
-          <p class = "ind-1">The width-to-thickness ratio of the flanges of the {{member}} is:</p>
-          <p class = "ind-2"><i><sup>b<sub>f</sub></sup>/<sub>2t<sub>f</sub></i> = {{bf2tf}}</p>
-          <p class = "ind-1">From AISC <i>Specification</i> Table B4.1a, Case 1, the limiting width-to-thickness ratio of the flanges is:</p>
-          <p class = "ind-2">0.56( <i><sup>E</sup>/<sub>F<sub>y</sub></i> )<sup>0.5</sup> = 0.56( <sup>{{E}} ksi</sup>/<sub>{{Fy}} ksi</sub> )</p>
-          <p class = "ind-3">= {{lambdar_flange}} > {{bf2tf}}; therefore, the flanges are {{flange_slenderness}}</p>
-          <p class = "ind-1">The width-to-thickness ratio of the web of the {{member}} is:</p>
-          <p class = "ind-2"><i><sup>h</sup>/<sub>t<sub>w</sub></i> = {{htw}}</p>
-          <p class = "ind-1">From AISC <i>Specification</i> Table B4.1a, Case 5, the limiting width-to-thickness ratio of the web is:</p>
-          <p class = "ind-2">1.49( <i><sup>E</sup>/<sub>F<sub>y</sub></i> )<sup>0.5</sup> = 1.49( <sup>{{E}} ksi</sup>/<sub>{{Fy}} ksi</sub> )</p>
-          <p class = "ind-3">= {{lambdar_web}} > {{htw}}; therefore, the web is {{web_slenderness}}</p>
+      <!-- Everything above this note should NOT be edited -->
+
+      <div id="main">
+        <div id="material_properties" class="section">
+          <div class="col-5">{{section_properties_text|safe}}</div>
+        </div>
+        <hr />
+        <div id="slenderness_check" class="section">
+          <div class="col-5">{{slenderness_check_text|safe}}</div>
+        </div>
+        {{line|safe}}
+        <div id="width_to_thickness" class="section">
+          <div class="col-5">{{column_strength_text|safe}}</div>
+        </div>
+        {{line|safe}}
+        <div id="critical_stresses" class="section">
+          <div class="col-5">{{critical_stresses_text|safe}}</div>
+        </div>
+        {{line|safe}}
+        <div id="compressive_strength" class="section">
+          <div class="col-5">{{nominal_strength_text|safe}}</div>
         </div>
       </div>
     </form>
