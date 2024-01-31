@@ -18,3 +18,4 @@
     - Somehow generate code then do member=request.form.get('member_dropdown')
     - Pass value of selectItem from local storage BACK to flask after html page is loaded and populated
     - Clear value of selectItem from local storage when page is closed, somehow default it back to a specific member that updates when selected
+    - Use session storage instead of local storage
