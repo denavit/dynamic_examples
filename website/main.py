@@ -9,19 +9,25 @@ app.config['SECRET_KEY'] = 'Here is a free cookie!'
 
 def calculations():
     # Initializing Variables for Global Access
-    member = request.form.get('member_dropdown')
+    if request.form.get('member_dropdown') == None:
+      member = "W44X290"
+    else:
+      member = request.form.get('member_dropdown')
+
+    Fy = 12
+    Eksi = 12
+    Lcx = 12
+    Lcy = 12
     
-    Fy = 0
-    Eksi = 0
-    Lcx = 0
-    Lcy = 0
-    
-    section_properties_text = ''
-    slenderness_check_text = ''
-    column_strength_text = ''
-    critical_stresses_text = ''
-    nominal_strength_text = ''
-    line = ''
+    main_text = ''
+    control_sign = ''
+    controlling_axis = ''
+    flange_sign = ''
+    flange_slenderness = ''
+    web_sign = ''
+    web_slenderness = ''
+    buckling_sign = ''
+    buckling_method_equ = ''
     
     A = 0
     rx = 0
@@ -40,7 +46,6 @@ def calculations():
     Fcr = 0
     Fcr1 = 0
     Fcr2 = 0
-    buckling_method = ''
     Fcr3 = 0
     Pn = 0
     phiPn = 0
@@ -57,7 +62,7 @@ def calculations():
         Lcy = float(request.values.get('Lcy'))
 
     if Fy == 0 or Fy == None or Eksi == 0 or Eksi == None or Lcx == 0 or Lcx == None or Lcy == 0 or Lcy == None:
-        section_properties_text = f'<h2 style = "text-align: center;">Input Values Can Not Equal 0<h2>'
+        main_text = f'<div class = "col-5"><h2 style = "text-align: center;">Input Values Can Not Equal 0<h2></div><hr />'
     else:
         # Gets Section Properties Data
         A = wide_flange_database[member]['A']
@@ -66,9 +71,63 @@ def calculations():
         bf2tf = wide_flange_database[member]['bf/2tf']
         htw = wide_flange_database[member]['h/tw']
 
-        line = '<hr />'
+        # Gets Slenderness Check Data
+        Lcxrx = Lcx / rx
+        Lcyry = Lcy / ry
+        Lcr = max(Lcxrx, Lcyry)
+        if Lcxrx < Lcyry:
+            control_sign = '<'
+            controlling_axis = 'minor axis controls'
+        else:
+            control_sign = '>'
+            controlling_axis = 'major axis controls'
 
-        section_properties_text = f'''<ul>
+        # Gets Column Compressive Strength Data
+        lambdar_flange = 0.56 * sqrt(Eksi / Fy)
+        lambdar_web = 1.49 * sqrt(Eksi / Fy)
+
+        if bf2tf < lambdar_flange:
+            flange_sign = '<'
+            flange_slenderness = 'nonslender'
+        else:
+            flange_sign = '>'
+            flange_slenderness = 'slender'
+
+        if htw < lambdar_web:
+            web_sign = '<'
+            web_slenderness = 'nonslender'
+        else:
+            web_sign = '>'
+            web_slenderness = 'slender'
+
+        # Gets Critical Stresses Data
+        Fe = pi**2 * Eksi / Lcr**2
+        Fcr = 4.71 * sqrt(Eksi / Fy)
+        Fcr1 = 0.658**(Fy/Fe)*Fy
+        Fcr2 = 0.877 * Fe
+
+        if Lcr < Fcr:
+            buckling_sign = '<'
+            buckling_method_equ = f'''$F_{{cr}} = (0.658^{{\\frac{{F_{{y}}}}{{F_{{e}}}}}})F_{{y}} = (0.658^\\frac{{
+                  {'%.2f'%Fy}\\text{{ ksi}}}}{{{'%.2f'%Fe}\\text{{ ksi}}}})({{{'%.2f'%Fy}\\text{{ ksi}}}}) = {{{'%.2f'%Fcr1}\\text{{ ksi}}}}$'''
+            Fcr3 = Fcr1
+        elif Lcr == Fcr:
+            buckling_sign = '='
+            buckling_method_equ = f'''$F_{{cr}} = (0.658^{{\\frac{{F_{{y}}}}{{F_{{e}}}}}})F_{{y}} = (0.658^\\frac{{
+                  {'%.2f'%Fy}\\text{{ ksi}}}}{{{'%.2f'%Fe}\\text{{ ksi}}}})({{{'%.2f'%Fy}\\text{{ ksi}}}}) = {{{'%.2f'%Fcr1}\\text{{ ksi}}}}$'''
+            Fcr3 = Fcr1
+        else:
+            buckling_sign = '>'
+            buckling_method_equ = f'''$F_{{cr}} = 0.877Fe = 0.877({'%.2f'%Fe}) = {'%.2f'%Fcr2}\\text{{ ksi}}$'''
+            Fcr3 = Fcr2
+
+        # Gets Nominal Compressive Strength Data
+        Pn = Fcr3 * A
+        phiPn = 0.9 * Pn
+        omegaPn = Pn / 1.67
+
+        # Creates main text to be sent to website
+        main_text = f'''<div class="col-5"><ul>
               <li>
                 From AISC
                 <i>Manual</i>
@@ -82,21 +141,9 @@ def calculations():
                   <li>$\\frac{{h}}{{t_{{w}}}} = {{{'%.2f'%htw}}}$</li>
                 </ul>
               </li>
-            </ul>'''
-
-        # Gets Slenderness Check Data
-        Lcxrx = Lcx / rx
-        Lcyry = Lcy / ry
-        Lcr = max(Lcxrx, Lcyry)
-        if Lcxrx < Lcyry:
-            control_sign = '<'
-            controlling_axis = 'minor axis controls'
-        else:
-            control_sign = '>'
-            controlling_axis = 'major axis controls'
-
-        slenderness_check_text = f'''
-        <ul>
+            </ul></div>
+            <hr />
+        <div class="col-5"><ul>
         <li><i>Slenderness Check</i></li>
             <ul>
                 <li>
@@ -120,29 +167,9 @@ def calculations():
                   {{{'%.2f'%Lcyry}}}) = {{{'%.2f'%Lcr}}}$
                 </li>
             </ul>
-            </ul>'''
-
-
-        # Gets Column Compressive Strength Data
-        lambdar_flange = 0.56 * sqrt(Eksi / Fy)
-        lambdar_web = 1.49 * sqrt(Eksi / Fy)
-
-        if bf2tf < lambdar_flange:
-            flange_sign = '<'
-            flange_slenderness = 'nonslender'
-        else:
-            flange_sign = '>'
-            flange_slenderness = 'slender'
-
-        if htw < lambdar_web:
-            web_sign = '<'
-            web_slenderness = 'nonslender'
-        else:
-            web_sign = '>'
-            web_slenderness = 'slender'
-
-        column_strength_text = f'''
-            <ul>
+            </ul></div><hr />
+        <div class="col-5">            
+          <ul>
               <li>
                 <i
                   >Column Compressive Strength -- ASTM A992<br /><br />Width-to-Thickness
@@ -206,31 +233,8 @@ def calculations():
                 OTHER CASES: Both slender, one slender/one nonslender, one
                 nonslender/one slender
               </li>
-            </ul>'''
-
-        # Gets Critical Stresses Data
-        Fe = pi**2 * Eksi / Lcr**2
-        Fcr = 4.71 * sqrt(Eksi / Fy)
-        Fcr1 = 0.658**(Fy/Fe)*Fy
-        Fcr2 = 0.877 * Fe
-
-        if Lcr < Fcr:
-            buckling_sign = '<'
-            buckling_method_equ = f'''$F_{{cr}} = (0.658^{{\\frac{{F_{{y}}}}{{F_{{e}}}}}})F_{{y}} = (0.658^\\frac{{
-                  {'%.2f'%Fy}\\text{{ ksi}}}}{{{'%.2f'%Fe}\\text{{ ksi}}}})({{{'%.2f'%Fy}\\text{{ ksi}}}}) = {{{'%.2f'%Fcr1}\\text{{ ksi}}}}$'''
-            Fcr3 = Fcr1
-        elif Lcr == Fcr:
-            buckling_sign = '='
-            buckling_method_equ = f'''$F_{{cr}} = (0.658^{{\\frac{{F_{{y}}}}{{F_{{e}}}}}})F_{{y}} = (0.658^\\frac{{
-                  {'%.2f'%Fy}\\text{{ ksi}}}}{{{'%.2f'%Fe}\\text{{ ksi}}}})({{{'%.2f'%Fy}\\text{{ ksi}}}}) = {{{'%.2f'%Fcr1}\\text{{ ksi}}}}$'''
-            Fcr3 = Fcr1
-        else:
-            buckling_sign = '>'
-            buckling_method_equ = f'''$F_{{cr}} = 0.877Fe = 0.877({'%.2f'%Fe}) = {'%.2f'%Fcr2}\\text{{ ksi}}$'''
-            Fcr3 = Fcr2
-
-        critical_stresses_text = f'''
-            <ul>
+            </ul></div><hr />
+        <div class="col-5"><ul>
               <li>
                 <i>Critical Stresses</i><br /><br />The available critical
                 stresses may be interpolated from AISC <i>Manual</i> Table 4-14
@@ -268,15 +272,8 @@ def calculations():
               <ul>
                 {buckling_method_equ}
               </ul>
-            </ul>'''
-
-        # Gets Nominal Compressive Strength Data
-        Pn = Fcr3 * A
-        phiPn = 0.9 * Pn
-        omegaPn = Pn / 1.67
-
-        nominal_strength_text = f'''
-            <ul>
+            </ul></div><hr />
+        <div class="col-5"><ul>
               <li>
                 <i>Nominal Compressive Strength</i>
               </li>
@@ -311,16 +308,11 @@ def calculations():
                   </li>
                 </ul>
               </ul>
-            </ul>'''
-
+            </ul></div>'''
+        
     return render_template('responsive_base.html', 
                         Fy = Fy, E = Eksi, Lcx = Lcx, Lcy = Lcy,
-                        line = line, 
-                        section_properties_text = section_properties_text, 
-                        slenderness_check_text = slenderness_check_text, 
-                        column_strength_text = column_strength_text, 
-                        critical_stresses_text = critical_stresses_text,
-                        nominal_strength_text = nominal_strength_text,
+                        main_text = main_text,
                         member_list = names())
 
 if __name__ == '__main__':

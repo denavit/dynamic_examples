@@ -49,6 +49,7 @@
             class="member_select_label"
             for="member_dropdown"
             style="vertical-align: middle"
+            id="test"
             >Selected Member:
           </label>
           <select
@@ -62,17 +63,25 @@
           </select>
         </div>
         <script>
+          window.onload = function () {
+            if (localStorage.getItem("codeHasRun") === null) {
+              document.getElementById("member_dropdown").value = "W44X290";
+              localStorage.setItem("codeHasRun", true);
+            }
+          };
+        </script>
+        <script>
           document.getElementById("member_dropdown").onchange = function () {
-            localStorage.setItem(
-              "selectedItem",
+            sessionStorage.setItem(
+              "selectItem",
               document.getElementById("member_dropdown").value
             );
             this.form.submit();
           };
 
-          if (localStorage.getItem("selectedItem")) {
+          if (sessionStorage.getItem("selectItem")) {
             document.getElementById("member_dropdown").options[
-              localStorage.getItem("selectedItem")
+              sessionStorage.getItem("selectItem")
             ].selected = true;
           }
         </script>
@@ -124,32 +133,24 @@
           />
           <label class="unit"> in</label>
         </div>
+        <script>
+          document.getElementById("Fy").onchange = function () {
+            localStorage.setItem("FyItem", document.getElementById("Fy").value);
+            this.form.submit;
+          };
+
+          if (localStorage.getItem("FyItem")) {
+            document.getElementById("Fy").options[
+              localStorage.getItem("FyItem")
+            ].selected = true;
+          }
+        </script>
       </div>
       <hr />
 
       <!-- Everything above this note should NOT be edited -->
 
-      <div id="main">
-        <div id="material_properties" class="section">
-          <div class="col-5">{{section_properties_text|safe}}</div>
-        </div>
-        <hr />
-        <div id="slenderness_check" class="section">
-          <div class="col-5">{{slenderness_check_text|safe}}</div>
-        </div>
-        {{line|safe}}
-        <div id="width_to_thickness" class="section">
-          <div class="col-5">{{column_strength_text|safe}}</div>
-        </div>
-        {{line|safe}}
-        <div id="critical_stresses" class="section">
-          <div class="col-5">{{critical_stresses_text|safe}}</div>
-        </div>
-        {{line|safe}}
-        <div id="compressive_strength" class="section">
-          <div class="col-5">{{nominal_strength_text|safe}}</div>
-        </div>
-      </div>
+      <div id="main">{{main_text|safe}}</div>
     </form>
   </body>
 </html>
