@@ -64,9 +64,11 @@
         </div>
         <script>
           window.onload = function () {
-            if (localStorage.getItem("codeHasRun") === null) {
+            if (sessionStorage.getItem("codeHasRun") === null) {
               document.getElementById("member_dropdown").value = "W44X290";
-              localStorage.setItem("codeHasRun", true);
+            }
+            if (sessionStorage.getItem("codeHasRun") === null) {
+              sessionStorage.setItem("codeHasRun", true);
             }
           };
         </script>
@@ -133,18 +135,6 @@
           />
           <label class="unit"> in</label>
         </div>
-        <script>
-          document.getElementById("Fy").onchange = function () {
-            localStorage.setItem("FyItem", document.getElementById("Fy").value);
-            this.form.submit;
-          };
-
-          if (localStorage.getItem("FyItem")) {
-            document.getElementById("Fy").options[
-              localStorage.getItem("FyItem")
-            ].selected = true;
-          }
-        </script>
       </div>
       <hr />
 
