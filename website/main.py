@@ -1,6 +1,17 @@
 from flask import Flask, render_template, request
 from aisc import wide_flange_database, names
-from math import sqrt, pi
+from math import floor, log10, sqrt, pi
+
+def sigfigstr(n,sigfigs=4):
+    n = float(n)
+    sigfigsleft = floor(log10(n)) + 1
+    if sigfigsleft > sigfigs:
+        n = int(round(n,sigfigs-sigfigsleft))
+        return f'{n:0,}'
+    else:
+        format_str = '{:.' + str(sigfigs-sigfigsleft) + 'f}'
+        return format_str.format(n)
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Here is a free cookie!'
@@ -88,16 +99,16 @@ def generate_output_text(member,Fy,Eksi,Lcx,Lcy):
       <ul>
         <li>'''
         
-    text += r'$\begin{aligned}\lambda_{r} &= 0.56\sqrt{\frac{E}{F_{y}}} \\ &= 0.56\sqrt{\frac{' + f'{Eksi:.2f}' + r'\text{ ksi}}{' + \
-            f'{Fy:.2f}' + r'\text{ ksi}}} \\ &= ' + f'{lambdar_flange:.2f}' + r'\end{aligned}$'
+    text += r'$\begin{aligned}\lambda_{r} &= 0.56\sqrt{\frac{E}{F_{y}}} \\ &= 0.56\sqrt{\frac{' + sigfigstr(Eksi) + r'\text{ ksi}}{' + \
+            sigfigstr(Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_flange) + r'\end{aligned}$'
     
     text += '''</li>
         <li>'''    
     
     if bf2tf > lambdar_flange:
-        text += r'$\frac{b_f}{2t_f} = ' + f'{bf2tf:.2f}' + r' > \lambda_f =' + f'{lambdar_flange:.2f}' r'$; therefore the flanges are slender'       
+        text += r'$\frac{b_f}{2t_f} = ' + sigfigstr(bf2tf) + r' > \lambda_f =' + sigfigstr(lambdar_flange) + r'$; therefore the flanges are slender'
     else:
-        text += r'$\frac{b_f}{2t_f} = ' + f'{bf2tf:.2f}' + r' \leq \lambda_f =' + f'{lambdar_flange:.2f}' r'$; therefore the flanges are nonslender'       
+        text += r'$\frac{b_f}{2t_f} = ' + sigfigstr(bf2tf) + r' \leq \lambda_f =' + sigfigstr(lambdar_flange) + r'$; therefore the flanges are nonslender'
     
     text += f'''</li>
       </ul>
@@ -109,16 +120,16 @@ def generate_output_text(member,Fy,Eksi,Lcx,Lcy):
       <ul>
         <li>'''
         
-    text += r'$\begin{aligned}\lambda_{r} &= 1.49\sqrt{\frac{E}{F_{y}}} \\ &= 1.49\sqrt{\frac{' + f'{Eksi:.2f}' + r'\text{ ksi}}{' + \
-            f'{Fy:.2f}' + r'\text{ ksi}}} \\ &= ' + f'{lambdar_web:.2f}' + r'\end{aligned}$'
+    text += r'$\begin{aligned}\lambda_{r} &= 1.49\sqrt{\frac{E}{F_{y}}} \\ &= 1.49\sqrt{\frac{' + sigfigstr(Eksi) + r'\text{ ksi}}{' + \
+            sigfigstr(Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_web) + r'\end{aligned}$'
     
     text += '''</li>
         <li>'''    
     
     if htw > lambdar_web:
-        text += r'$\frac{h}{t_w} = ' + f'{htw:.2f}' + r' > \lambda_f =' + f'{lambdar_web:.2f}' r'$; therefore the web is slender'       
+        text += r'$\frac{h}{t_w} = ' + sigfigstr(htw) + r' > \lambda_f =' + sigfigstr(lambdar_web) + r'$; therefore the web is slender'       
     else:
-        text += r'$\frac{h}{t_w} = ' + f'{htw:.2f}' + r' \leq \lambda_f =' + f'{lambdar_web:.2f}' r'$; therefore the web is nonslender'       
+        text += r'$\frac{h}{t_w} = ' + sigfigstr(htw) + r' \leq \lambda_f =' + sigfigstr(lambdar_web) + r'$; therefore the web is nonslender'       
     
     text += f'''</li>
       </ul>'''
