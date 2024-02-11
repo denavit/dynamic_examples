@@ -44,7 +44,16 @@
   <body>
     <form action="/" method="POST">
       <div class="section">
-        <div class="col-2 alignment">
+        <div class="header1 col-5">
+          <h1>Wide Flange Steel Members Calculator</h1>
+          <h4>
+            Input Values to Right First, Select Member at Left to Calculate
+          </h4>
+        </div>
+      </div>
+      <hr />
+      <div class="section">
+        <div class="col-3 alignment">
           <label
             class="member_select_label"
             for="member_dropdown"
@@ -87,13 +96,7 @@
             ].selected = true;
           }
         </script>
-        <div class="header1 col-9">
-          <h1>Wide Flange Steel Members Calculator</h1>
-          <h4>
-            Input Values to Right First, Select Member at Left to Calculate
-          </h4>
-        </div>
-        <div class="col-2">
+        <div class="col-3">
           <label class="member member_space">{{member}}</label> <br />
           <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
           <input
