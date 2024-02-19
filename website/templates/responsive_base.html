@@ -43,97 +43,100 @@
 
   <body>
     <form action="/" method="POST">
-      <div class="section">
-        <div class="col-2 alignment">
-          <label
-            class="member_select_label"
-            for="member_dropdown"
-            style="vertical-align: middle"
-            id="test"
-            >Selected Member:
-          </label>
-          <select
-            class="member_dropdown"
-            id="member_dropdown"
-            name="member_dropdown"
-          >
-            {% for member in member_list %}
-            <option id="{{member}}" value="{{member}}">{{member}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <script>
-          window.onload = function () {
-            if (sessionStorage.getItem("codeHasRun") === null) {
-              document.getElementById("member_dropdown").value = "W44X290";
-            }
-            if (sessionStorage.getItem("codeHasRun") === null) {
-              sessionStorage.setItem("codeHasRun", true);
-            }
-          };
-        </script>
-        <script>
-          document.getElementById("member_dropdown").onchange = function () {
-            sessionStorage.setItem(
-              "selectItem",
-              document.getElementById("member_dropdown").value
-            );
-            this.form.submit();
-          };
-
-          if (sessionStorage.getItem("selectItem")) {
-            document.getElementById("member_dropdown").options[
-              sessionStorage.getItem("selectItem")
-            ].selected = true;
-          }
-        </script>
-        <div class="header1 col-9">
+      <div class = "section">
+        <div class="header1 col-5">
           <h1>Wide Flange Steel Members Calculator</h1>
           <h4>
             Input Values to Right First, Select Member at Left to Calculate
           </h4>
         </div>
-        <div class="col-2">
-          <label class="member member_space">{{member}}</label> <br />
-          <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
-          <input
-            class="user_input"
-            type="text"
-            id="Fy"
-            value="{{'%g'%(Fy)}}"
-            name="Fy"
-          />
-          <label class="unit"> ksi</label> <br />
+      </div>
+        <div class="section">
+          <div class="col-1">
+            <label
+              class="member_select_label"
+              for="member_dropdown"
+              style="vertical-align: middle"
+              id="test"
+              >Selected Member:
+            </label>
+            <select
+              class="member_dropdown"
+              id="member_dropdown"
+              name="member_dropdown"
+            >
+              {% for member in member_list %}
+              <option id="{{member}}" value="{{member}}">{{member}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <script>
+            window.onload = function () {
+              if (sessionStorage.getItem("codeHasRun") === null) {
+                document.getElementById("member_dropdown").value = "W44X290";
+              }
+              if (sessionStorage.getItem("codeHasRun") === null) {
+                sessionStorage.setItem("codeHasRun", true);
+              }
+            };
+          </script>
+          <script>
+            document.getElementById("member_dropdown").onchange = function () {
+              sessionStorage.setItem(
+                "selectItem",
+                document.getElementById("member_dropdown").value
+              );
+              this.form.submit();
+            };
 
-          <label class="user_input-label" for="E">E : </label>
-          <input
-            class="user_input"
-            type="text"
-            id="E"
-            value="{{'%g'%(E)}}"
-            name="E"
-          />
-          <label class="unit"> ksi</label> <br />
+            if (sessionStorage.getItem("selectItem")) {
+              document.getElementById("member_dropdown").options[
+                sessionStorage.getItem("selectItem")
+              ].selected = true;
+            }
+          </script>
+          <div class="col-1">
+            <label class="member member_space">{{member}}</label> <br />
+            <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
+            <input
+              class="user_input"
+              type="text"
+              id="Fy"
+              value="{{'%g'%(Fy)}}"
+              name="Fy"
+            />
+            <label class="unit"> ksi</label> <br />
 
-          <label class="user_input-label" for="Lcx">L<sub>cx</sub> : </label>
-          <input
-            class="user_input"
-            type="text"
-            id="Lcx"
-            value="{{'%g'%(Lcx)}}"
-            name="Lcx"
-          />
-          <label class="unit"> in</label> <br />
+            <label class="user_input-label" for="E">E : </label>
+            <input
+              class="user_input"
+              type="text"
+              id="E"
+              value="{{'%g'%(E)}}"
+              name="E"
+            />
+            <label class="unit"> ksi</label> <br />
 
-          <label class="user_input-label" for="Lcy">L<sub>cy</sub> : </label>
-          <input
-            class="user_input"
-            type="text"
-            id="Lcy"
-            value="{{'%g'%(Lcy)}}"
-            name="Lcy"
-          />
-          <label class="unit"> in</label>
+            <label class="user_input-label" for="Lcx">L<sub>cx</sub> : </label>
+            <input
+              class="user_input"
+              type="text"
+              id="Lcx"
+              value="{{'%g'%(Lcx)}}"
+              name="Lcx"
+            />
+            <label class="unit"> in</label> <br />
+
+            <label class="user_input-label" for="Lcy">L<sub>cy</sub> : </label>
+            <input
+              class="user_input"
+              type="text"
+              id="Lcy"
+              value="{{'%g'%(Lcy)}}"
+              name="Lcy"
+            />
+            <label class="unit"> in</label>
+          </div>
         </div>
       </div>
       <hr />
