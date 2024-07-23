@@ -189,4 +189,5 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
 
     text += r'$\dfrac{P_n}{\Omega_c} = \dfrac{(' + sigfigstr(Pn) + r'\text{ kips})}{1.67} = ' + sigfigstr(Pn/1.67) + r'\text{ kips} $</p>'
 
+    print(text)
     return text

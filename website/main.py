@@ -4,13 +4,13 @@ from math import floor, log10, sqrt, pi
 from pageText.wideFlange import wideFlangeText
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Here is a free cookie!' # Not sure if the secret key is needed. It caused an error for me previously by removing it but now it is not
+app.config['SECRET_KEY'] = 'Here is a free cookie!' # Not sure if the secret key is needed. It caused an error for me previously by removing it but now it is not creating any errors
 
 @app.route('/', methods = ['POST', 'GET'])
 def home():
     return render_template('home.html')
 
-@app.route('/wideFlange', methods = ['POST', 'GET']) # Create home page then edit '/' to have page names
+@app.route('/wideFlange', methods = ['POST', 'GET'])
 def wideFlange():
     # Gets User Inputs
     member = request.form.get('member_dropdown')
