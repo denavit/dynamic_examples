@@ -1,15 +1,17 @@
 IDEAS
--Add hyperlinks to noted standards
--Option for user to save a member in a dropdown that will automatically populate fields with saved values
--Very unsure of how to go about this, probably involves local memory, cookies, etc.
+
+- Add hyperlinks to noted standards
+- Option for user to save a member in a dropdown that will automatically populate fields with saved values
+- Very unsure of how to go about this, probably involves local memory, cookies, etc.
 
 TO-DO
--Make inputs update on text field change **or** add calculate button
--Make last selected member clear on page close
--fix col-# in css to be sequential
--add bolt @app.route
--add nav bar at top with home button and other calculators????
--edit .button in css to be more visually appealing
+
+- Make inputs update on text field change **or** add calculate button
+- Make last selected member clear on page close
+- fix col-# in css to be sequential
+- add bolt @app.route
+- add nav bar at top with home button and other calculators????
+- edit .button in css to be more visually appealing
 
 NOTES
 
