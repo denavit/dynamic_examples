@@ -42,110 +42,107 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
 
   <body>
     <form action="/wideFlange" method="POST">
-      <div class = "section">
-        <div class = "col-5">
-          <a class = "button2" href = "/">Home</a>
-          <a class = "button2" href = "https://utk.edu">Test Button</a>
+      <div class="section">
+        <div class="col-4">
+          <a class="button2" href="/">Home</a>
+          <a class="button2" href="https://utk.edu">Test Button</a>
         </div>
       </div>
-      <div class = "section">
-        <div class="header col-5">
+      <div class="section">
+        <div class="header col-4">
           <h1>Wide Flange Steel Members Calculator</h1>
           <h4>
             Input Values to Right First, Select Member at Left to Calculate
           </h4>
         </div>
       </div>
-        <div class="section">
-          <div class="col-1">
-            <label
-              class="member_select_label"
-              for="member_dropdown"
-              style="vertical-align: middle"
-              >Selected Member:
-            </label>
-            <select
-              class="member_dropdown"
-              id="member_dropdown"
-              name="member_dropdown"
-            >
-              {% for member in member_list %}
-              <option id="{{member}}" value="{{member}}">{{member}}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <script>
-            window.onload = function () {
-              if (sessionStorage.getItem("codeHasRun") === null) {
-                document.getElementById("member_dropdown").value = "W44X290";
-              }
-              if (sessionStorage.getItem("codeHasRun") === null) {
-                sessionStorage.setItem("codeHasRun", true);
-              }
-            };
-          </script>
-          <script>
-            document.getElementById("member_dropdown").onchange = function () {
-              sessionStorage.setItem(
-                "selectItem",
-                document.getElementById("member_dropdown").value
-              );
-              this.form.submit();
-            };
-
-            if (sessionStorage.getItem("selectItem")) {
-              document.getElementById("member_dropdown").options[
-                sessionStorage.getItem("selectItem")
-              ].selected = true;
+      <div class="section">
+        <div class="col-3">
+          <label
+            class="member_select_label"
+            for="wideFlangeDropdown"
+            style="vertical-align: middle"
+            >Selected Member:
+          </label>
+          <select
+            class="wideFlangeDropdown"
+            id="wideFlangeDropdown"
+            name="wideFlangeDropdown"
+          >
+            {% for member in member_list %}
+            <option id="{{member}}" value="{{member}}">{{member}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <script>
+          window.onload = function () {
+            if (sessionStorage.getItem("wideFlangeCodeHasRun") === null) {
+              document.getElementById("wideFlangeDropdown").value = "W44X290";
             }
-          </script>
-          <div class="col-1">
-            <label class="member member_space">{{member}}</label> <br />
-            <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
-            <input
-              class="user_input"
-              type="text"
-              id="Fy"
-              value="{{'%g'%(Fy)}}"
-              name="Fy"
-            />
-            <label class="unit"> ksi</label> <br />
+            if (sessionStorage.getItem("wideFlangeCodeHasRun") === null) {
+              sessionStorage.setItem("wideFlangeCodeHasRun", true);
+            }
+          };
+        </script>
+        <script>
+          document.getElementById("wideFlangeDropdown").onchange = function () {
+            sessionStorage.setItem(
+              "wideFlangeSelectItem",
+              document.getElementById("wideFlangeDropdown").value
+            );
+            this.form.submit();
+          };
 
-            <label class="user_input-label" for="E">E : </label>
-            <input
-              class="user_input"
-              type="text"
-              id="E"
-              value="{{'%g'%(E)}}"
-              name="E"
-            />
-            <label class="unit"> ksi</label> <br />
+          if (sessionStorage.getItem("wideFlangeSelectItem")) {
+            document.getElementById("wideFlangeDropdown").options[
+              sessionStorage.getItem("wideFlangeSelectItem")
+            ].selected = true;
+          }
+        </script>
+        <div class="col-3">
+          <label class="member_space">{{member}}</label> <br />
+          <label class="memberInputLabel" for="Fy">F<sub>y</sub> : </label>
+          <input
+            class="wideFlangeInput"
+            type="text"
+            id="Fy"
+            value="{{'%g'%(Fy)}}"
+            name="Fy"
+          />
+          <label class="unit"> ksi</label> <br />
 
-            <label class="user_input-label" for="Lcx">L<sub>cx</sub> : </label>
-            <input
-              class="user_input"
-              type="text"
-              id="Lcx"
-              value="{{'%g'%(Lcx)}}"
-              name="Lcx"
-            />
-            <label class="unit"> in</label> <br />
+          <label class="memberInputLabel" for="E">E : </label>
+          <input
+            class="wideFlangeInput"
+            type="text"
+            id="E"
+            value="{{'%g'%(E)}}"
+            name="E"
+          />
+          <label class="unit"> ksi</label> <br />
 
-            <label class="user_input-label" for="Lcy">L<sub>cy</sub> : </label>
-            <input
-              class="user_input"
-              type="text"
-              id="Lcy"
-              value="{{'%g'%(Lcy)}}"
-              name="Lcy"
-            />
-            <label class="unit"> in</label>
-          </div>
+          <label class="memberInputLabel" for="Lcx">L<sub>cx</sub> : </label>
+          <input
+            class="wideFlangeInput"
+            type="text"
+            id="Lcx"
+            value="{{'%g'%(Lcx)}}"
+            name="Lcx"
+          />
+          <label class="unit"> in</label> <br />
+
+          <label class="memberInputLabel" for="Lcy">L<sub>cy</sub> : </label>
+          <input
+            class="wideFlangeInput"
+            type="text"
+            id="Lcy"
+            value="{{'%g'%(Lcy)}}"
+            name="Lcy"
+          />
+          <label class="unit"> in</label>
         </div>
       </div>
       <hr />
-
-      <!-- Everything above this note should NOT be edited -->
 
       <div id="main">{{output_text|safe}}</div>
     </form>

@@ -62,12 +62,18 @@ label:not(.div_flange, .div_web, .unit) {
   vertical-align: middle;
 }
 
+.bolt_select_label {
+  padding-left: 45%;
+  justify-content: center;
+  text-align: center;
+}
+
 .member_space {
   padding-left: 43%;
   vertical-align: middle;
 }
 
-.user_input-label {
+.memberInputLabel {
   text-align: right;
   float: left;
   clear: left;
@@ -75,6 +81,19 @@ label:not(.div_flange, .div_web, .unit) {
   padding-right: 2px;
   margin-left: -20%;
   vertical-align: middle;
+}
+
+.boltInputLabel {
+  text-align: right;
+  float: left;
+  clear: left;
+  width: 50%;
+  padding-right: 2px;
+  vertical-align: middle;
+}
+
+.boltInput {
+  width: 30%;
 }
 
 /* Input Formatting */
@@ -85,20 +104,20 @@ input {
 
 /* Specifying Column Width */
 
-.col-2 {
+.col-1 {
   width: 27.5%;
 }
 
-.col-5 {
-  width: 100%;
-}
-
-.col-9 {
+.col-2 {
   width: 45%;
 }
 
-.col-1 {
+.col-3 {
   width: 50%;
+}
+
+.col-4 {
+  width: 100%;
 }
 
 /* Home Page Buttons */
@@ -151,9 +170,5 @@ li {
 @media only screen and (max-width: 768px) {
   [class*="col-"] {
     width: 100%;
-  }
-
-  .header2 {
-    text-align: center;
   }
 }

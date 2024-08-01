@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
-from aisc import wide_flange_database, names
+from dictionaries.aisc import wide_flange_database, names
 from math import floor, log10, sqrt, pi
-from pageText.wideFlange import wideFlangeText
+from pageText.wideFlangeText import wideFlangeText
+from pageText.boltText import boltText
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Here is a free cookie!' # Not sure if the secret key is needed. It caused an error for me previously by removing it but now it is not creating any errors
@@ -13,7 +14,7 @@ def home():
 @app.route('/wideFlange', methods = ['POST', 'GET'])
 def wideFlange():
     # Gets User Inputs
-    member = request.form.get('member_dropdown')
+    member = request.form.get('wideFlangeDropdown')
     
     try:
         Fy = float(request.values.get('Fy'))
@@ -42,6 +43,80 @@ def wideFlange():
                         Fy = Fy, E = Eksi, Lcx = Lcx, Lcy = Lcy,
                         output_text = output_text,
                         member_list = names())
+
+    
+@app.route('/bolt', methods = ['POST', 'GET'])
+def bolt():
+    # Gets User Inputs
+    bolt = request.form.get('boltDropdown')
+
+    try:
+        n = float(request.values.get('n'))
+    except:
+        n = 0
+
+    try:
+        dmin = float(request.values.get('dmin'))
+    except:
+        dmin = 0
+
+    try:
+        dbsc = float(request.values.get('dbsc'))
+    except:
+        dbsc = 0
+
+    try:
+        d1bsc = float(request.values.get('d1bsc'))
+    except:
+        d1bsc = 0
+
+    try:
+        d2min = float(request.values.get('d2min'))
+    except:
+        d2min = 0
+
+    try:
+        d2bsc = float(request.values.get('d2bsc'))
+    except:
+        d2bsc = 0
+
+    try:
+        D1bsc = float(request.values.get('D1bsc'))
+    except:
+        D1bsc = 0
+
+    try:
+        D1max = float(request.values.get('D1max'))
+    except:
+        D1max = 0
+
+    try:
+        D2max = float(request.values.get('D2max'))
+    except:
+        D2max = 0
+
+    try:
+        UTSs = float(request.values.get('UTSs'))
+    except:
+        UTSs = 0
+
+    try:
+        UTSn = float(request.values.get('UTSn'))
+    except:
+        UTSn = 0
+
+    try:
+        LE = float(request.values.get('LE'))
+    except:
+        LE = 0
+
+    output_text = boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs, UTSn, LE)
+    print(output_text)
+
+    return render_template('boltBase.html',
+                           n = n, dmin = dmin, dbsc = dbsc, d1bsc = d1bsc, d2min = d2min, d2bsc = d2bsc, D1bsc = D1bsc, D1max = D1max, D2max = D2max, UTSs = UTSs, UTSn = UTSn, LE = LE,
+                           output_text = output_text)
+
 
 # Text for header moved to flangeBase.html
 

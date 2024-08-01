@@ -8,10 +8,11 @@ TO-DO
 
 - Make inputs update on text field change **or** add calculate button
 - Make last selected member clear in local storage on page close
-- fix col-# in css to be sequential
-- add bolt @app.route
 - add full nav bar at top with home button and other calculators????
+  - Partially implemented. Need to make look better
 - edit .button in css to be more visually appealing
+- finish text for bolt page
+- Fix pafe reset on bolt submit
 
 NOTES
 

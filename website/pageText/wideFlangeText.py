@@ -1,4 +1,4 @@
-from aisc import wide_flange_database, names
+from dictionaries.aisc import wide_flange_database, names
 from math import floor, log10, sqrt, pi
 
 def sigfigstr(n,sigfigs=4):
@@ -189,5 +189,4 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
 
     text += r'$\dfrac{P_n}{\Omega_c} = \dfrac{(' + sigfigstr(Pn) + r'\text{ kips})}{1.67} = ' + sigfigstr(Pn/1.67) + r'\text{ kips} $</p>'
 
-    print(text)
     return text
