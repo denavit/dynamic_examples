@@ -12,7 +12,8 @@ TO-DO
   - Partially implemented. Need to make look better
 - edit .button in css to be more visually appealing
 - finish text for bolt page
-- Fix pafe reset on bolt submit
+- upon selecting a preset bolt, make inputs update with values of tabulated bolt data
+- Differentiate tabulated bolts and custom bolts
 
 NOTES
 

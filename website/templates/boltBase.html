@@ -31,7 +31,7 @@
   </head>
 
   <body>
-    <form action="/" method="POST">
+    <form action="/bolt" method="POST">
       <div class="section">
         <div class="header col-4">
           <h1>Bolt Calculator</h1>
@@ -46,7 +46,7 @@
             style="vertical-align: middle"
             >Selected Bolt:
           </label>
-          <select class="boltDropdown" id="boltDropdown" name="bolt dropdown">
+          <select class="boltDropdown" id="boltDropdown" name="boltDropdown">
             <option id="custom" value="customSelection">
               Custom Selection
             </option>
@@ -194,7 +194,7 @@
             name="D2max"
           />
           <label class="unit">???</label>
-
+          <hr />
           <label class="boltInputLabel" for="UTSs"
             >UTSs (Strength of Externally Threaded Part) :
           </label>
@@ -231,11 +231,10 @@
           />
           <label class="unit">???</label>
         </div>
-        <div class="col-3"></div>
       </div>
       <hr />
 
-      <div id="main">{{output_text|safe}}</div>
+      <div id="main">{{bolt_output_text|safe}}</div>
     </form>
   </body>
 </html>

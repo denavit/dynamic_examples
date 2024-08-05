@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from dictionaries.aisc import wide_flange_database, names
+from dictionaries.aisc import names
 from math import floor, log10, sqrt, pi
 from pageText.wideFlangeText import wideFlangeText
 from pageText.boltText import boltText
@@ -110,12 +110,12 @@ def bolt():
     except:
         LE = 0
 
-    output_text = boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs, UTSn, LE)
-    print(output_text)
+    bolt_output_text = boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs, UTSn, LE)
+
 
     return render_template('boltBase.html',
                            n = n, dmin = dmin, dbsc = dbsc, d1bsc = d1bsc, d2min = d2min, d2bsc = d2bsc, D1bsc = D1bsc, D1max = D1max, D2max = D2max, UTSs = UTSs, UTSn = UTSn, LE = LE,
-                           output_text = output_text)
+                           bolt_output_text = bolt_output_text)
 
 
 # Text for header moved to flangeBase.html
