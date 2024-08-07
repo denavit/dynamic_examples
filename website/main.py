@@ -65,20 +65,20 @@ def bolt():
     except:
         dbsc = 0
 
-    try:
-        d1bsc = float(request.values.get('d1bsc'))
-    except:
-        d1bsc = 0
+    #try:
+    #    d1bsc = float(request.values.get('d1bsc'))
+    #except:
+    #    d1bsc = 0
 
     try:
         d2min = float(request.values.get('d2min'))
     except:
         d2min = 0
 
-    try:
-        d2bsc = float(request.values.get('d2bsc'))
-    except:
-        d2bsc = 0
+    #try:
+    #    d2bsc = float(request.values.get('d2bsc'))
+    #except:
+    #    d2bsc = 0
 
     try:
         D1bsc = float(request.values.get('D1bsc'))
@@ -110,11 +110,11 @@ def bolt():
     except:
         LE = 0
 
-    bolt_output_text = boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs, UTSn, LE)
+    bolt_output_text = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE)
 
 
     return render_template('boltBase.html',
-                           n = n, dmin = dmin, dbsc = dbsc, d1bsc = d1bsc, d2min = d2min, d2bsc = d2bsc, D1bsc = D1bsc, D1max = D1max, D2max = D2max, UTSs = UTSs, UTSn = UTSn, LE = LE,
+                           n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max, UTSs = UTSs, UTSn = UTSn, LE = LE,
                            bolt_output_text = bolt_output_text)
 
 

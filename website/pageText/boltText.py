@@ -13,7 +13,7 @@ def sigfigstr(n,sigfigs=4):
         format_str = '{:.' + str(sigfigs-sigfigsleft) + 'f}'
         return format_str.format(n)
     
-def boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs, UTSn, LE):
+def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
     # Gets user inputs
     text = ''
 
@@ -22,9 +22,9 @@ def boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs
         n = ASME_B11_UN_2A2B_dict[bolt]['n']
         dmin = ASME_B11_UN_2A2B_dict[bolt]['dmin']
         dbsc = ASME_B11_UN_2A2B_dict[bolt]['dbsc']
-        d1bsc = ASME_B11_UN_2A2B_dict[bolt]['d1bsc']
+        # d1bsc = ASME_B11_UN_2A2B_dict[bolt]['d1bsc']
         d2min = ASME_B11_UN_2A2B_dict[bolt]['d2min']
-        d2bsc = ASME_B11_UN_2A2B_dict[bolt]['d2bsc']
+        # d2bsc = ASME_B11_UN_2A2B_dict[bolt]['d2bsc']
         D1bsc = ASME_B11_UN_2A2B_dict[bolt]['D1bsc']
         D1max = ASME_B11_UN_2A2B_dict[bolt]['D1max']
         D2max = ASME_B11_UN_2A2B_dict[bolt]['D2max']
@@ -38,12 +38,12 @@ def boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs
             return 'x must be greater than zero'
         if dbsc <= 0:
             return 'x must be greater than zero'
-        if d1bsc <= 0:
-            return 'x must be greater than zero'
+        #if d1bsc <= 0:
+        #    return 'x must be greater than zero'
         if d2min <= 0:
             return 'x must be greater than zero'
-        if d2bsc <= 0:
-            return 'x must be greater than zero'
+        #if d2bsc <= 0:
+        #    return 'x must be greater than zero'
         if D1bsc <= 0:
             return 'x must be greater than zero'
         if D1max <= 0:
@@ -57,11 +57,25 @@ def boltText(bolt, n, dmin, dbsc, d1bsc, d2min, d2bsc, D1bsc, D1max, D2max, UTSs
         if LE <= 0:
             return 'x must be greater than zero'
 
+    pVar = p(n)
+    HVar = H(n)
+    d2bscVar = d2bsc(dbsc, HVar)
+    AbscVar = Absc(dbsc)
+    As = As_FEDSTD_1a(d2bscVar, HVar)
+
     # Based off of Alexander 1977 Text
 
     text += f'''
     <h1>Geometric/Dimensional Properties</h1>
-    <p>From ASME B1.1-2019, the geometric properties 
+    <p>P = {sigfigstr(pVar)} UNITS</p>
+    <p>H = {sigfigstr(HVar)} UNITS</p>
+    <p>Maybe d1bsc and d2bsc?</p>
+    '''
+
+    text += f'''
+    <h1>Areas??</h1>
+    <p>The ultimate tensile strength of a threaded fastener is dependent on the actual cross sectional area: </p>
+    <p>$A_{{s}} = {{{sigfigstr(As)}}}\\text{{ UNITS}}$</p>
     '''
 
     return text

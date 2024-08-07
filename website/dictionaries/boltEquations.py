@@ -1,58 +1,59 @@
+from math import sqrt, pi
 
-def p(self):
-    return 1 / self.n
+def p(n):
+    return 1 / n
 
-def H(self):
-    return sqrt(3) / (2 * self.n)
+def H(n):
+    return sqrt(3) / (2 * n)
 
-def d1bsc(self):
-    return self.dbsc - 1.25 * self.H
+def d1bsc(dbsc, H):
+    return dbsc - (1.25 * H)
 
-def D1bsc(self):
-    return self.d1bsc
+def D1bsc(d1bsc):
+    return d1bsc
 
-def d2bsc(self):
-    return self.dbsc - 0.75 * self.H
+def d2bsc(dbsc, H):
+    return dbsc - (0.75 * H)
 
-def D2bsc(self):
-    return self.d2bsc
+def D2bsc(d2bsc):
+    return d2bsc
 
-def Absc(self):
+def Absc(dbsc):
     '''
     Cross-sectional area based on dbsc
     '''
-    return pi / 4 * self.dbsc ** 2
+    return pi / 4 * dbsc ** 2
 
-def As_FEDSTD_1a(self):
+def As_FEDSTD_1a(d2bsc, H):
     '''
     Tensile stress area based on FED-STD-H28/2B (1991), Table II.B.1, Formula (1a)
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    As = pi * (self.d2bsc / 2 - 3 * self.H / 16) ** 2
+    As = pi * (d2bsc / 2 - 3 * H / 16) ** 2
     return As
 
-def As_FEDSTD_1b(self):
+def As_FEDSTD_1b(dbsc, n):
     '''
     Tensile stress area based on FED-STD-H28/2B (1991), Table II.B.1, Formula (1b)
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    As = pi / 4 * (self.dbsc - (9 * sqrt(3)) / (16 * self.n)) ** 2
+    As = pi / 4 * (dbsc - (9 * sqrt(3)) / (16 * n)) ** 2
     return As
 
-def As_MH_2b(self, override_limit=False):
+def As_MH_2b(UTSs, d2min, n, override_limit=False):
     '''
     Tensile stress area based on Machinery's Handbook, 31st Edition Eq. (2b) on Page 1668
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    if (self.UTSs <= 180000) and (not override_limit):
+    if (UTSs <= 180000) and (not override_limit):
         raise ValueError('As_MH_2b is only for steels of over 180,000 psi ultimate tensile strength')
-    As = pi * ((self.d2min / 2) - (3 * sqrt(3)) / (32 * self.n)) ** 2
+    As = pi * ((d2min / 2) - (3 * sqrt(3)) / (32 * n)) ** 2
     return As
 
-def ASn_min_FEDSTD_2a(self, LE=1):
+def ASn_min_FEDSTD_2a(n, dmin, D2max, LE=1):
     '''
     Shear area, internal threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (2a)
         (minimum material external and internal threads)
@@ -62,10 +63,10 @@ def ASn_min_FEDSTD_2a(self, LE=1):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    ASn = pi * self.n * LE * self.dmin * ((1 / (2 * self.n)) + ((1 / sqrt(3)) * (self.dmin - self.D2max)))
+    ASn = pi * n * LE * dmin * ((1 / (2 * n)) + ((1 / sqrt(3)) * (dmin - D2max)))
     return ASn
 
-def ASn_FEDSTD_3(self, LE=1, override_limit=False):
+def ASn_FEDSTD_3(dbsc, D2bsc, LE=1, override_limit=False):
     '''
     Shear area, internal threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (3)
         (simplified: for d equal to or greater than 0.250 inch)
@@ -76,9 +77,9 @@ def ASn_FEDSTD_3(self, LE=1, override_limit=False):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    if (self.dbsc < 0.250) and (not override_limit):
+    if (dbsc < 0.250) and (not override_limit):
         raise ValueError('ASn_FEDSTD_3 should not be used with dbsc less than 0.250 inch')
-    ASn = pi * self.D2bsc * (3 / 4) * LE
+    ASn = pi * D2bsc * (3 / 4) * LE
     return ASn
 
 def ASs_min_FEDSTD_4a(self, LE=1):
@@ -91,7 +92,7 @@ def ASs_min_FEDSTD_4a(self, LE=1):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    ASs = pi * self.n * LE * self.D1max * ((1 / (2 * self.n)) + ((1 / sqrt(3)) * (self.d2min - self.D1max)))
+    ASs = pi * n * LE * D1max * ((1 / (2 * n)) + ((1 / sqrt(3)) * (d2min - D1max)))
     return ASs
 
 def ASs_FEDSTD_5(self, LE=1):
@@ -104,7 +105,7 @@ def ASs_FEDSTD_5(self, LE=1):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    ASs = pi * self.d2bsc * (5 / 8) * LE
+    ASs = pi * d2bsc * (5 / 8) * LE
     return ASs
 
 def ASs_max_FEDSTD_6b(self, LE=1):
@@ -117,7 +118,7 @@ def ASs_max_FEDSTD_6b(self, LE=1):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    ASs = pi * self.D1bsc * 0.75 * LE
+    ASs = pi * D1bsc * 0.75 * LE
     return ASs
 
 def LEr_FEDSTD_13(self, As_eqn='1a'):
@@ -131,12 +132,12 @@ def LEr_FEDSTD_13(self, As_eqn='1a'):
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
     if As_eqn == '1a':
-        As = self.As_FEDSTD_1a()
+        As = As_FEDSTD_1a()
     elif As_eqn == '1b':
-        As = self.As_FEDSTD_1b()
+        As = As_FEDSTD_1b()
     else:
         raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
-    LEr = (4 * As) / (pi * self.d2bsc)
+    LEr = (4 * As) / (pi * d2bsc)
     return LEr
 
 def LEr_FEDSTD_14(self, As_eqn='1a', ASs_eqn='4a'):
@@ -149,14 +150,14 @@ def LEr_FEDSTD_14(self, As_eqn='1a', ASs_eqn='4a'):
     ASs_eqn --- denotes which equation to use for As ('4a' or '4b', default = '4a')
     '''
     if As_eqn == '1a':
-        As = self.As_FEDSTD_1a()
+        As = As_FEDSTD_1a()
     elif As_eqn == '1b':
-        As = self.As_FEDSTD_1b()
+        As = As_FEDSTD_1b()
     else:
         raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
 
     if ASs_eqn == '4a':
-        ASs = self.ASs_min_FEDSTD_4a()
+        ASs = ASs_min_FEDSTD_4a()
     elif ASs_eqn == '4b':
         raise ValueError(f'ASs_FEDSTD_4b is not yet implemented')
     else:
@@ -174,13 +175,13 @@ def LEr_FEDSTD_15(self, As_eqn='1a'):
     As_eqn --- denotes which equation to use for As ('1a' or '1b', default = '1a')
     '''
     if As_eqn == '1a':
-        As = self.As_FEDSTD_1a()
+        As = As_FEDSTD_1a()
     elif As_eqn == '1b':
-        As = self.As_FEDSTD_1b()
+        As = As_FEDSTD_1b()
     else:
         raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
 
-    LEr = 2 * As / self.ASs_max_FEDSTD_6b()
+    LEr = 2 * As / ASs_max_FEDSTD_6b()
     return LEr
 
 def LEr_FEDSTD_16(self, As_eqn='1a', ASn_eqn='2a'):
@@ -193,20 +194,20 @@ def LEr_FEDSTD_16(self, As_eqn='1a', ASn_eqn='2a'):
     ASn_eqn --- denotes which equation to use for ASn ('2a' or '2b', default = '2a')
     '''
     if As_eqn == '1a':
-        As = self.As_FEDSTD_1a()
+        As = As_FEDSTD_1a()
     elif As_eqn == '1b':
-        As = self.As_FEDSTD_1b()
+        As = As_FEDSTD_1b()
     else:
         raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
 
     if ASn_eqn == '2a':
-        ASn = self.ASn_min_FEDSTD_2a()
+        ASn = ASn_min_FEDSTD_2a()
     elif ASn_eqn == '2b':
         raise ValueError(f'ASn_FEDSTD_2a is not yet implemented')
     else:
         raise ValueError(f'Invalid value for As_eqn: {ASn_eqn} (need ''2a'' or ''2b'')')
 
-    R2 = self.UTSn / self.UTSs
+    R2 = UTSn / UTSs
     LEr = (2 * As / ASn) / R2
     # FED-STD-H28/2B (1991), Table II.B.1, Formula (16) is
     #   LE = "LE from (15)" x R1/R2
@@ -229,15 +230,15 @@ def LEr_FEDSTD(self, As_eqn='1a', ASs_eqn='4a', ASn_eqn='2a', combined_failure_r
     combined_failure_range --- parameter that defines the limit of applicability of the combined failure mode
         (default = 0.05)s
     '''
-    R1 = self.ASs_max_FEDSTD_6b() / self.ASn_min_FEDSTD_2a()  # @todo - code in options here see formula (8)
-    R2 = self.UTSn / self.UTSs
+    R1 = ASs_max_FEDSTD_6b() / ASn_min_FEDSTD_2a()  # @todo - code in options here see formula (8)
+    R2 = UTSn / UTSs
     if R1 / R2 < (1 - combined_failure_range):
         # External thread failure, Formula (15)
-        LEr = self.LEr_FEDSTD_14(As_eqn, ASs_eqn)
+        LEr = LEr_FEDSTD_14(As_eqn, ASs_eqn)
     else:
         # Internal thread failure or combined failure, Formula (13) or (16)
-        LEr_13 = self.LEr_FEDSTD_13(As_eqn)
-        LEr_16 = self.LEr_FEDSTD_16(As_eqn, ASn_eqn)
+        LEr_13 = LEr_FEDSTD_13(As_eqn)
+        LEr_16 = LEr_FEDSTD_16(As_eqn, ASn_eqn)
         LEr = max(LEr_13, LEr_16)
     return LEr
 
@@ -245,8 +246,8 @@ def As_ISO(self):
     """
     Tensile stress area based on ISO/TR 16224:2012(E), Section 4.2.2.2
     """
-    d3 = self.d1bsc - (self.H / 6)
-    As = pi / 4 * ((self.d2bsc + d3) / 2) ** 2
+    d3 = d1bsc - (H / 6)
+    As = pi / 4 * ((d2bsc + d3) / 2) ** 2
     return As
 
 def ASb_ISO(self, LE=1):
@@ -259,22 +260,22 @@ def ASb_ISO(self, LE=1):
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     """
 
-    if self.dims_ISO == 'basic':
-        if self.use_Dm_ISO:
-            Dm = 1.026 * self.D1bsc
-            ASb = (0.6 * (LE / self.p) * pi * self.D1bsc * (self.p / 2 + (self.d2bsc - self.D1bsc) / sqrt(3))) + \
-                    (0.4 * (LE / self.p) * pi * Dm * (self.p / 2 + (self.d2bsc - Dm) / sqrt(3)))
+    if dims_ISO == 'basic':
+        if use_Dm_ISO:
+            Dm = 1.026 * D1bsc
+            ASb = (0.6 * (LE / p) * pi * D1bsc * (p / 2 + (d2bsc - D1bsc) / sqrt(3))) + \
+                    (0.4 * (LE / p) * pi * Dm * (p / 2 + (d2bsc - Dm) / sqrt(3)))
         else:
-            ASb = (LE / self.p) * pi * self.D1bsc * (self.p / 2 + (self.d2bsc - self.D1bsc) / sqrt(3))
-    elif self.dims_ISO == 'min':
-        if self.use_Dm_ISO:
-            Dm = Dm = 1.026 * self.D1max
-            ASb = (0.6 * (LE / self.p) * pi * self.D1max * (self.p / 2 + (self.d2min - self.D1max) / sqrt(3))) + \
-                    (0.4 * (LE / self.p) * pi * Dm * (self.p / 2 + (self.d2min - Dm) / sqrt(3)))
+            ASb = (LE / p) * pi * D1bsc * (p / 2 + (d2bsc - D1bsc) / sqrt(3))
+    elif dims_ISO == 'min':
+        if use_Dm_ISO:
+            Dm = Dm = 1.026 * D1max
+            ASb = (0.6 * (LE / p) * pi * D1max * (p / 2 + (d2min - D1max) / sqrt(3))) + \
+                    (0.4 * (LE / p) * pi * Dm * (p / 2 + (d2min - Dm) / sqrt(3)))
         else:
-            ASb = (LE / self.p) * pi * self.D1max * (self.p / 2 + (self.d2min - self.D1max) / sqrt(3))
+            ASb = (LE / p) * pi * D1max * (p / 2 + (d2min - D1max) / sqrt(3))
     else:
-        raise ValueError(f'Unknown option for dims_ISO: {self.dims_ISO}')
+        raise ValueError(f'Unknown option for dims_ISO: {dims_ISO}')
 
     return ASb
 
@@ -285,12 +286,12 @@ def ASn_ISO(self, LE=1):
     Arguments:
     LE --- length of engagement (default = 1)
     """
-    if self.dims_ISO == 'basic':
-        ASn = (LE / self.p) * pi * self.dbsc * (self.p / 2 + (self.dbsc - self.D2bsc) / sqrt(3))
-    elif self.dims_ISO == 'min':
-        ASn = (LE / self.p) * pi * self.dmin * (self.p / 2 + (self.dmin - self.D2max) / sqrt(3))
+    if dims_ISO == 'basic':
+        ASn = (LE / p) * pi * dbsc * (p / 2 + (dbsc - D2bsc) / sqrt(3))
+    elif dims_ISO == 'min':
+        ASn = (LE / p) * pi * dmin * (p / 2 + (dmin - D2max) / sqrt(3))
     else:
-        raise ValueError(f'Unknown option for dims_ISO: {self.dims_ISO}')
+        raise ValueError(f'Unknown option for dims_ISO: {dims_ISO}')
 
     return ASn
 
@@ -304,21 +305,21 @@ def C1_ISO(self, s):
     Arguments:
     s --- width across flats of the nut
     """
-    s_over_d = s / self.dbsc
+    s_over_d = s / dbsc
     return C1_ISO(s_over_d)
 
 def C2_ISO(self):
     """
     Modification factor for thread bending effect based on ISO/TR 16224:2012(E), Section 4.2.3.1
     """
-    Rs = (self.UTSn * self.ASn_ISO()) / (self.UTSs * self.ASb_ISO())
+    Rs = (UTSn * ASn_ISO()) / (UTSs * ASb_ISO())
     return C2_ISO(Rs)
 
 def C3_ISO(self):
     """
     Modification factor for thread bending effect based on ISO/TR 16224:2012(E), Section 4.2.3.1
     """
-    Rs = (self.UTSn * self.ASn_ISO()) / (self.UTSs * self.ASb_ISO())
+    Rs = (UTSn * ASn_ISO()) / (UTSs * ASb_ISO())
     return C3_ISO(Rs)
 
 def LEr_ISO(self, s):
@@ -329,8 +330,8 @@ def LEr_ISO(self, s):
     Arguments:
     s --- width across flats of the nut
     """
-    LEr1 = self.As_ISO() / (0.6 * self.ASb_ISO() * self.C1_ISO(s) * self.C2_ISO())
-    LEr2 = (self.As_ISO() * self.UTSs) / (0.6 * self.UTSn * self.ASn_ISO() * self.C1_ISO(s) * self.C3_ISO())
+    LEr1 = As_ISO() / (0.6 * ASb_ISO() * C1_ISO(s) * C2_ISO())
+    LEr2 = (As_ISO() * UTSs) / (0.6 * UTSn * ASn_ISO() * C1_ISO(s) * C3_ISO())
     LEr = max(LEr1, LEr2)
     return LEr
 

@@ -3,6 +3,7 @@ IDEAS
 - Add hyperlinks to noted standards
 - Option for user to save a member in a dropdown that will automatically populate fields with saved values
   - Very unsure of how to go about this, probably involves local memory, cookies, etc.
+- Modify ScrewThreadLib to accept custom inputs and create object for calculations **or** modify ScrewThreadLib to just be functions that can be used, but each value must be calculated individually prior to text generation instead of within text generation
 
 TO-DO
 

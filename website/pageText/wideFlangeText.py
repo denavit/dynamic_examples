@@ -12,7 +12,6 @@ def sigfigstr(n,sigfigs=4):
         return format_str.format(n)
 
 def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
-
     text = ''
 
     # Check output
