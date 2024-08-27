@@ -1,4 +1,4 @@
-from dictionaries.aisc import wide_flange_database, names
+from dictionaries.aisc import wide_flange_database
 from math import floor, log10, sqrt, pi
 
 def sigfigstr(n,sigfigs=4):
@@ -16,13 +16,11 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
 
     # Check output
     if Fy <= 0:
-        return 'Steel yield stress must be greater than zero.'        
+        return 'Steel yield stress must be greater than zero.'       
     if Eksi <= 0:
         return 'Modulus of elasticity must be greater than zero.'
     if Lcx < 0 or Lcy < 0:
         return 'The effective lengths must be greater than or equal to zero.'
-
-
     # Section Properties Data
     A = wide_flange_database[member]['A']
     rx = wide_flange_database[member]['rx']

@@ -8,15 +8,18 @@ IDEAS
 TO-DO
 
 - Make inputs update on text field change **or** add calculate button
-- Make last selected member clear in local storage on page close
+  - maybe?
 - add full nav bar at top with home button and other calculators????
   - Partially implemented. Need to make look better
 - edit .button in css to be more visually appealing
 - finish text for bolt page
-- upon selecting a preset bolt, make inputs update with values of tabulated bolt data
-- Differentiate tabulated bolts and custom bolts
+- delete col-3, change col-1 to 25%, replace col-3 with col-2 and col-4 with col-3
+- wide flange inputs out of alignment
 
 NOTES
+
+- Bolt selection is working. Just needs page text.
+  - I'd suggest making a comprehensive list of bolts and add them. If a student discovers one they need then it can be added to the dropdown. I don't see much purpose in allowing custom inputs, partially because I couldn't wrap my head around the logic of how to go about that (granted I may just need more time with it)
 
 Create class to build HTML output.
 

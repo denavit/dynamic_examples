@@ -1,14 +1,3 @@
-<!--
-  IDEAS
-  Add hyperlinks to noted standards
-  Option for user to save a member in a dropdown that will automatically populate fields with saved values
-    Very unsure of how to go about this, probably involves local memory, cookies, etc.
-
-  TO-DO
-  Make inputs update on text field change
-  Combine ALL text in python and pass to html except for head of html (Everything down to line 130)
--->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,9 +31,9 @@
   </head>
 
   <body>
-    <form action="/" method="POST">
+    <form action="/wideFlange" method="POST">
       <div class="section">
-        <div class="header1 col-5">
+        <div class="header col-4">
           <h1>Wide Flange Steel Members Calculator</h1>
           <h4>
             Input Values to Right First, Select Member at Left to Calculate
@@ -56,15 +45,15 @@
         <div class="col-3 alignment">
           <label
             class="member_select_label"
-            for="member_dropdown"
+            for="memberDropdown"
             style="vertical-align: middle"
             id="test"
             >Selected Member:
           </label>
           <select
-            class="member_dropdown"
-            id="member_dropdown"
-            name="member_dropdown"
+            class="memberDropdown"
+            id="memberDropdown"
+            name="memberDropdown"
           >
             {% for member in member_list %}
             <option id="{{member}}" value="{{member}}">{{member}}</option>
@@ -72,27 +61,17 @@
           </select>
         </div>
         <script>
-          window.onload = function () {
-            if (sessionStorage.getItem("codeHasRun") === null) {
-              document.getElementById("member_dropdown").value = "W44X290";
-            }
-            if (sessionStorage.getItem("codeHasRun") === null) {
-              sessionStorage.setItem("codeHasRun", true);
-            }
-          };
-        </script>
-        <script>
-          document.getElementById("member_dropdown").onchange = function () {
+          document.getElementById("memberDropdown").onchange = function () {
             sessionStorage.setItem(
-              "selectItem",
-              document.getElementById("member_dropdown").value
+              "flangeSelectItem",
+              document.getElementById("memberDropdown").value
             );
             this.form.submit();
           };
 
-          if (sessionStorage.getItem("selectItem")) {
-            document.getElementById("member_dropdown").options[
-              sessionStorage.getItem("selectItem")
+          if (sessionStorage.getItem("flangeSelectItem")) {
+            document.getElementById("memberDropdown").options[
+              sessionStorage.getItem("flangeSelectItem")
             ].selected = true;
           }
         </script>
@@ -140,10 +119,7 @@
         </div>
       </div>
       <hr />
-
-      <!-- Everything above this note should NOT be edited -->
-
-      <div id="main">{{main_text|safe}}</div>
+      <div id="main">{{flangeOutputText|safe}}</div>
     </form>
   </body>
 </html>
