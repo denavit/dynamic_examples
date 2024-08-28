@@ -22,6 +22,7 @@ NOTES
   - I'd suggest making a comprehensive list of bolts and add them. If a student discovers one they need then it can be added to the dropdown. I don't see much purpose in allowing custom inputs, partially because I couldn't wrap my head around the logic of how to go about that (granted I may just need more time with it)
 
 - Can add "onchange='this.form.submit()'" to make page reload upon user input, however it is not smooth and refreshes the page each time. Whether there is a way to seamlessly update the page I do not know
+  - AJAX looks to be a possibility for this, need to learn more
 
 Create class to build HTML output.
 
