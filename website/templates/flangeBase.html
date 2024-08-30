@@ -1,13 +1,3 @@
-<!--
-
-Text for header
-
-<p>As noted in AISC <i>Specification</i> Commentary Section E4, torsional buckling is a failure mode usually not considered in 
-the design of hot-rolled columns. This failure mode generally does not govern unless the section is manufactured from relatively 
-thin plates or a torsional unbraced length significantly larger than the <i>y-y</i> axis flexural unbraced length is present.</p>
-
--->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,12 +33,6 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
   <body>
     <form action="/wideFlange" method="POST">
       <div class="section">
-        <div class="col-4">
-          <a class="button2" href="/">Home</a>
-          <a class="button2" href="https://utk.edu">Test Button</a>
-        </div>
-      </div>
-      <div class="section">
         <div class="header col-4">
           <h1>Wide Flange Steel Members Calculator</h1>
           <h4>
@@ -56,18 +40,20 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
           </h4>
         </div>
       </div>
+      <hr />
       <div class="section">
-        <div class="col-3">
+        <div class="col-3 alignment">
           <label
             class="member_select_label"
-            for="wideFlangeDropdown"
+            for="memberDropdown"
             style="vertical-align: middle"
+            id="test"
             >Selected Member:
           </label>
           <select
-            class="wideFlangeDropdown"
-            id="wideFlangeDropdown"
-            name="wideFlangeDropdown"
+            class="memberDropdown"
+            id="memberDropdown"
+            name="memberDropdown"
           >
             {% for member in member_list %}
             <option id="{{member}}" value="{{member}}">{{member}}</option>
@@ -75,35 +61,25 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
           </select>
         </div>
         <script>
-          window.onload = function () {
-            if (sessionStorage.getItem("wideFlangeCodeHasRun") === null) {
-              document.getElementById("wideFlangeDropdown").value = "W44X290";
-            }
-            if (sessionStorage.getItem("wideFlangeCodeHasRun") === null) {
-              sessionStorage.setItem("wideFlangeCodeHasRun", true);
-            }
-          };
-        </script>
-        <script>
-          document.getElementById("wideFlangeDropdown").onchange = function () {
+          document.getElementById("memberDropdown").onchange = function () {
             sessionStorage.setItem(
-              "wideFlangeSelectItem",
-              document.getElementById("wideFlangeDropdown").value
+              "flangeSelectItem",
+              document.getElementById("memberDropdown").value
             );
             this.form.submit();
           };
 
-          if (sessionStorage.getItem("wideFlangeSelectItem")) {
-            document.getElementById("wideFlangeDropdown").options[
-              sessionStorage.getItem("wideFlangeSelectItem")
+          if (sessionStorage.getItem("flangeSelectItem")) {
+            document.getElementById("memberDropdown").options[
+              sessionStorage.getItem("flangeSelectItem")
             ].selected = true;
           }
         </script>
         <div class="col-3">
-          <label class="member_space">{{member}}</label> <br />
-          <label class="memberInputLabel" for="Fy">F<sub>y</sub> : </label>
+          <label class="member member_space">{{member}}</label> <br />
+          <label class="user_input-label" for="Fy">F<sub>y</sub> : </label>
           <input
-            class="wideFlangeInput"
+            class="user_input"
             type="text"
             id="Fy"
             value="{{'%g'%(Fy)}}"
@@ -111,9 +87,9 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
           />
           <label class="unit"> ksi</label> <br />
 
-          <label class="memberInputLabel" for="E">E : </label>
+          <label class="user_input-label" for="E">E : </label>
           <input
-            class="wideFlangeInput"
+            class="user_input"
             type="text"
             id="E"
             value="{{'%g'%(E)}}"
@@ -121,9 +97,9 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
           />
           <label class="unit"> ksi</label> <br />
 
-          <label class="memberInputLabel" for="Lcx">L<sub>cx</sub> : </label>
+          <label class="user_input-label" for="Lcx">L<sub>cx</sub> : </label>
           <input
-            class="wideFlangeInput"
+            class="user_input"
             type="text"
             id="Lcx"
             value="{{'%g'%(Lcx)}}"
@@ -131,9 +107,9 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
           />
           <label class="unit"> in</label> <br />
 
-          <label class="memberInputLabel" for="Lcy">L<sub>cy</sub> : </label>
+          <label class="user_input-label" for="Lcy">L<sub>cy</sub> : </label>
           <input
-            class="wideFlangeInput"
+            class="user_input"
             type="text"
             id="Lcy"
             value="{{'%g'%(Lcy)}}"
@@ -143,8 +119,7 @@ thin plates or a torsional unbraced length significantly larger than the <i>y-y<
         </div>
       </div>
       <hr />
-
-      <div id="main">{{output_text|safe}}</div>
+      <div id="main">{{flangeOutputText|safe}}</div>
     </form>
   </body>
 </html>

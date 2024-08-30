@@ -35,7 +35,6 @@
       <div class="section">
         <div class="header col-4">
           <h1>Bolt Calculator</h1>
-          <h4>Input Values to Right First, Click Calculate</h4>
         </div>
       </div>
       <div class="section">
@@ -47,9 +46,6 @@
             >Selected Bolt:
           </label>
           <select class="boltDropdown" id="boltDropdown" name="boltDropdown">
-            <option id="custom" value="customSelection">
-              Custom Selection
-            </option>
             <option id="1/4-20" value="1/4-20">1/4-20</option>
             <option id="1/4-28" value="1/4-28">1/4-28</option>
             <option id="1/2-13" value="1/2-13">1/2-13</option>
@@ -60,17 +56,6 @@
             <option id="1-14" value="1-14">1-14</option>
           </select>
         </div>
-        <script>
-          window.onload = function () {
-            if (sessionStorage.getItem("boltCodeHasRun") === null) {
-              document.getElementById("boltDropdown").value =
-                "Custom Selection";
-            }
-            if (sessionStorage.getItem("boltCodeHasRun") === null) {
-              sessionStorage.setItem("boltCodeHasRun", true);
-            }
-          };
-        </script>
         <script>
           document.getElementById("boltDropdown").onchange = function () {
             sessionStorage.setItem(
@@ -210,7 +195,7 @@
       </div>
       <hr />
 
-      <div id="main">{{bolt_output_text|safe}}</div>
+      <div id="main">{{boltOutputText|safe}}</div>
     </form>
   </body>
 </html>
