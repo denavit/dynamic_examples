@@ -18,6 +18,8 @@ TO-DO
 
 NOTES
 
+- Can add "onchange='this.form.submit()'" to make page reload upon user input, however it is not smooth and refreshes the page each time. Whether there is a way to seamlessly update the page I do not know
+
 Create class to build HTML output.
 
 html_str = html_str_generator(indent=6)

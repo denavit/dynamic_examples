@@ -82,6 +82,10 @@ def ASn_FEDSTD_3(dbsc, D2bsc, LE=1, override_limit=False):
     ASn = pi * D2bsc * (3 / 4) * LE
     return ASn
 
+
+#---------------------------------------------------------------
+
+
 def ASs_min_FEDSTD_4a(self, LE=1):
     '''
     Shear area, external threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (4a)
