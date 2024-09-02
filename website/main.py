@@ -65,7 +65,6 @@ def bolt():
         LE = float(request.values.get('LE'))
     except:
         LE = 1
-    print('HELLO WORLD')
     if bolt == None:
         n = 0
         dmin = 0
