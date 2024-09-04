@@ -65,6 +65,7 @@ def bolt():
         LE = float(request.values.get('LE'))
     except:
         LE = 1
+
     if bolt == None:
         n = 0
         dmin = 0
@@ -74,9 +75,13 @@ def bolt():
         D1max = 0
         D2max = 0
 
+        boltOutputText = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE)
+
         return render_template('boltBase.html',
-                               n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
-                               UTSs = UTSs, UTSn = UTSn, LE = LE)
+            n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
+            UTSs = UTSs, UTSn = UTSn, LE = LE,
+            boltOutputText = boltOutputText)
+
     else:
         n = ASME_B11_UN_2A2B_dict[bolt]['n']
         dmin = ASME_B11_UN_2A2B_dict[bolt]['dmin']
@@ -91,9 +96,9 @@ def bolt():
         boltOutputText = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE)
 
         return render_template('boltBase.html',
-                               n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
-                               UTSs = UTSs, UTSn = UTSn, LE = LE,
-                               boltOutputText = boltOutputText)
+            n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
+            UTSs = UTSs, UTSn = UTSn, LE = LE,
+            boltOutputText = boltOutputText)
 
 
 # Text for header moved to flangeBase.html

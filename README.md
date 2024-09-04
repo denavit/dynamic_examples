@@ -1,3 +1,8 @@
+MEETING QUESTIONS/TOPICS
+
+- Is it truly more efficient to have all the html pages separate? There is very little that would be left by the time a chunk of the text is moved into Python
+- Should the calculations for dmin, d2min, D1bsc, etc. be included unde geometric properties? Or should those be in a different section like "derivation of properties"
+
 IMPORTANT NOTES
 
 - Pages should initially be built under "templates," with text in the python side. The input/header text can then be moved over once the page is functionally and textually finalized
