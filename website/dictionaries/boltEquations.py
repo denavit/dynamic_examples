@@ -82,11 +82,7 @@ def ASn_FEDSTD_3(dbsc, D2bsc, LE=1, override_limit=False):
     ASn = pi * D2bsc * (3 / 4) * LE
     return ASn
 
-
-#---------------------------------------------------------------
-
-
-def ASs_min_FEDSTD_4a(self, LE=1):
+def ASs_min_FEDSTD_4a(n, D1max, d2min, LE=1):
     '''
     Shear area, external threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (4a)
         (minimum material external and internal threads)
@@ -99,7 +95,7 @@ def ASs_min_FEDSTD_4a(self, LE=1):
     ASs = pi * n * LE * D1max * ((1 / (2 * n)) + ((1 / sqrt(3)) * (d2min - D1max)))
     return ASs
 
-def ASs_FEDSTD_5(self, LE=1):
+def ASs_FEDSTD_5(d2bsc, LE=1):
     '''
     Shear area, external threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (5)
         (simplified)
@@ -112,7 +108,7 @@ def ASs_FEDSTD_5(self, LE=1):
     ASs = pi * d2bsc * (5 / 8) * LE
     return ASs
 
-def ASs_max_FEDSTD_6b(self, LE=1):
+def ASs_max_FEDSTD_6b(D1bsc, LE=1):
     '''
     Shear area, external threads based on FED-STD-H28/2B (1991), Table II.B.1, Formula (6b)
         (basic size external and internal threads)
@@ -125,7 +121,7 @@ def ASs_max_FEDSTD_6b(self, LE=1):
     ASs = pi * D1bsc * 0.75 * LE
     return ASs
 
-def LEr_FEDSTD_13(self, As_eqn='1a'):
+def LEr_FEDSTD_13(As, As_eqn='1a'):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formula (13)
         (based upon combined shear failure of external and internal threads)
@@ -144,7 +140,7 @@ def LEr_FEDSTD_13(self, As_eqn='1a'):
     LEr = (4 * As) / (pi * d2bsc)
     return LEr
 
-def LEr_FEDSTD_14(self, As_eqn='1a', ASs_eqn='4a'):
+def LEr_FEDSTD_14(d2bsc, H, dbsc, n, D1max, d2min, LE=1, As_eqn='1a', ASs_eqn='4a'):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formula (14)
         (based upon shear of external thread)
@@ -154,14 +150,14 @@ def LEr_FEDSTD_14(self, As_eqn='1a', ASs_eqn='4a'):
     ASs_eqn --- denotes which equation to use for As ('4a' or '4b', default = '4a')
     '''
     if As_eqn == '1a':
-        As = As_FEDSTD_1a()
+        As = As_FEDSTD_1a(d2bsc, H)
     elif As_eqn == '1b':
-        As = As_FEDSTD_1b()
+        As = As_FEDSTD_1b(dbsc, n)
     else:
         raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
 
     if ASs_eqn == '4a':
-        ASs = ASs_min_FEDSTD_4a()
+        ASs = ASs_min_FEDSTD_4a(n, D1max, d2min, LE)
     elif ASs_eqn == '4b':
         raise ValueError(f'ASs_FEDSTD_4b is not yet implemented')
     else:
@@ -169,6 +165,8 @@ def LEr_FEDSTD_14(self, As_eqn='1a', ASs_eqn='4a'):
 
     LEr = 2 * As / ASs
     return LEr
+
+#-----------------------------------------------------------------------------------------------
 
 def LEr_FEDSTD_15(self, As_eqn='1a'):
     '''

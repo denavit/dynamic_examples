@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from dictionaries.aisc import names
-from math import floor, log10, sqrt, pi
+from math import floor, log10, pi
 from pageText.wideFlangeText import wideFlangeText
 from pageText.boltText import boltText
 from dictionaries.ASME_B11 import ASME_B11_UN_2A2B_dict
@@ -36,15 +36,10 @@ def wideFlange():
         Lcy = float(request.values.get('Lcy'))
     except:
         Lcy = 0        
-    print('HELLO WORLD')
-
-    flangeOutputText = wideFlangeText(member,Fy,Eksi,Lcx,Lcy)
     
-    return render_template('flangeBase.html', 
+    return render_template('base.html', 
                         Fy = Fy, E = Eksi, Lcx = Lcx, Lcy = Lcy,
-                        flangeOutputText = flangeOutputText,
-                        member_list = names())
-
+                        outputText = wideFlangeText(member,Fy,Eksi,Lcx,Lcy))
     
 @app.route('/bolt', methods = ['POST', 'GET'])
 def bolt():
@@ -75,12 +70,10 @@ def bolt():
         D1max = 0
         D2max = 0
 
-        outputText = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE)
-
-        return render_template('boltBase.html',
+        return render_template('base.html',
             n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
             UTSs = UTSs, UTSn = UTSn, LE = LE,
-            outputText = outputText)
+            outputText = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE))
 
     else:
         n = ASME_B11_UN_2A2B_dict[bolt]['n']
@@ -95,7 +88,7 @@ def bolt():
 
         outputText = boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE)
 
-        return render_template('boltBase.html',
+        return render_template('base.html',
             n = n, dmin = dmin, dbsc = dbsc, d2min = d2min, D1bsc = D1bsc, D1max = D1max, D2max = D2max,
             UTSs = UTSs, UTSn = UTSn, LE = LE,
             outputText = outputText)
