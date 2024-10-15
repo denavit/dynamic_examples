@@ -45,7 +45,10 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
             >'''
         
         for selectMember in names():
-            inputText += f'''<option id="{selectMember}" value="{selectMember}">{selectMember}</option>'''
+            if selectMember == 'W14X159':
+              inputText += f'''<option id="{selectMember}" value="{selectMember}" selected>{selectMember}</option>'''
+            else:
+                inputText += f'''<option id="{selectMember}" value="{selectMember}">{selectMember}</option>'''
 
         inputText += f'''
           </select>
@@ -281,13 +284,13 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
 
     # Check output
     if member == None:
-        return header() + input(Fy, Eksi, Lcx, Lcy) + footer()
+        return header(), input(Fy, Eksi, Lcx, Lcy), '', footer()
     elif Fy <= 0:
-        return header() + input(Fy, Eksi, Lcx, Lcy) + 'Steel yield stress must be greater than zero<hr />' + footer()       
+        return header(), input(Fy, Eksi, Lcx, Lcy), 'Steel yield stress must be greater than zero<hr />', footer()       
     elif Eksi <= 0:
-        return header() + input(Fy, Eksi, Lcx, Lcy) + 'Modulus of elasticity must be greater than zero<hr />' + footer()
+        return header(), input(Fy, Eksi, Lcx, Lcy), 'Modulus of elasticity must be greater than zero<hr />', footer()
     elif Lcx < 0 or Lcy < 0:
-        return header() + input(Fy, Eksi, Lcx, Lcy) + 'The effective lengths must be greater than or equal to zero' + footer()
+        return header(), input(Fy, Eksi, Lcx, Lcy), 'The effective lengths must be greater than or equal to zero', footer()
     else:
       # Section Properties Data
       A = wide_flange_database[member]['A']
@@ -296,4 +299,4 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       bf2tf = wide_flange_database[member]['bf/2tf']
       htw = wide_flange_database[member]['h/tw']
 
-      return header() + input(Fy, Eksi, Lcx, Lcy) + output(member, A, rx, ry, bf2tf, htw, Fy, Eksi, Lcx, Lcy) + footer()
+      return header(), input(Fy, Eksi, Lcx, Lcy), output(member, A, rx, ry, bf2tf, htw, Fy, Eksi, Lcx, Lcy), footer()

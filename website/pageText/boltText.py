@@ -37,7 +37,7 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
                     <select class="boltDropdown" id="boltDropdown" name="boltDropdown">
                         <option id="1/4-20" value="1/4-20">1/4-20</option>
                         <option id="1/4-28" value="1/4-28">1/4-28</option>
-                        <option id="1/2-13" value="1/2-13">1/2-13</option>
+                        <option id="1/2-13" value="1/2-13" selected>1/2-13</option>
                         <option id="1/2-20" value="1/2-20">1/2-20</option>
                         <option id="3/4-10" value="3/4-10">3/4-10</option>
                         <option id="3/4-16" value="3/4-16">3/4-16</option>
@@ -73,7 +73,7 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
                     value="{'%g'%(UTSs)}"
                     name="UTSs"
                 />
-                <label class="unit">???</label>
+                <label class="unit">psi</label>
 
                 <label class="boltInputLabel" for="UTSn"
                     >UTSn (Strength of Internally Threaded Part) :
@@ -85,7 +85,7 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
                     value="{'%g'%(UTSn)}"
                     name="UTSn"
                 />
-                <label class="unit">???</label>
+                <label class="unit">psi</label>
 
                 <label class="boltInputLabel" for="LE"
                     >LE (Length of Engagement) :
@@ -97,7 +97,7 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
                     value="{'%g'%(LE)}"
                     name="LE"
                 />
-                <label class="unit">???</label>
+                <label class="unit">in.</label>
             </div>
         </div>
         <hr />'''
@@ -107,34 +107,42 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
     def output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, As1b):
         # Based off of Alexander 1977 Text, ASME B1.1-2019, and Wide Flange Page Text
         outputText = f'''
-        <h1>Geometric Properties</h1>
+        <h1>Thread Form Dimensions</h1>
         <h4>From ASME B1.1-2019, the dimensions of a {bolt} fastener are: </h4>
-        <p>$n = {n}$ (UNITS)</p>
-        <p>$P = \\frac{{1}}{{n}} = \\frac{{1}}{n} = {pVar} $ (UNITS)</p>
-        <p>$H = \\frac{{\\sqrt{3}}}{{2n}} = \\frac{{\\sqrt{3}}}{{2({n})}} = {HVar} $ (UNITS)</p>
-        <p>$d_{{min}} = {dmin}$ (UNITS)</p>
-        <p>$d_{{bsc}} = {dbsc}$ (UNITS)</p>
-        <p>$d_{{2,min}} = {d2min}$ (UNITS)</p>
-        <p>$D_{{1,bsc}} = d_{{1,bsc}} = {D1bsc}$ (UNITS)</p>
-        <p>$D_{{1,max}} = {D1max}$ (UNITS)</p>
-        <p>$D_{{2,bsc}} = d_{{2,bsc}} = {d2bscVar}$ (UNITS)</p>
-        <p>$D_{{2,max}} = {D2max}$ (UNITS)</p>
+        <p>$n = {n}$ (Threads/Inch)</p>
+        <p>$P = \\frac{1}{{n}} = \\frac{1}{n} = {pVar}$ (Inches/Thread)</p>
+        <p>$H = \\frac{{\\sqrt{3}}}{{2n}} = \\frac{{\\sqrt{3}}}{{2({n})}} = {HVar} $ (in.)</p>
+        <p>$d_{{min}} = {dmin}$ (in.)</p>
+        <p>$d_{{bsc}} = {dbsc}$ (in.)</p>
+        <p>$d_{{2,min}} = {d2min}$ (in.)</p>
+        <p>$D_{{1,bsc}} = d_{{1,bsc}} = {D1bsc}$ (in.)</p>
+        <p>$D_{{1,max}} = {D1max}$ (in.)</p>
+        <p>$D_{{2,bsc}} = d_{{2,bsc}} = {d2bscVar}$ (in.)</p>
+        <p>$D_{{2,max}} = {D2max}$ (in.)</p>
         '''
 
 
         # How to say "they can be simplified to be exactly the same" in a short, concise manner? Currently I have "geometrically identical"
         # Also I'm currently doing += to the text to separate it into sections. Is there another way to do that that can keep it as once block while still having visual markers of sections?
         outputText += f'''
-        <h1>Tensile Stress Area</h1>
+        <h1>Tensile Strength</h1>
         <h4>The ultimate tensile strength of a threaded fastener is directly proportional to the actual cross sectional area.</h4>
-        <h4>ASME B1.1-2019 provides two equations to calculate the tensile stress area, both of which are geometrically identical: </h4>
+        <h4>FED-STD-H28/2B provides two equations to calculate the tensile stress area, both of which are geometrically identical: </h4>
+        <p>$A_{{s, 1a}} = \\pi\\left(\\frac{{d_{{2,bsc}}}}{{2}}-\\frac{{3H}}{{16}}\\right)^{{2}} = \\pi\\left(\\left(\\frac{{1}}{{2}}\\right)\\left({{d_{{2,bsc}}}} - \\frac{{3H}}{{8}}\\right)\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left({{d_{{2,bsc}}}} - \\frac{{3H}}{{8}}\\right)^{{2}}$</p>
+        <p>$A_{{s, 1b}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{0.9743}}{{n}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9P\\sqrt{{3}}}}{{16}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9\\sqrt{{3}}\\left(\\frac{{2H}}{{\\sqrt{{3}}}}\\right)}}{{16}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9H}}{{8}}\\right)^{{2}}$</p>
+        <p>Figure 2 in ASME B1.1-2019 provides thread geometry to further prove the equality:</p>
+        <p>$d_{{2,bsc}} = d_{{bsc}} - 2\\left(\\frac{{3H}}{{8}}\\right) = d_{{bsc}} - \\frac{{6H}}{{8}}$</p>
+        <p>$A_{{s, 1a}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{6H}}{{8}} - \\frac{{3H}}{{8}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9H}}{{8}}\\right)^{{2}} = A_{{s, 1b}}$</p>
+        <p>For this example, equation $A_{{s, 1a}}$ will be used</p>
         <p>$A_{{s, 1a}} = \\pi\\left(\\frac{{d_{{2,bsc}}}}{{2}}-\\frac{{3H}}{{16}}\\right)^{{2}}$</p>
         <p>$= \\pi\\left(\\frac{{{d2bscVar}}}{{2}}-\\frac{{3({HVar})}}{{16}}\\right)^{{2}}$</p>
-        <p>$= {{{As1a}}}$ (UNITS)</p>
-        </br>
-        <p>$A_{{s, 1b}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9\\sqrt{{3}}}}{{16n}}\\right)^{{2}}$</p>
-        <p>$= \\frac{{\\pi}}{{4}}\\left({dbsc} - \\frac{{9\\sqrt{{3}}}}{{16({n})}}\\right)^{{2}}$</p>
-        <p>$= {{{As1b}}}$ (UNITS)</p>
+        <p>$= {As1a} \\text{{ in.}}^{{2}}$</p>
+        '''
+
+        outputText += f'''
+        <p>The tensile strength of a threaded fastener is equal to:</p>
+        <p>$P = \\frac{{F}}{{A}} \\therefore F = PA$</p>
+        <p>$F = {{UTSs}}\\left(A_{{s, 1a}}\\right) = {UTSs}\\left({round(As_FEDSTD_1a(float(d2bscVar), H(float(n))), 3)}\\right) = {round(UTSs * As_FEDSTD_1a(float(d2bscVar), H(float(n))))} \\text{{ lbs}}$</p>
         <hr />
         '''
 
@@ -150,13 +158,13 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
 
     # Returns page text
     if bolt == None:
-        return header() + input(UTSs, UTSn, LE) + footer()
+        return header(), input(UTSs, UTSn, LE), '', footer()
     elif UTSs <= 0:
-        return header() + input(UTSs, UTSn, LE) + '(((UTSs))) must be greater than zero <hr />' + footer()
+        return header(), input(UTSs, UTSn, LE), '(((UTSs))) must be greater than zero <hr />', footer()
     elif UTSn <= 0:
-        return header() + input(UTSs, UTSn, LE) + '(((UTSn))) must be greater than zero <hr />' + footer()
+        return header(), input(UTSs, UTSn, LE), '(((UTSn))) must be greater than zero <hr />', footer()
     elif LE <= 0:
-        return header() + input(UTSs, UTSn, LE) + '(((LE))) must be greater than zero <hr />' + footer()
+        return header(), input(UTSs, UTSn, LE), '(((LE))) must be greater than zero <hr />', footer()
     else:
         pVar = sigfigstr(p(n))
         HVar = sigfigstr(H(n))
@@ -166,4 +174,4 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
         As1a = sigfigstr(As_FEDSTD_1a(d2bsc(dbsc, H(n)), H(n)))
         As1b = sigfigstr(As_FEDSTD_1b(dbsc, n))
 
-        return header() + input(UTSs, UTSn, LE) + output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, As1b) + footer()
+        return header(), input(UTSs, UTSn, LE), output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, As1b), footer()
