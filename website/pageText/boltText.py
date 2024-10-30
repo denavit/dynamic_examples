@@ -110,7 +110,11 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
         <h1>Thread Form Dimensions</h1>
         <h4>From ASME B1.1-2019, the dimensions of a {bolt} fastener are: </h4>
         <p>$n = {n}$ (Threads/Inch)</p>
-        <p>$P = \\frac{1}{{n}} = \\frac{1}{n} = {pVar}$ (Inches/Thread)</p>
+        '''
+        
+        outputText += r'<p>$P = \frac{1}{n} = \frac{1}{' + str(n) + r'\text{ threads/in.}} = ' + str(pVar) + r'\text{ in./thread}$</p>'
+               
+        outputText += f'''
         <p>$H = \\frac{{\\sqrt{3}}}{{2n}} = \\frac{{\\sqrt{3}}}{{2({n})}} = {HVar} $ (in.)</p>
         <p>$d_{{min}} = {dmin}$ (in.)</p>
         <p>$d_{{bsc}} = {dbsc}$ (in.)</p>
