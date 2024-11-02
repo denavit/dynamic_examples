@@ -150,6 +150,9 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
         <hr />
         '''
 
+        outputText += f'''
+        <h1>Length of Engagement</h1>
+        '''
         return outputText
 
     def footer():
