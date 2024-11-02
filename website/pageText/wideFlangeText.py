@@ -277,8 +277,10 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
     
     def footer():
         footerText = f'''
-        <h4>Footer</h4>
-        <p>What to put here</p>'''
+        <h4>Developed by:</h4>
+        <p>Dr. Mark Denavit, ___________</p>
+        <p>Jonathan Smith, _________</p>
+        <h4>Supported by ________________</h4>'''
 
         return footerText
 
