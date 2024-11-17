@@ -121,7 +121,7 @@ def ASs_max_FEDSTD_6b(D1bsc, LE=1):
     ASs = pi * D1bsc * 0.75 * LE
     return ASs
 
-def LEr_FEDSTD_13(As, As_eqn='1a'):
+def LEr_FEDSTD_13(d2bsc, H):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formula (13)
         (based upon combined shear failure of external and internal threads)
@@ -131,12 +131,9 @@ def LEr_FEDSTD_13(As, As_eqn='1a'):
 
     Note: numbers with decimals replaced with equivalent mathematical expressions.
     '''
-    if As_eqn == '1a':
-        As = As_FEDSTD_1a()
-    elif As_eqn == '1b':
-        As = As_FEDSTD_1b()
-    else:
-        raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
+
+    As = As_FEDSTD_1a(d2bsc, H)
+
     LEr = (4 * As) / (pi * d2bsc)
     return LEr
 
@@ -166,9 +163,7 @@ def LEr_FEDSTD_14(d2bsc, H, dbsc, n, D1max, d2min, LE=1, As_eqn='1a', ASs_eqn='4
     LEr = 2 * As / ASs
     return LEr
 
-#-----------------------------------------------------------------------------------------------
-
-def LEr_FEDSTD_15(self, As_eqn='1a'):
+def LEr_FEDSTD_15(d2bsc, H, D1bsc):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formula (15)
         (based upon shear of external thread)
@@ -176,17 +171,11 @@ def LEr_FEDSTD_15(self, As_eqn='1a'):
     Arguments:
     As_eqn --- denotes which equation to use for As ('1a' or '1b', default = '1a')
     '''
-    if As_eqn == '1a':
-        As = As_FEDSTD_1a()
-    elif As_eqn == '1b':
-        As = As_FEDSTD_1b()
-    else:
-        raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
-
-    LEr = 2 * As / ASs_max_FEDSTD_6b()
+    As = As_FEDSTD_1a(d2bsc, H)
+    LEr = 2 * As / ASs_max_FEDSTD_6b(D1bsc)
     return LEr
 
-def LEr_FEDSTD_16(self, As_eqn='1a', ASn_eqn='2a'):
+def LEr_FEDSTD_16(n, dmin, D2max, UTSn, UTSs):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formula (16)
         (based upon shear of external thread)
@@ -195,19 +184,9 @@ def LEr_FEDSTD_16(self, As_eqn='1a', ASn_eqn='2a'):
     As_eqn --- denotes which equation to use for As ('1a' or '1b', default = '1a')
     ASn_eqn --- denotes which equation to use for ASn ('2a' or '2b', default = '2a')
     '''
-    if As_eqn == '1a':
-        As = As_FEDSTD_1a()
-    elif As_eqn == '1b':
-        As = As_FEDSTD_1b()
-    else:
-        raise ValueError(f'Invalid value for As_eqn: {As_eqn} (need ''1a'' or ''1b'')')
+    As = As_FEDSTD_1a(d2bsc, H)
 
-    if ASn_eqn == '2a':
-        ASn = ASn_min_FEDSTD_2a()
-    elif ASn_eqn == '2b':
-        raise ValueError(f'ASn_FEDSTD_2a is not yet implemented')
-    else:
-        raise ValueError(f'Invalid value for As_eqn: {ASn_eqn} (need ''2a'' or ''2b'')')
+    ASn = ASn_min_FEDSTD_2a(n, dmin, D2max)
 
     R2 = UTSn / UTSs
     LEr = (2 * As / ASn) / R2
@@ -220,7 +199,7 @@ def LEr_FEDSTD_16(self, As_eqn='1a', ASn_eqn='2a'):
     # FED-STD-H28/2B and does not require evaluation of ASs
     return LEr
 
-def LEr_FEDSTD(self, As_eqn='1a', ASs_eqn='4a', ASn_eqn='2a', combined_failure_range=0.05):
+def LEr_FEDSTD(n, D1bsc, dmin, D2max, UTSn, UTSs, d2bsc, H, dbsc, D1max, d2min, combined_failure_range=0.05):
     '''
     Length of engagement required for tensile failure based on FED-STD-H28/2B (1991), Table II.B.1, Formulas (13),
         (15), and (16)
@@ -232,15 +211,15 @@ def LEr_FEDSTD(self, As_eqn='1a', ASs_eqn='4a', ASn_eqn='2a', combined_failure_r
     combined_failure_range --- parameter that defines the limit of applicability of the combined failure mode
         (default = 0.05)s
     '''
-    R1 = ASs_max_FEDSTD_6b() / ASn_min_FEDSTD_2a()  # @todo - code in options here see formula (8)
+    R1 = ASs_max_FEDSTD_6b(D1bsc) / ASn_min_FEDSTD_2a(n, dmin, D2max)  # @todo - code in options here see formula (8)
     R2 = UTSn / UTSs
     if R1 / R2 < (1 - combined_failure_range):
         # External thread failure, Formula (15)
-        LEr = LEr_FEDSTD_14(As_eqn, ASs_eqn)
+        LEr = LEr_FEDSTD_14(d2bsc, H, dbsc, n, D1max, d2min)
     else:
         # Internal thread failure or combined failure, Formula (13) or (16)
-        LEr_13 = LEr_FEDSTD_13(As_eqn)
-        LEr_16 = LEr_FEDSTD_16(As_eqn, ASn_eqn)
+        LEr_13 = LEr_FEDSTD_13(d2bsc)
+        LEr_16 = LEr_FEDSTD_16(n, dmin, D2max, UTSn, UTSs)
         LEr = max(LEr_13, LEr_16)
     return LEr
 

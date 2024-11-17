@@ -104,25 +104,25 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
     
         return inputText
     
-    def output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, As1b):
+    def output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, ASn2a, ASs6b, LEr = 1):
         # Based off of Alexander 1977 Text, ASME B1.1-2019, and Wide Flange Page Text
         outputText = f'''
         <h1>Thread Form Dimensions</h1>
         <h4>From ASME B1.1-2019, the dimensions of a {bolt} fastener are: </h4>
-        <p>$n = {n}$ (Threads/Inch)</p>
+        <p>$n = {n}$ threads/in.</p>
         '''
         
-        outputText += r'<p>$P = \frac{1}{n} = \frac{1}{' + str(n) + r'\text{ threads/in.}} = ' + str(pVar) + r'\text{ in./thread}$</p>'
+        outputText += r'<p>$P = \frac{1}{n} = \frac{1}{' + str(n) + r'} = ' + str(pVar) + r'\text{ in./thread}$</p>'
                
         outputText += f'''
-        <p>$H = \\frac{{\\sqrt{3}}}{{2n}} = \\frac{{\\sqrt{3}}}{{2({n})}} = {HVar} $ (in.)</p>
-        <p>$d_{{min}} = {dmin}$ (in.)</p>
-        <p>$d_{{bsc}} = {dbsc}$ (in.)</p>
-        <p>$d_{{2,min}} = {d2min}$ (in.)</p>
-        <p>$D_{{1,bsc}} = d_{{1,bsc}} = {D1bsc}$ (in.)</p>
-        <p>$D_{{1,max}} = {D1max}$ (in.)</p>
-        <p>$D_{{2,bsc}} = d_{{2,bsc}} = {d2bscVar}$ (in.)</p>
-        <p>$D_{{2,max}} = {D2max}$ (in.)</p>
+        <p>$H = \\frac{{\\sqrt{3}}}{{2n}} = \\frac{{\\sqrt{3}}}{{2({n})}} = {HVar} $ in.</p>
+        <p>$d_{{min}} = {dmin}$ in.</p>
+        <p>$d_{{bsc}} = {dbsc}$ in.</p>
+        <p>$d_{{2,min}} = {d2min}$ in.</p>
+        <p>$D_{{1,bsc}} = d_{{1,bsc}} = {D1bsc}$ in.</p>
+        <p>$D_{{1,max}} = {D1max}$ in.</p>
+        <p>$D_{{2,bsc}} = d_{{2,bsc}} = {d2bscVar}$ in.</p>
+        <p>$D_{{2,max}} = {D2max}$ in.</p>
         '''
 
 
@@ -152,15 +152,56 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
 
         outputText += f'''
         <h1>Length of Engagement</h1>
-        '''
+        <p>The length of engagement is the measured length of interaction between a fastener and its mating material</p>
+        <p>The method of failure for a fastener is dependent on the length of engagement</p>
+        <p>FED-STD-H28/2B provides equations to calculate the length of engagement to ensure a specific mode of failure</p>
+        <p>$R_{{1}} = \\frac{{AS_{{s,max}}}}{{AS_{{n,min}}}} 
+        = \\frac{{\\pi\\frac{{3}}{{4}}D_{{1,bsc}}LE}}{{\\pi d_{{min}}\\left(\\frac{{1}}{{2n}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left(d_{{min}} - D_{{2,max}}\\right)\\right)LE}} 
+        = \\frac{{\\pi\\frac{{3}}{{4}}{D1bsc}({LEr})}}{{\\pi ({dmin})\\left(\\frac{{1}}{{2({n})}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left({dmin} - {D2max}\\right)\\right)({LEr})}}
+        = {sigfigstr(float(ASn2a)/float(ASs6b))}$</p>
+        <p>$R_{{2}} = \\frac{{UTSn}}{{UTSs}} = {sigfigstr(float(UTSn)/float(UTSs))}$</p>
+        <p>$\\frac{{R_{1}}}{{R_{2}}} = {sigfigstr((float(ASn2a)/float(ASs6b))/(float(UTSn)/float(UTSs)))}$</p>'''
+        
+        if (float(ASn2a)/float(ASs6b))/(float(UTSn)/float(UTSs)) < 1:
+            outputText += f'''
+            <p>Because $\\frac{{R_{1}}}{{R_{2}}}$ < 1, external thread failure controls and FED-STD-H28/2B Formula (15) is used</p>
+            <p>$A_{{s}} = \\pi\\left(\\frac{{d_{{2,bsc}}}}{{2}}-\\frac{{3H}}{{16}}\\right)^{{2}} = '''
+            
+            outputText += r'\pi\left(\frac{' + str(d2bscVar) + r'}{2}-\frac{3(' + sigfigstr(HVar) + r')}{16}\right)^{2} =' + sigfigstr(As1a) + r'\text{ in.}^{2}$</p>'
+
+            outputText += f'''
+            <p>$AS_{{s,min}} = \\pi d_{{min}}\\left(\\frac{{1}}{{2n}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left(d_{{min}} - D_{{2,max}}\\right)\\right)LE = \\pi ({dmin})\\left(\\frac{{1}}{{2({n})}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left({dmin} - {D2max}\\right)\\right)({LEr}) = {sigfigstr(float(ASn2a))} \\text{{ in.}}^{{2}}$</p>
+            <p>$LE = \\frac{{2A_{{s}}}}{{AS_{{s,min}}}} = \\frac{{2({As1a})}}{{{ASn2a}}} = {sigfigstr(2 * float(As1a) / float(ASn2a))} \\text{{ in.}}$</p>
+            <hr />
+            '''
+        else:
+            outputText += f'''            
+            <p>Because $\\frac{{R_{1}}}{{R_{2}}}$ > 1, either internal thread failure or combined failure controls and FED-STD-H28/2B Formula (13) or (16) is used</p>
+            <p>$A_{{s}} = \\pi\\left(\\frac{{d_{{2,bsc}}}}{{2}}-\\frac{{3H}}{{16}}\\right)^{{2}} = '''
+
+            outputText += r'\pi\left(\frac{' + str(d2bscVar) + r'}{2}-\frac{3(' + sigfigstr(HVar) + r')}{16}\right)^{2} =' + sigfigstr(As1a) + r'\text{ in.}^{2}$</p>'
+
+            outputText += f'''<p>$AS_{{s,min}} = \\pi d_{{min}}\\left(\\frac{{1}}{{2n}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left(d_{{min}} - D_{{2,max}}\\right)\\right)LE = \\pi ({dmin})\\left(\\frac{{1}}{{2({n})}} + \\frac{{1}}{{\\sqrt{{3}}}}\\left({dmin} - {D2max}\\right)\\right)({LEr}) = {sigfigstr(float(ASn2a))} \\text{{ in.}}^{{2}}$</p>
+'''
+
+            outputText += f'''<p>$LE_{{r,13}} = \\frac{{4A_{{s}}}}{{\\pi{{d_{{2,bsc}}}}}} = \\frac{{4{{({As1a})}}}}{{\\pi{{({d2bscVar})}}}} = {sigfigstr(4 * float(As1a) / (pi * float(d2bscVar)))} \\text{{ in.}}$</p>
+            <p>$LE_{{r,16}} = \\frac{{\\frac{{2A_{{s}}}}{{AS_{{n}}}}}}{{R_{{2}}}} = \\frac{{\\frac{{2({As1a}))}}{{{ASn2a}}}}}{{{sigfigstr(float(UTSn)/float(UTSs))}}} = {sigfigstr((2*float(As1a)/float(ASn2a))/(float(UTSn)/float(UTSs)))} \\text{{ in.}}$</p>
+            <p>The controlling length of engagement is the maximum of $LE_{{r,13}}$ and $LE_{{r,16}}$</p>
+            '''
+            
+            if 4 * float(As1a) / (pi * float(d2bscVar)) > (2*float(As1a)/float(ASn2a))/(float(UTSn)/float(UTSs)):
+                outputText += f'''<p>Thus, LE = $LE_{{r,13}} = {sigfigstr(4 * float(As1a) / (pi * float(d2bscVar)))}$</p>
+                '''
+            else:
+                outputText += f'''<p>Thus, LE = $LE_{{r,16}} = {sigfigstr((2*float(As1a)/float(ASn2a))/(float(UTSn)/float(UTSs)))}</p>
+                '''
+            
         return outputText
 
     def footer():
         footerText = f'''
-        <h4>Developed by:</h4>
-        <p>Dr. Mark Denavit, ___________</p>
-        <p>Jonathan Smith, _________</p>
-        <h4>Supported by ________________</h4>'''
+        <h4>Developed by Dr. Mark Denavit and Jonathan Smith of the University of Tennessee, Knoxville</h4>
+        <p>Supported by _______</p>'''
 
         return footerText
     
@@ -169,18 +210,18 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
     if bolt == None:
         return header(), input(UTSs, UTSn, LE), '', footer()
     elif UTSs <= 0:
-        return header(), input(UTSs, UTSn, LE), '(((UTSs))) must be greater than zero <hr />', footer()
+        return header(), input(UTSs, UTSn, LE), 'UTSs must be greater than zero <hr />', footer()
     elif UTSn <= 0:
-        return header(), input(UTSs, UTSn, LE), '(((UTSn))) must be greater than zero <hr />', footer()
+        return header(), input(UTSs, UTSn, LE), 'UTSn must be greater than zero <hr />', footer()
     elif LE <= 0:
-        return header(), input(UTSs, UTSn, LE), '(((LE))) must be greater than zero <hr />', footer()
+        return header(), input(UTSs, UTSn, LE), 'LE must be greater than zero <hr />', footer()
     else:
         pVar = sigfigstr(p(n))
         HVar = sigfigstr(H(n))
-        d1bscVar = sigfigstr(D1bsc)
         d2bscVar = sigfigstr(d2bsc(dbsc, H(n)))
-        AbscVar = sigfigstr(Absc(dbsc))
         As1a = sigfigstr(As_FEDSTD_1a(d2bsc(dbsc, H(n)), H(n)))
-        As1b = sigfigstr(As_FEDSTD_1b(dbsc, n))
+        ASn2a = sigfigstr(ASn_min_FEDSTD_2a(n, dmin, D2max))
+        ASs6b = sigfigstr(ASs_max_FEDSTD_6b(D1bsc))
+        LEr = sigfigstr(LEr_FEDSTD(n, D1bsc, dmin, D2max, UTSn, UTSs, float(d2bscVar), float(HVar), dbsc, D1max, d2min))
 
-        return header(), input(UTSs, UTSn, LE), output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, As1b), footer()
+        return header(), input(UTSs, UTSn, LE), output(bolt, n, pVar, HVar, dmin, dbsc, d2min, D1bsc, D1max, d2bscVar, D2max, As1a, ASn2a, ASs6b, LEr), footer()
