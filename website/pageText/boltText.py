@@ -130,7 +130,7 @@ def boltText(bolt, n, dmin, dbsc, d2min, D1bsc, D1max, D2max, UTSs, UTSn, LE):
         # Also I'm currently doing += to the text to separate it into sections. Is there another way to do that that can keep it as once block while still having visual markers of sections?
         outputText += f'''
         <h1>Tensile Strength</h1>
-        <h4>The ultimate tensile strength of a threaded fastener is directly proportional to the actual cross sectional area.</h4>
+        <h4>The ultimate tensile strength of a threaded fastener is directly proportional to the cross sectional area through the threaded region.</h4>
         <h4>FED-STD-H28/2B provides two equations to calculate the tensile stress area, both of which are geometrically identical: </h4>
         <p>$A_{{s, 1a}} = \\pi\\left(\\frac{{d_{{2,bsc}}}}{{2}}-\\frac{{3H}}{{16}}\\right)^{{2}} = \\pi\\left(\\left(\\frac{{1}}{{2}}\\right)\\left({{d_{{2,bsc}}}} - \\frac{{3H}}{{8}}\\right)\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left({{d_{{2,bsc}}}} - \\frac{{3H}}{{8}}\\right)^{{2}}$</p>
         <p>$A_{{s, 1b}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{0.9743}}{{n}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9P\\sqrt{{3}}}}{{16}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9\\sqrt{{3}}\\left(\\frac{{2H}}{{\\sqrt{{3}}}}\\right)}}{{16}}\\right)^{{2}} = \\frac{{\\pi}}{{4}}\\left(d_{{bsc}} - \\frac{{9H}}{{8}}\\right)^{{2}}$</p>
