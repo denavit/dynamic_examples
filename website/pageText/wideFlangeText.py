@@ -14,7 +14,6 @@ def sigfigstr(n,sigfigs=4):
 def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
     def header():
         headerText = f'''
-        <form action="/wideFlange" method="POST">
           <div class="section">
             <div class="header col-4">
               <h1>Wide Flange Steel Members Calculator</h1>
@@ -22,8 +21,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
                 Input Values to Right First, Select Member at Left to Calculate
               </h4>
             </div>
-          </div>
-          <hr />'''
+          </div>'''
         return headerText
     
     def input(Fy, Eksi, Lcx, Lcy):
@@ -112,8 +110,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
             />
             <label class="unit"> in</label>
           </div>
-        </div>
-        <hr />'''
+        </div>'''
         return inputText
     
     def output(member, A, rx, ry, bf2tf, htw, Fy, Eksi, Lcx, Lcy):
@@ -166,14 +163,14 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
           
         if bf2tf > lambdar_flange:
             if htw > lambdar_web:
-                outputText += r'      <p>Because the web and flanges are slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p><hr />'
+                outputText += r'      <p>Because the web and flanges are slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p>'
                 return outputText
             else:
-                outputText += r'      <p>Because the flanges are slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p><hr />'
+                outputText += r'      <p>Because the flanges are slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p>'
                 return outputText
         else:
             if htw > lambdar_web:
-                outputText += r'      <p>Because the web is slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p><hr />'
+                outputText += r'      <p>Because the web is slender, the strength must be computed using AISC <i>Specification</i> Section E6 and will not be shown here.</p>'
                 return outputText
             else:
                 outputText += r'      <p>Because the web and flanges are nonslender, the limit state of local buckling does not apply and the strength is computed according to AISC <i>Specification</i> Section E3.</p>'
@@ -271,7 +268,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
           <p>For ASD:</p>
           <p>'''
 
-        outputText += r'$\dfrac{P_n}{\Omega_c} = \dfrac{(' + sigfigstr(Pn) + r'\text{ kips})}{1.67} = ' + sigfigstr(Pn/1.67) + r'\text{ kips} $</p><hr />'
+        outputText += r'$\dfrac{P_n}{\Omega_c} = \dfrac{(' + sigfigstr(Pn) + r'\text{ kips})}{1.67} = ' + sigfigstr(Pn/1.67) + r'\text{ kips} $</p>'
         
         return outputText
     
@@ -288,9 +285,9 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
     if member == None:
         return header(), input(Fy, Eksi, Lcx, Lcy), '', footer()
     elif Fy <= 0:
-        return header(), input(Fy, Eksi, Lcx, Lcy), 'Steel yield stress must be greater than zero<hr />', footer()       
+        return header(), input(Fy, Eksi, Lcx, Lcy), 'Steel yield stress must be greater than zero', footer()       
     elif Eksi <= 0:
-        return header(), input(Fy, Eksi, Lcx, Lcy), 'Modulus of elasticity must be greater than zero<hr />', footer()
+        return header(), input(Fy, Eksi, Lcx, Lcy), 'Modulus of elasticity must be greater than zero', footer()
     elif Lcx < 0 or Lcy < 0:
         return header(), input(Fy, Eksi, Lcx, Lcy), 'The effective lengths must be greater than or equal to zero', footer()
     else:

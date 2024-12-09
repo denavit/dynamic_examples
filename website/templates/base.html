@@ -31,11 +31,23 @@
   </head>
 
   <body>
+    <form action="{{ name }}" method="POST">
       <div id="main">
-        {{headerText|safe}}
-        {{inputText|safe}}
-        {{outputText|safe}}
-        {{footerText|safe}}
+        <div class="header">
+{{headerText|safe}}
+        </div>
+        <hr/>
+        <div class="input">
+{{inputText|safe}}
+        </div>
+        <hr/>
+        <div class="output">
+{{outputText|safe}}
+        </div>
+        <hr/>
+        <div class="footer">
+{{footerText|safe}}
+        </div>
       </div>
     </form>
   </body>
