@@ -206,6 +206,6 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
 
 def boltText_footer():
     text = htmlstr(default_indent=10);
-    text.newline('<p>Developed by Dr. Mark Denavit and Jonathan Smith of the University of Tennessee, Knoxville</p>')
-    text.newline('<p>Supported by _______</p>')
+    text.newline('Developed by Dr. Mark Denavit and Jonathan Smith of the University of Tennessee, Knoxville', tag='p')
+    text.newline('Supported by _______', tag='p')
     return text.string
