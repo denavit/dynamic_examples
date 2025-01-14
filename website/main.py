@@ -60,7 +60,7 @@ def bolt():
         UTSn_str = 105000
         LE_str = 0.625
     
-    from pageText.boltText import boltText_header, boltText_input, boltText_output, boltText_footer
+    from pageText.FEDSTD_text import boltText_header, boltText_input, boltText_output, boltText_footer
     headerText = boltText_header()
     inputText  = boltText_input(UTSs_str,UTSn_str,LE_str)
     outputText = boltText_output(bolt, UTSs_str, UTSn_str, LE_str)
