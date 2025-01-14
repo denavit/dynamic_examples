@@ -1,5 +1,6 @@
 from dictionaries.aisc import wide_flange_database, names
 from math import floor, log10, sqrt, pi
+from .string_functions import htmlstr, sigfigstr
 
 def sigfigstr(n,sigfigs=4):
     n = float(n)
@@ -273,13 +274,10 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
         return outputText
     
     def footer():
-        footerText = f'''
-        <h4>Developed by:</h4>
-        <p>Dr. Mark Denavit, ___________</p>
-        <p>Jonathan Smith, _________</p>
-        <h4>Supported by ________________</h4>'''
-
-        return footerText
+        text = htmlstr(default_indent=10);
+        text.newline('Developed by Jonathan Smith and Mark Denavit at the University of Tennessee, Knoxville.', tag='p')
+        text.newline('This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].', tag='p')
+        return text.string
 
     # Check output
     if member == None:
