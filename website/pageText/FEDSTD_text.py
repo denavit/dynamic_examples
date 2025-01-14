@@ -189,6 +189,6 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
 
 def boltText_footer():
     text = htmlstr(default_indent=10);
-    text.newline('Developed by Dr. Mark Denavit and Jonathan Smith of the University of Tennessee, Knoxville', tag='p')
-    text.newline('Supported by _______', tag='p')
+    text.newline('Developed by Jonathan Smith and Mark Denavit at the University of Tennessee, Knoxville.', tag='p')
+    text.newline('This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].', tag='p')
     return text.string
