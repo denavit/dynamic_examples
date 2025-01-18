@@ -141,34 +141,33 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
     text.newline(r'$= ' + sigfigstr(boltObj.As_FEDSTD_1a()) + r' \text{ in.}^{2}$', tag='p')
     text.newline(f'The tensile strength of a threaded fastener is equal to:', tag='p')
     text.newline(r'$P = \dfrac{F}{A} \therefore F = PA$', tag='p')    
-    text.newline(r'$F = UTSs\left(A_{s,1a}\right) = ' + str(boltObj.UTSs) + r'\frac{\text{lbs}}{\text{in.}^{2}}\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right) = ' + sigfigstr(boltObj.UTSs * boltObj.As_FEDSTD_1a()) + r'\text{ lbs}$', tag='p')
+    text.newline(r'$F = UTSs\left(A_{s,1a}\right) = ' + str(boltObj.UTSs) + r'\text{ psi}\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right) = ' + sigfigstr(boltObj.UTSs * boltObj.As_FEDSTD_1a()) + r'\text{ lbs}$', tag='p')
     text.newline(f'Length of Engagement', tag='h1')
     text.newline(f'The length of engagement is the measured length of interaction between a fastener and its mating material', tag='p')
     text.newline(f'The method of failure for a fastener is dependent on the length of engagement', tag='p')
     text.newline(f'FED-STD-H28/2B provides equations to calculate the length of engagement to ensure a specific mode of failure', tag='p')
     text.newline(r'$R_{1} = \dfrac{AS_{s,max}}{AS_{n,min}}$', tag='p')
-    text.newline(r'$= \dfrac{\pi\dfrac{3}{4}D_{1,bsc}LE}{\pi d_{min}\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE}$', tag='p')   
-    text.newline(r'$= \dfrac{\pi\dfrac{3}{4}\left(' + sigfigstr(boltObj.D1bsc) + r'\text{ in.}\right)}{\pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)}$', tag='p')   
-    # Intermediate Step
-    text.newline(r'$ = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b() / boltObj.ASn_min_FEDSTD_2a()) + r'$', tag='p')
-    text.newline(r'$R_{2} = \dfrac{UTSn}{UTSs} = ' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + '$', tag='p') # Add intermediate step
-    text.newline(r'$\dfrac{R_{1}}{R_{2}} = ' + sigfigstr((boltObj.ASn_min_FEDSTD_2a() / boltObj.ASs_max_FEDSTD_6b()) / (boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')  # Add intermediate step
+    text.newline(r'$= \dfrac{\pi\dfrac{3}{4}D_{1,bsc}LE}{\pi d_{min} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE}$', tag='p')   
+    text.newline(r'$= \dfrac{\pi\dfrac{3}{4}\left(' + sigfigstr(boltObj.D1bsc) + r'\text{ in.}\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right)}{\pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right)}$', tag='p')   
+    text.newline(r'$= \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE)) + r'\text{ in.}^{2}}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a(LE)) + r'\text{ in.}^{2}}$', tag='p')
+    text.newline(r'$ = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) + r'$', tag='p')
+    text.newline(r'$R_{2} = \dfrac{UTSn}{UTSs} = \dfrac{' + str(boltObj.UTSn) + r'\text{ psi}}{' + str(boltObj.UTSs) + r'\text{ psi}} = ' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + '$', tag='p') # Add intermediate step
+    text.newline(r'$\dfrac{R_{1}}{R_{2}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) + r'}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} =' + sigfigstr((boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) / (boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')  # Add intermediate step
     
-    if (boltObj.ASn_min_FEDSTD_2a() / boltObj.ASs_max_FEDSTD_6b()) / (boltObj.UTSn / boltObj.UTSs) < 1:
+    if (boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) / (boltObj.UTSn / boltObj.UTSs) < 1:
         text.newline(r'$Because \dfrac{R_{1}}{R_{2}}$ < 1, external thread failure controls and FED-STD-H28/2B Formula (15) is used', tag='p')  
         text.newline(r'$A_{s} = \pi\left(\dfrac{d_{2,bsc}}{2} - \dfrac{3H}{16}\right)^{2} = $', tag='p')   
         text.newline(r'$\pi\left(\dfrac{' + sigfigstr(boltObj.d2bsc) + r'\text{ in.}}{2} - \dfrac{3\left(' + sigfigstr(boltObj.H) + r'\text{ in.}\right)}{16}\right)^{2} = ' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}$', tag='p')
-        text.newline(r'$AS_{s,min} = \pi d_{min}\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE = \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(\dfrac{1}{2\left(' + 
-                     str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + str(LE) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}$', tag='p')
-        text.newline(r'$LE = \dfrac{2A_{s}}{AS_{s,min}} = \dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}} = ' + sigfigstr(2 * boltObj.As_FEDSTD_1a() / boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}$', tag='p')
+        text.newline(r'$AS_{s,min} = \pi D_{1,max} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{2,min} - D_{1,max}\right)\right)LE = \pi\left(' + str(boltObj.D1max) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.d2min) + r'\text{ in.} - ' + str(boltObj.D1max) + r'\text{ in.}\right)\right)\left(' + str(1) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASs_min_FEDSTD_4a()) + r'\text{ in.}^{2}$', tag='p')
+        text.newline(r'$LE = \dfrac{2A_{s}}{AS_{s,min}} = \dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASs_min_FEDSTD_4a()) + r'\text{ in.}^{2}} = ' + sigfigstr(boltObj.LEr_FEDSTD_14()) + r'\text{ in.}$', tag='p')
     else:
         text.newline(r'Because $\dfrac{R_{1}}{R_{2}}$ > 1, either internal thread failure or combined failure controls and FED-STD-H28/2B Formula (13) or (16) is used', tag='p')
         text.newline(r'$A_{s} = \pi\left(\frac{d_{2,bsc}}{2}-\frac{3H}{16}\right)^{2}$', tag='p')
         text.newline(r'$= \pi\left(\frac{' + sigfigstr(boltObj.d2bsc) + r'\text{ in.}}{2} - \frac{3\left(' + sigfigstr(boltObj.H) + r'\text{ in.}\right)}{16}\right)^{2} =' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in}^{2}$', tag='p')
-        text.newline(r'$AS_{s,min} = \pi d_{min}\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE = \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(\dfrac{1}{2\left(' + 
-                     str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + str(LE) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}$', tag='p')
+        text.newline(r'$AS_{n,min} = \pi d_{min} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE = \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + 
+                     str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right) = ' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}$', tag='p')
         text.newline(r'$LE_{r,13} = \dfrac{4A_{s}}{\pi d_{2,bsc}} = \dfrac{4\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{\pi\left(' + sigfigstr(boltObj.d2bsc) + r'\text{ in.}\right)} = ' + sigfigstr(boltObj.LEr_FEDSTD_13()) + r'\text{ in.}$', tag='p')
-        text.newline(r'$LE_{r,16} = \dfrac{\dfrac{2A_{s}}{AS_{n}}}{R_{2}} = \dfrac{\dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}}}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + r'\text{ in.}$', tag='p')
+        text.newline(r'$LE_{r,16} = \dfrac{\dfrac{2A_{s}}{AS_{n,min}}}{R_{2}} = \dfrac{\dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}}}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + r'\text{ in.}$', tag='p')
         text.newline(r'The controlling length of engagement is the maximum of $LE_{r,13}$ and $LE_{r,16}$', tag='p')
         
         if boltObj.LEr_FEDSTD_13() > boltObj.LEr_FEDSTD_16():
