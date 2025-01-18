@@ -18,6 +18,4 @@ NOTES FOR DR. DENAVIT:
 
 - Line 144: should it be psi or lbs/in^2
 - Line 149-153: Should these all be in one line or split up as they are now?
-- Line 152: should this intermediate step be added? it is a simplification of the equation in line 151 and I feel it better shows how units cancel
-- Line 163: The equation for LE used is 2(As1a) / ASn2a, LEr_15 is 2(As1a) / ASs4a. Did I do something wrong when reading the equations from the FED-STD document?
-- Line 163, 171: Why do some of the LEs appear unitless while one has units of inches
+- Line 152, 154: should this intermediate step be added? it is a simplification of the equation in line 151 and I feel it better shows how units cancel
