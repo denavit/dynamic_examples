@@ -20,7 +20,7 @@ class htmlstr:
         self.string += newstr
         
     def newline(self, newstr, indent=None, tag=None):
-        if self.string is not '':
+        if self.string != '':
             self.string += '\n'
        
         if indent is None:
