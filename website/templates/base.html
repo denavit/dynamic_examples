@@ -6,12 +6,9 @@
       name="viewport"
       content="width=device-width,initial-scale=1"
     />
-    <title>Profesores calculadoras de lujo</title> <!--I needed a placeholder for an all encompassing site name...-->
-    <link
-      href="static/design.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <title>Calculadoras del Dr. Denavit</title>
+    <!--I needed a placeholder for an all encompassing site name...-->
+    <link href="static/design.css" rel="stylesheet" type="text/css" />
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script
       id="MathJax-script"
@@ -33,21 +30,13 @@
   <body>
     <form action="{{ name }}" method="POST">
       <div id="main">
-        <div class="header">
-{{headerText|safe}}
-        </div>
-        <hr/>
-        <div class="input">
-{{inputText|safe}}
-        </div>
-        <hr/>
-        <div class="output">
-{{outputText|safe}}
-        </div>
-        <hr/>
-        <div class="footer">
-{{footerText|safe}}
-        </div>
+        <div class="header">{{headerText|safe}}</div>
+        <hr />
+        <div class="input">{{inputText|safe}}</div>
+        <hr />
+        <div class="output">{{outputText|safe}}</div>
+        <hr />
+        <div class="footer">{{footerText|safe}}</div>
       </div>
     </form>
   </body>

@@ -115,8 +115,8 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
     text.newline(r'$p = \dfrac{1}{n} = \dfrac{1}{' + str(boltObj.n) + r'\text{ threads/in.}} = ' + sigfigstr(1/boltObj.n) + r'\text{ in.}$',tag='p')
     text.newline(r'$H = \dfrac{\sqrt{3}}{2n} = \dfrac{\sqrt{3}}{2(' + str(boltObj.n) + r'\text{ threads/in.})} = ' + sigfigstr(sqrt(3)/2/boltObj.n) + r'\text{ in.}$',tag='p')
     
-    text.newline(r'$D_{1,bsc} = d_{1,bsc} = d_{bsc} - 2\left(0.625H\right) = ' + sigfigstr(boltObj.dbsc) + r'- 2\left(0.625\left(' + sigfigstr(boltObj.H) + r'\right)\right) = ' + sigfigstr(boltObj.D1bsc) + r'$ in.', tag='p')
-    text.newline(r'$D_{2,bsc} = d_{2,bsc} = d_{bsc} - 2\left(0.625H\right) = ' + sigfigstr(boltObj.dbsc) + r' - 2\left(0.375\left(' + sigfigstr(boltObj.H) + r'\right)\right) = ' + sigfigstr(boltObj.D2bsc) + r'$ in.', tag='p')
+    text.newline(r'$D_{1,bsc} = d_{1,bsc} = d_{bsc} - 1.25H = ' + sigfigstr(boltObj.dbsc) + r'\text{ in. }- 1.25\left(' + sigfigstr(boltObj.H) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.D1bsc) + r'$ in.', tag='p')
+    text.newline(r'$D_{2,bsc} = d_{2,bsc} = d_{bsc} - 0.75H = ' + sigfigstr(boltObj.dbsc) + r'\text{ in. }- 0.75\left(' + sigfigstr(boltObj.H) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.D2bsc) + r'$ in.', tag='p')
 
     text.newline(f'From ASME B1.1-2019 Table 2A, the minimum dimensions of the external threads are:', tag='p')
     text.newline(r'$d_{min} = ' + sigfigstr(boltObj.dmin) + r'\text{ in.}$',tag='p')
@@ -143,18 +143,23 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
     text.newline(f'Length of Engagement', tag='h1')
     text.newline(f'The length of engagement is the distance along the thread axis over which the internal and external mated threads are engaged (i.e. in contact).', tag='p')
     text.newline(f'FED-STD-H28/2B Table II.B.1 provides formulas for the required length of engagement such that tensile failure of the fastener is likely to occur and thread stripping failures are not likely to occur.', tag='p')
-    text.newline(f'The specific formula to use depends on which thread stripping failure controls (shear failure of the external thread, shear failure of the internal thread, or combined', tag='p')
-    text.newline(f'shear failure of the external and internal threads) as evaluated using ' + r'$\frac{R_{1}}{R_{2}}$', tag='p')
+    text.newline(f'The specific formula to use depends on which thread stripping failure controls (shear failure of the external thread, shear failure of the internal thread, or combined shear failure of the external and internal threads) as evaluated using ' + r'$\frac{R_{1}}{R_{2}}$', tag='p')
     text.newline(f'According to formula (8), ' + r'$R_{1}$' + f' is the ratio of ' + r'$AS_{s,max}$' + f' to ' + r'$AS_{n,min}$')
     text.newline(r'$AS_{s,max}$' + f' may be calculated using formulas (6a) or (6b). This example uses formula (6b) because formula (6a) requires values read from a chart.', tag = 'p')
-    text.newline(r'$AS_{s,max} = \pi\dfrac{3}{4}D_{1,bsc}LE = \pi\dfrac{3}{4}\left(' + sigfigstr(boltObj.D1bsc) + r'\text{ in.}\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()) + r'\text{ in.}^{2}$', tag='p')
-    text.newline(r'$AS_{n,min}$' + f' may be calculated using formulas (2a) or (2b). This example uses formula (2a) because formula (2b) ?????????', tag='p')
-    text.newline(r'$AS_{n,min} = \pi d_{min} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE$')
-    text.newline(r'$= \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right)$', tag='p')   
-    text.newline(r'$= ' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}^{2}$', tag='p')
-    text.newline(r'$R_{1} = \dfrac{AS_{s,max}}{AS_{n,min}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()) + r'}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'} = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'$', tag='p')
-    text.newline(r'$R_{2} = \dfrac{UTS_{n}}{UTS_{s}} = \dfrac{' + str(boltObj.UTSn) + r'}{' + str(boltObj.UTSs) + r'} =$' + sigfigstr(boltObj.UTSn / boltObj.UTSs), tag='p')
-    text.newline(r'$\dfrac{R_{1}}{R_{2}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr((boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a())/(boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')
+    text.newline(r'$AS_{s,max} = \pi\dfrac{3}{4}D_{1,bsc}LE = \pi\dfrac{3}{4}\left(' + sigfigstr(boltObj.D1bsc) + r'\text{ in.}\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)) + r'\text{ in.}^{2}$', tag='p')
+    text.newline(r'$AS_{n,min}$' + f' may be calculated using formulas (2a) or (2b). This example uses formula (2a) because formula (2b) requires values read from a chart.', tag='p')
+
+    line = r'$\begin{aligned}AS_{n,min} &= \pi d_{min} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE \\'
+    line += r'&= \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right) \\'
+    line += r'&= ' + sigfigstr(boltObj.ASn_min_FEDSTD_2a(LE=LE)) + r'\text{ in.}^{2}\end{aligned}$'
+    text.newline(line, tag='p')
+
+    text.newline(f'Calculate ' + r'$R_{1}$', tag='p')
+    text.newline(r'$R_{1} = \dfrac{AS_{s,max}}{AS_{n,min}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)) + r'\text{ in.}^{2}}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a(LE=LE)) + r'\text{ in.}^{2}} = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'$', tag='p')
+    text.newline(f'Calculate ' + r'$R_{2}$', tag='p')
+    text.newline(r'$R_{2} = \dfrac{UTS_{n}}{UTS_{s}} = \dfrac{' + sigfigstr(boltObj.UTSn) + r'\text{ psi}}{' + sigfigstr(boltObj.UTSs) + r'\text{ psi}} = ' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'$', tag='p')
+    text.newline(f'Calculate ' + r'$\dfrac{R_{1}}{R_{2}}$', tag='p')
+    text.newline(r'$\dfrac{R_{1}}{R_{2}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)/boltObj.ASn_min_FEDSTD_2a(LE=LE)) + r'}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr((boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a())/(boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')
     
     if (boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) / (boltObj.UTSn / boltObj.UTSs) < 1:
         text.newline(r'$Because \dfrac{R_{1}}{R_{2}}$ < 1, external thread failure controls and FED-STD-H28/2B Formula (15) is used', tag='p')  
