@@ -12,9 +12,10 @@ def boltText_header():
 
 def boltText_input(UTSs_str,UTSn_str,LE_str):
     text = htmlstr(default_indent=10);
-    text.newline(r'<div class="col-3">')
+
+    text.newline(r'<div class="col-4">')
     text.newline(r'  <div style = "text-align: center";>')
-    text.newline(r'    <label class="bolt_select_label" for="boltDropdown" style="vertical-align: middle" >Selected Bolt:</label>')
+    text.newline(r'    <label class="bolt_select_label" for="boltDropdown" style="vertical-align: middle" >Nominal Size and Threads per Inch: </label>')
     text.newline(r'    <select class="boltDropdown" id="boltDropdown" name="boltDropdown">')
     text.newline(r'      <option id="1/4-20" value="1/4-20">1/4-20</option>')
     text.newline(r'      <option id="1/4-28" value="1/4-28">1/4-28</option>')
@@ -25,7 +26,16 @@ def boltText_input(UTSs_str,UTSn_str,LE_str):
     text.newline(r'      <option id="1-8" value="1-8">1-8</option>')
     text.newline(r'      <option id="1-14" value="1-14">1-14</option>')
     text.newline(r'    </select>')
-    text.newline(r'  </div>')
+    text.newline(r'   </div>')
+    text.newline(r'  <label class="boltInputLabel" for="UTSs"')
+    text.newline(r'    >UTSs (Strength of Externally Threaded Part) :')
+    text.newline(r'  </label>')
+    text.newline(r'  <input class="boltInput" type="text" id="UTSs" value=' + f'"{UTSs_str}"' + r' name="UTSs"/>')
+    text.newline(r'  <label class="unit">psi</label>')
+    text.newline(r'')
+    text.newline(r'  <label class="boltInputLabel" for="UTSn">UTSn (Strength of Internally Threaded Part) :</label>')
+    text.newline(r'  <input class="boltInput" type="text" id="UTSn" value=' + f'"{UTSn_str}"' + r' name="UTSn"/>')
+    text.newline(r'  <label class="unit">psi</label>')
     text.newline(r'  <button class = "button1" style = "display: flex; flex-wrap: wrap;" type = "submit">Calculate</button>')
     text.newline(r'</div>')
     text.newline(r'<script>')
@@ -38,31 +48,11 @@ def boltText_input(UTSs_str,UTSn_str,LE_str):
     text.newline(r'    document.getElementById("boltDropdown").options[sessionStorage.getItem("boltSelectItem")].selected = true;')
     text.newline(r'  }')
     text.newline(r'</script>')
-    text.newline(r'<div class="col-3">')
-    text.newline(r'  <label class="boltInputLabel" for="UTSs"')
-    text.newline(r'    >UTSs (Strength of Externally Threaded Part) :')
-    text.newline(r'  </label>')
-    text.newline(r'  <input class="boltInput" type="text" id="UTSs" value=' + f'"{UTSs_str}"' + r' name="UTSs"/>')
-    text.newline(r'  <label class="unit">psi</label>')
-    text.newline(r'')
-    text.newline(r'  <label class="boltInputLabel" for="UTSn">UTSn (Strength of Internally Threaded Part) :</label>')
-    text.newline(r'  <input class="boltInput" type="text" id="UTSn" value=' + f'"{UTSn_str}"' + r' name="UTSn"/>')
-    text.newline(r'  <label class="unit">psi</label>')
-    text.newline(r'')
-    text.newline(r'  <label class="boltInputLabel" for="LE">LE (Length of Engagement) :</label>')
-    text.newline(r'  <input class="boltInput" type="text" id="LE" value='+ f'"{LE_str}"' + r'name="LE" />')
-    text.newline(r'  <label class="unit">in.</label>')
-    text.newline(r'</div>')
+
     return text.string
     
 def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
     text = htmlstr(default_indent=10);
-    
-    text.newline('<h1>Input Echo</h1>')
-    text.newline('<p>' + f'Bolt: {bolt}' + r'</p>')
-    text.newline('<p>' + f'UTSs: {UTSs_str} psi' + r'</p>')
-    text.newline('<p>' + f'UTSn: {UTSn_str} psi' + r'</p>')
-    text.newline('<p>' + f'LE: {LE_str} in.' + r'</p>')    
     
     # Check input and convert to numbers
     bad_input = False
@@ -141,13 +131,12 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
 
     # Length of Engagement
     text.newline(f'Length of Engagement', tag='h1')
-    text.newline(f'The length of engagement is the distance along the thread axis over which the internal and external mated threads are engaged (i.e. in contact).', tag='p')
-    text.newline(f'FED-STD-H28/2B Table II.B.1 provides formulas for the required length of engagement such that tensile failure of the fastener is likely to occur and thread stripping failures are not likely to occur.', tag='p')
+    text.newline(f'The length of engagement is the distance along the thread axis over which the internal and external mated threads are engaged (i.e., in contact). FED-STD-H28/2B Table II.B.1 provides formulas for the required length of engagement such that tensile failure of the fastener is likely to occur and thread stripping failures are not likely to occur.', tag='p')
     text.newline(f'The specific formula to use depends on which thread stripping failure controls (shear failure of the external thread, shear failure of the internal thread, or combined shear failure of the external and internal threads) as evaluated using ' + r'$\frac{R_{1}}{R_{2}}$', tag='p')
-    text.newline(f'According to formula (8), ' + r'$R_{1}$' + f' is the ratio of ' + r'$AS_{s,max}$' + f' to ' + r'$AS_{n,min}$')
+    text.newline(f'According to formula (8), ' + r'$R_{1}$' + f' is the ratio of ' + r'$AS_{s,max}$' + f' to ' + r'$AS_{n,min}$' + f'. Both ' + r'$AS_{s,max}$' + f' and ' + r'$AS_{n,min}$' + f' depend on LE, which cancels out.')
     text.newline(r'$AS_{s,max}$' + f' may be calculated using formulas (6a) or (6b). This example uses formula (6b) because formula (6a) requires values read from a chart.', tag = 'p')
     text.newline(r'$AS_{s,max} = \pi\dfrac{3}{4}D_{1,bsc}LE = \pi\dfrac{3}{4}\left(' + sigfigstr(boltObj.D1bsc) + r'\text{ in.}\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right) = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)) + r'\text{ in.}^{2}$', tag='p')
-    text.newline(r'$AS_{n,min}$' + f' may be calculated using formulas (2a) or (2b). This example uses formula (2a) because formula (2b) requires values read from a chart.', tag='p')
+    text.newline(r'$AS_{n,min}$' + f' may be calculated using formulas (2a) or (2b). This example uses formula (2a) because formula (2b) requires dimensions not already used within this text.', tag='p')
 
     line = r'$\begin{aligned}AS_{n,min} &= \pi d_{min} n\left(\dfrac{1}{2n} + \dfrac{1}{\sqrt{3}}\left(d_{min} - D_{2,max}\right)\right)LE \\'
     line += r'&= \pi\left(' + str(boltObj.dmin) + r'\text{ in.}\right)\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)\left(\dfrac{1}{2\left(' + str(boltObj.n) + r'\text{ threads/in.}\right)} + \dfrac{1}{\sqrt{3}}\left(' + str(boltObj.dmin) + r'\text{ in.} - ' + str(boltObj.D2max) + r'\text{ in.}\right)\right)\left(' + sigfigstr(LE) + r'\text{ in.}\right) \\'
@@ -156,11 +145,14 @@ def boltText_output(bolt, UTSs_str,UTSn_str,LE_str):
 
     text.newline(f'Calculate ' + r'$R_{1}$', tag='p')
     text.newline(r'$R_{1} = \dfrac{AS_{s,max}}{AS_{n,min}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)) + r'\text{ in.}^{2}}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a(LE=LE)) + r'\text{ in.}^{2}} = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'$', tag='p')
+    
+    text.newline(f'According to formula (9), '+ r'$R_{2}$' + f' is the ratio of ' + r'$UTS_{n}$' + f' to ' + r'$UTS_{s}$' + f'.')
     text.newline(f'Calculate ' + r'$R_{2}$', tag='p')
     text.newline(r'$R_{2} = \dfrac{UTS_{n}}{UTS_{s}} = \dfrac{' + sigfigstr(boltObj.UTSn) + r'\text{ psi}}{' + sigfigstr(boltObj.UTSs) + r'\text{ psi}} = ' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'$', tag='p')
     text.newline(f'Calculate ' + r'$\dfrac{R_{1}}{R_{2}}$', tag='p')
     text.newline(r'$\dfrac{R_{1}}{R_{2}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b(LE=LE)/boltObj.ASn_min_FEDSTD_2a(LE=LE)) + r'}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr((boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a())/(boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')
-    
+    text.newline(f'<hr />')
+
     if (boltObj.ASs_max_FEDSTD_6b(LE) / boltObj.ASn_min_FEDSTD_2a(LE)) / (boltObj.UTSn / boltObj.UTSs) < 1:
         text.newline(r'$Because \dfrac{R_{1}}{R_{2}}$ < 1, external thread failure controls and FED-STD-H28/2B Formula (15) is used', tag='p')  
         text.newline(r'$A_{s} = \pi\left(\dfrac{d_{2,bsc}}{2} - \dfrac{3H}{16}\right)^{2} = $', tag='p')   

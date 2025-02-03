@@ -58,7 +58,7 @@ def bolt():
         bolt = '1/2-13'
         UTSs_str = 110000
         UTSn_str = 105000
-        LE_str = 0.625
+        LE_str = 1
     
     from pageText.FEDSTD_text import boltText_header, boltText_input, boltText_output, boltText_footer
     headerText = boltText_header()
