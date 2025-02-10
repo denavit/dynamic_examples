@@ -52,7 +52,6 @@ def bolt():
     bolt = request.form.get('boltDropdown')
     UTSs_str = request.values.get('UTSs')
     UTSn_str = request.values.get('UTSn')
-    LE_str   = request.values.get('LE')
 
     if bolt is None and UTSs_str is None and UTSn_str is None and LE_str is None:
         bolt = '1/2-13'
@@ -62,8 +61,8 @@ def bolt():
     
     from pageText.FEDSTD_text import boltText_header, boltText_input, boltText_output, boltText_footer
     headerText = boltText_header()
-    inputText  = boltText_input(UTSs_str,UTSn_str,LE_str)
-    outputText = boltText_output(bolt, UTSs_str, UTSn_str, LE_str)
+    inputText  = boltText_input(UTSs_str, UTSn_str)
+    outputText = boltText_output(bolt, UTSs_str, UTSn_str)
     footerText = boltText_footer()
 
     return render_template('base.html', name = r'/bolt', 
