@@ -53,7 +53,7 @@ def bolt():
     UTSs_str = request.values.get('UTSs')
     UTSn_str = request.values.get('UTSn')
 
-    if bolt is None and UTSs_str is None and UTSn_str is None and LE_str is None:
+    if bolt is None and UTSs_str is None and UTSn_str is None:
         bolt = '1/2-13'
         UTSs_str = 110000
         UTSn_str = 105000

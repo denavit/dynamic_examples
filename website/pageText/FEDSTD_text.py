@@ -141,7 +141,6 @@ def boltText_output(bolt, UTSs_str,UTSn_str):
     text.newline(r'$R_{2} = \dfrac{UTS_{n}}{UTS_{s}} = \dfrac{' + sigfigstr(boltObj.UTSn) + r'\text{ psi}}{' + sigfigstr(boltObj.UTSs) + r'\text{ psi}} = ' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'$', tag='p')
     text.newline(f'Calculate ' + r'$\dfrac{R_{1}}{R_{2}}$', tag='p')
     text.newline(r'$\dfrac{R_{1}}{R_{2}} = \dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr((boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a())/(boltObj.UTSn / boltObj.UTSs)) + r'$', tag='p')
-    text.newline(f'<hr />')
 
     if (boltObj.ASs_max_FEDSTD_6b() / boltObj.ASn_min_FEDSTD_2a()) / (boltObj.UTSn / boltObj.UTSs) <= 1:
         text.newline(f'Since ' + r'$\frac{R_{1}}{R_{2}}$' + f' is less than or equal to 1, the external threads are weaker than the interal threads and the required length of engagement should be based on the \
