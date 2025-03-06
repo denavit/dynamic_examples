@@ -25,6 +25,12 @@ input {
   padding: 5px;
 }
 
+body {
+  max-width: 1200px;
+  position: relative;
+  margin: 0 auto;
+}
+
 select {
   padding: 5px;
 }
@@ -50,7 +56,7 @@ select {
 
 /* Label Formatting */
 
-.wideFlangeInputLabel{
+.wideFlangeInputLabel {
   text-align: right;
   float: left;
   clear: left;
