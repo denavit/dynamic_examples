@@ -8,7 +8,7 @@ html {
   font-family: "Lucida Sans", sans-serif;
 }
 
-.header {
+.headerText {
   color: black;
   padding: 15px;
   text-align: center;
@@ -23,6 +23,16 @@ html {
 
 input {
   padding: 5px;
+}
+
+h1 {
+  margin: 0;
+}
+
+.headerDiv {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 body {
@@ -77,7 +87,7 @@ label:not(.div_flange, .div_web, .unit) {
 }
 
 .bolt_select_label {
-  padding-left: 45%;
+  padding-left: 35%;
   justify-content: center;
   text-align: center;
 }
@@ -144,7 +154,7 @@ input {
   padding: 2px 6px 2px 6px;
   border: #333333;
   display: table;
-  border-radius: 35%;
+  border-radius: 12px;
   margin: 10px auto;
   text-align: center;
   justify-content: center;
@@ -152,18 +162,14 @@ input {
 }
 
 .button2 {
-  font: bold 14px Arial;
+  font: bold 20px Arial;
   text-decoration: none;
   background-color: #eeeeee;
   color: #333333;
   padding: 2px 6px 2px 6px;
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #cccccc;
   display: inline-block;
-  text-align: center;
-  width: 8%;
+  justify-content: center;
+  width: 100px;
 }
 
 /* Indent Width */

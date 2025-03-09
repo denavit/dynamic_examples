@@ -1,6 +1,6 @@
 from dictionaries.aisc import wide_flange_database, names
 from math import floor, log10, sqrt, pi
-from .string_functions import htmlstr, sigfigstr
+from static.string_functions import htmlstr, sigfigstr
 
 def sigfigstr(n,sigfigs=4):
     n = float(n)
@@ -16,7 +16,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
     def header():
         headerText = f'''
           <div class="section">
-            <div class="header col-4">
+            <div class="headerText col-4">
               <h1>Wide Flange Steel Members Calculator</h1>
               <h4>
                 Input Values to Right First, Select Member at Left to Calculate

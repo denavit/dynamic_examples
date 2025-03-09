@@ -1,12 +1,15 @@
 from math import floor, log10, sqrt, pi
 from dictionaries.ASME_B11 import ASME_B11_UN_2A2B_dict
 from dictionaries.threads import *
-from .string_functions import htmlstr, sigfigstr
+from static.string_functions import htmlstr, sigfigstr
 
 
 def boltText_header():
     text = htmlstr(default_indent=10);
+    text.newline(r'<div class = "headerDiv">')
     text.newline('Bolt Tensile Strength Calculation According to FED-STD-H28/2B', tag='h1')
+    text.newline(r'<a class = "button2" style = "margin-left: auto;" href = "/">Home</a>')
+    text.newline(r'</div>')
     return text.string
 
 
@@ -14,9 +17,9 @@ def boltText_input(UTSs_str,UTSn_str):
     text = htmlstr(default_indent=10);
 
     text.newline(r'<div class="col-4">')
-    text.newline(r'  <div style = "text-align: center";>')
-    text.newline(r'    <label class="bolt_select_label" for="boltDropdown" style="vertical-align: middle" >Nominal Size and Threads per Inch: </label>')
-    text.newline(r'    <select class="boltDropdown" id="boltDropdown" name="boltDropdown">')
+    text.newline(r'  <div style = "justify-content: center";>')
+    text.newline(r'     <label class="bolt_select_label" for="boltDropdown" style="vertical-align: middle" >Nominal Size and Threads per Inch: </label>')
+    text.newline(r'     <select id="boltDropdown" name="boltDropdown">')
     text.newline(r'      <option id="1/4-20" value="1/4-20">1/4-20</option>')
     text.newline(r'      <option id="1/4-28" value="1/4-28">1/4-28</option>')
     text.newline(r'      <option id="1/2-13" value="1/2-13">1/2-13</option>')
@@ -25,7 +28,7 @@ def boltText_input(UTSs_str,UTSn_str):
     text.newline(r'      <option id="3/4-16" value="3/4-16">3/4-16</option>')
     text.newline(r'      <option id="1-8" value="1-8">1-8</option>')
     text.newline(r'      <option id="1-14" value="1-14">1-14</option>')
-    text.newline(r'    </select>')
+    text.newline(r'     </select>')
     text.newline(r'   </div>')
     text.newline(r'  <label class="boltInputLabel" for="UTSs"')
     text.newline(r'    >UTSs (Strength of Externally Threaded Part) :')
