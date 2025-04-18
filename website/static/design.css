@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.eqn {
+  margin-left: 30px;    
+}
+
 html {
   font-family: "Lucida Sans", sans-serif;
 }

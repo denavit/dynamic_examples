@@ -19,7 +19,7 @@ class htmlstr:
     def append(self, newstr):
         self.string += newstr
         
-    def newline(self, newstr, indent=None, tag=None):
+    def newline(self, newstr, indent=None, tag=None, cls=None):
         if self.string != '':
             self.string += '\n'
        
@@ -29,6 +29,9 @@ class htmlstr:
             self.string += ' '*self.indent*self.indent_multiplier
 
         if tag is not None:
-            newstr = f'<{tag}>' + newstr + f'</{tag}>'
+            if cls is not None:
+                newstr = f'<{tag} class="{cls}">' + newstr + f'</{tag}>'
+            else:
+                newstr = f'<{tag}>' + newstr + f'</{tag}>'
             
         self.string += newstr
