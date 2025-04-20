@@ -6,10 +6,7 @@ from static.string_functions import htmlstr, sigfigstr
 
 def boltText_header():
     text = htmlstr(default_indent=10);
-    text.newline(r'<div class = "headerDiv">')
     text.newline('Bolt Tensile Strength Calculation According to FED-STD-H28/2B', tag='h1')
-    text.newline(r'<a class = "button2" style = "margin-left: auto;" href = "/">Home</a>')
-    text.newline(r'</div>')
     return text.string
 
 
@@ -18,8 +15,8 @@ def boltText_input(UTSs_str,UTSn_str):
 
     text.newline(r'<div class="col-4">')
     text.newline(r'  <div style = "justify-content: center";>')
-    text.newline(r'     <label class="bolt_select_label" for="boltDropdown" style="vertical-align: middle" >Nominal Size and Threads per Inch: </label>')
-    text.newline(r'     <select id="boltDropdown" name="boltDropdown">')
+    text.newline(r'     <label class="boltInputLabel" for="boltInput" style="vertical-align: middle" >Nominal Size and Threads per Inch: </label>')
+    text.newline(r'     <select id="boltInput" name="boltInput" class = "boltInput">')
     text.newline(r'      <option id="1/4-20" value="1/4-20">1/4-20</option>')
     text.newline(r'      <option id="1/4-28" value="1/4-28">1/4-28</option>')
     text.newline(r'      <option id="1/2-13" value="1/2-13">1/2-13</option>')

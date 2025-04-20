@@ -30,7 +30,10 @@
   <body>
     <form action="{{ name }}" method="POST">
       <div id="main">
-        <div class="headerText">{{headerText|safe}}</div>
+        <div class="headerDiv">
+          {{headerText|safe}}
+          <a class="button2" style="margin-left: auto" href="/">Home</a>
+        </div>
         <hr />
         <div class="input">{{inputText|safe}}</div>
         <hr />

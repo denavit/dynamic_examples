@@ -5,7 +5,7 @@
 }
 
 .eqn {
-  margin-left: 30px;    
+  margin-left: 30px;
 }
 
 html {
@@ -37,6 +37,10 @@ h1 {
   display: flex;
   align-items: center;
   position: relative;
+  color: black;
+  padding: 15px;
+  text-align: center;
+  margin: auto;
 }
 
 body {
@@ -88,12 +92,6 @@ label:not(.div_flange, .div_web, .unit) {
   padding-left: 20%;
   justify-content: center;
   vertical-align: middle;
-}
-
-.bolt_select_label {
-  padding-left: 35%;
-  justify-content: center;
-  text-align: center;
 }
 
 .member_space {
