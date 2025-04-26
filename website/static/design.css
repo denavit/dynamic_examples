@@ -118,6 +118,15 @@ label:not(.div_flange, .div_web, .unit) {
   vertical-align: middle;
 }
 
+.boltDropdownLabel {
+  text-align: right;
+  float: left;
+  clear: left;
+  width: 50%;
+  padding-right: 2px;
+  vertical-align: middle;
+}
+
 .boltInput {
   width: 30%;
 }

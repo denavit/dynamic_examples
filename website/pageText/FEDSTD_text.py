@@ -15,8 +15,8 @@ def boltText_input(UTSs_str,UTSn_str):
 
     text.newline(r'<div class="col-4">')
     text.newline(r'  <div style = "justify-content: center";>')
-    text.newline(r'     <label class="boltInputLabel" for="boltInput" style="vertical-align: middle" >Nominal Size and Threads per Inch:</label>')
-    text.newline(r'     <select id="boltInput" name="boltInput" class = "boltInput">')
+    text.newline(r'     <label class="boltDropdownLabel" for="boltInput" style="vertical-align: middle" >Nominal Size and Threads per Inch:</label>')
+    text.newline(r'     <select id="boltDropdown" name="boltDropdown" class = "boltInput">')
     text.newline(r'      <option id="1/4-20" value="1/4-20">1/4-20</option>')
     text.newline(r'      <option id="1/4-28" value="1/4-28">1/4-28</option>')
     text.newline(r'      <option id="1/2-13" value="1/2-13">1/2-13</option>')
