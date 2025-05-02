@@ -40,12 +40,12 @@ def wideFlange():
     except:
         Lcy = 240    
     
-    headerText, inputText, outputText, footerText = wideFlangeText(member,Fy,Eksi,Lcx,Lcy)
+    wideFlangeTitle, headerText, inputText, outputText, footerText = wideFlangeText(member,Fy,Eksi,Lcx,Lcy)
 
     return render_template('base.html', name = r'/wideFlange', 
-                        headerText = headerText, inputText = inputText, outputText = outputText, footerText = footerText)
+                        title = wideFlangeTitle, headerText = headerText, inputText = inputText, outputText = outputText, footerText = footerText)
     
-@app.route('/bolt', methods = ['POST', 'GET'])
+@app.route('/boltFED', methods = ['POST', 'GET'])
 def bolt():
     
     # Gets User Inputs
@@ -59,14 +59,14 @@ def bolt():
         UTSn_str = 105000
         LE_str = 1
     
-    from pageText.FEDSTD_text import boltText_header, boltText_input, boltText_output, boltText_footer
+    from pageText.FEDSTD_text import boltTitleFED, boltText_header, boltText_input, boltText_output, boltText_footer
     headerText = boltText_header()
     inputText  = boltText_input(UTSs_str, UTSn_str)
     outputText = boltText_output(bolt, UTSs_str, UTSn_str)
     footerText = boltText_footer()
 
-    return render_template('base.html', name = r'/bolt', 
-        headerText = headerText, inputText = inputText, outputText = outputText, footerText = footerText)
+    return render_template('base.html', name = r'/boltFED', 
+        title = boltTitleFED(), headerText = headerText, inputText = inputText, outputText = outputText, footerText = footerText)
 
 
 

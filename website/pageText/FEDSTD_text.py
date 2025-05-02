@@ -3,6 +3,8 @@ from dictionaries.ASME_B11 import ASME_B11_UN_2A2B_dict
 from dictionaries.threads import *
 from static.string_functions import htmlstr, sigfigstr
 
+def boltTitleFED():
+    return 'FED-STD H28/2B Tensile Strength'
 
 def boltText_header():
     text = htmlstr(default_indent=10);
@@ -36,7 +38,7 @@ def boltText_input(UTSs_str,UTSn_str):
     text.newline(r'  <label class="boltInputLabel" for="UTSn">$UTS_n$ (Strength of Internally Threaded Part):</label>')
     text.newline(r'  <input class="boltInput" type="text" id="UTSn" value=' + f'"{UTSn_str}"' + r' name="UTSn"/>')
     text.newline(r'  <label class="unit">psi</label>')
-    text.newline(r'  <button class = "button1" style = "display: flex; flex-wrap: wrap;" type = "submit">Calculate</button>')
+    text.newline(r'  <button class = "generalButton" style = "width: 30%" type = "submit">Calculate</button>')
     text.newline(r'</div>')
     text.newline(r'<script>')
     text.newline(r'  document.getElementById("boltDropdown").onchange = function () {')
