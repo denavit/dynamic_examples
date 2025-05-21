@@ -186,10 +186,6 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
                         in. if combined failure may occur.')  
         return text.string
 
-
-
-
-
     def boltText_footer():
 
         text = htmlstr(default_indent=10);
