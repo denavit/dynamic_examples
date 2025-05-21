@@ -171,16 +171,24 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
                         (i.e., ' + r'$R_{1}/R_{2} \approx 1$' +  f') then a combined shear failure may control. Formula (13) gives the required length of engagement based upon combined shear failure of external and internal \
                         threads. FED-STD-H28/2B does not provide an explicit limit for when formula (13) applies. The required length of engagement from both formulas are calculated in this example.', tag='p')
             text.newline(f'The required length of engagement based upon shear of internal threads is defined in formula (16) as the length of engagement based upon developing full tensile strength of external threads \
-                        with threads a basic size, calculated using formula (15), multiplied by ' + r'$R_{1}/R_{2}$' + f'.', tag='p')
+                        with threads at basic size, calculated using formula (15), multiplied by ' + r'$R_{1}/R_{2}$' + f'.', tag='p')
             text.newline(f'The length of engagement based upon developing full tensile strength of external threads with threads at basic size is defined in formula (15) as two times the tensile stress area divided by \
                         the shear area per unit length of engagement from formula (6b).', tag='p')
+            text.newline(f'The tensile stress area, ' + r'$A_{s}$' + f', can be computed from either formula (1a) or (1b) and was computed previously.', tag='p')
+            text.newline(r'$A_{s}' + f' = ' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}$',tag='p',cls='eqn')
+            text.newline(f'The shear area, ' + r'$AS_{s}$' + f', can be computed from either formula (4a) or (4b) and was computed previously.')
+            text.newline(r'$AS_{s,max} = ' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()) + r'\text{ in.}^{2}$', tag = 'p', cls = 'eqn')
             text.newline(f'The required length of engagement based upon shear of internal threads is computed using formula (16) as follows:', tag='p')
-            text.newline(r'$LE_{r,16} = \dfrac{\dfrac{2A_{s}}{AS_{n,min}/LE}}{R_{2}} = \dfrac{\dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASn_min_FEDSTD_2a()) + r'\text{ in.}}}{' + sigfigstr(boltObj.UTSn / boltObj.UTSs) + r'} = ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + r'\text{ in.}$', tag='p',cls='eqn')
+            text.newline(r'$LE_{r,16} = \dfrac{2A_{s}}{\dfrac{AS_{s,max}}{LE}}\dfrac{R_{1}}{R_{2}}  = \dfrac{2\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()) + r'\text{ in.}}\dfrac{' + sigfigstr(boltObj.ASs_max_FEDSTD_6b()/boltObj.ASn_min_FEDSTD_2a()) + r'}{' + sigfigstr(boltObj.UTSn/boltObj.UTSs) + r'} = ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + r'\text{ in.}$', tag='p',cls='eqn')
             text.newline(f'The required length of engagement based upon combined shear failure of external and internal threads, which is defined as four times the tensile stress area divided by ' + r'$\pi$' + f' times the basic pitch diameter, is computed using formula (13) as follows: ', tag='p')
             text.newline(r'$LE_{r,13} = \dfrac{4A_{s}}{\pi d_{2,bsc}} = \dfrac{4\left(' + sigfigstr(boltObj.As_FEDSTD_1a()) + r'\text{ in.}^{2}\right)}{\pi\left(' + sigfigstr(boltObj.d2bsc) + r'\text{ in.}\right)} = ' + sigfigstr(boltObj.LEr_FEDSTD_13()) + r'\text{ in.}$', tag='p',cls='eqn')
             text.newline(f'Therefore, the required length of engagement is either ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + ' in. if the internal threads are stronger than the external threads by a sufficient amount that combined failure will not occur or ' + sigfigstr(boltObj.LEr_FEDSTD_13()) + ' \
-                        in. if combined failure may occur.')       
+                        in. if combined failure may occur.')  
         return text.string
+
+
+
+
 
     def boltText_footer():
 
