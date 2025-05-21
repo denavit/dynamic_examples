@@ -132,7 +132,6 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
           else:
               outputText += r'      <p>Because the web and flanges are nonslender, the limit state of local buckling does not apply and the strength is computed according to AISC <i>Specification</i> Section E3.</p>'
 
-
       # Gets Critical Stresses Data
       outputText += f'''
         <h1>Slenderness Ratio</h1>
