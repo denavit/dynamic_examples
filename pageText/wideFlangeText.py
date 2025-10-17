@@ -5,15 +5,9 @@ from static.string_functions import htmlstr, sigfigstr
 def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
 
   def header():
-      
       text = htmlstr(default_indent=10);
-
-      text.newline(r'<div class="section">')
-      text.newline(r' <div class="headerText col-4">')
-      text.newline(r'   <h1>Wide Flange Steel Members Calculator</h1>')
-      text.newline(r' </div>')
-      text.newline(r'</div>')
-
+      text.newline('Axial Compressive Strength of Wide Flange Steel Columns', tag='h1')
+      text.newline('Example calculation of the available strength of wide flange steel columns without slender elements for the limit state of flexural buckling.', tag='p')
       return text.string
   
   def input(Fy, Eksi, Lcx, Lcy):
