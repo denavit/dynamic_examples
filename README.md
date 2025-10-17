@@ -1,8 +1,9 @@
-- make end result more obvious
-  - bold a few words then a few words to highlight specific sections
-    - Can be done, doesn't work right away with text.newline. Need some time to figure out how to make the two work together.
-- aligning inputs and indenting equations needs some time to look into it
+# Dynamic Engineering Examples
 
-- temp folder
-  - go back and find older versions to save as the HTML
-  - makes working on stuff a lot easier
+A collection of web pages for dynamically generating descriptive example calculations.
+
+Developed by Mark Denavit and Jonathan Smith at the University of Tennessee, Knoxville.
+
+This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].
+
+Try the examples on [Amazon EC2](http://13.220.102.163:5000/).
