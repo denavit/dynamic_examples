@@ -24,7 +24,7 @@ def wideFlange():
     try:
         Fy = float(request.values.get('Fy'))
     except:
-        Fy = 25
+        Fy = 50
         
     try:
         Eksi = float(request.values.get('E'))
@@ -49,11 +49,6 @@ def wideFlange():
 @app.route('/boltFED', methods = ['POST', 'GET'])
 def bolt():
     # Gets User Inputs
-    if request.form.get('boltDropdown') == None:
-        bolt = '1/2-13'
-    else:
-        bolt = request.form.get('boltDropdown')
-    
     if request.form.get('boltDropdown') == None:
         bolt = '1/2-13'
     else:
