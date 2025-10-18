@@ -7,7 +7,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
   def header():
       text = htmlstr(default_indent=10);
       text.newline('Axial Compressive Strength of Wide Flange Steel Columns', tag='h1')
-      text.newline('Example calculation of the available strength of wide flange steel columns without slender elements for the limit state of flexural buckling.', tag='p')
+      text.newline('Example calculation of the available strength (ASD and LRFD) of wide flange steel columns without slender elements for the limit state of flexural buckling according to the 2022 AISC <i>Specification</i> and 16th Edition AISC <i>Manual</i>.', tag='p')
       return text.string
   
   def input(Fy, Eksi, Lcx, Lcy):
@@ -96,14 +96,16 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       bf2tf = wide_flange_database[member]['bf/2tf']
       htw = wide_flange_database[member]['h/tw']
 
-      text.newline(f'From AISC <i>Manual</i> Table 1-1, the geometric properties for a {member} are as follows:', tag='p')
+      text.newline(r'Cross-Sectional Properties', tag='h2')
+
+      text.newline(f'From AISC <i>Manual</i> Table 1-1, the geometric properties for a {member} are as follows.', tag='p')
       text.newline(r'$A_g = ' + sigfigstr(A) + r'\text{ in.}^2$', tag='p', cls='eqn') 
       text.newline(r'$r_x = ' + sigfigstr(rx) + r'\text{ in.}$', tag='p', cls='eqn')
       text.newline(r'$r_y = ' + sigfigstr(ry) + r'\text{ in.}$', tag='p', cls='eqn')
       text.newline(r'$\dfrac{b_f}{2t_f} = ' + sigfigstr(bf2tf) + '$', tag='p', cls='eqn')
       text.newline(r'$\dfrac{h}{t_w} = ' + sigfigstr(htw) + '$', tag='p', cls='eqn')
 
-      text.newline(r'Slenderness Check', tag='h1')
+      text.newline(r'Slenderness Check', tag='h2')
       
       # Check flange slenderness
       lambdar_flange = 0.56 * sqrt(Eksi / Fy)
@@ -157,7 +159,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
               text.newline(r'Because the web and flanges are nonslender, the limit state of local buckling does not apply and the strength is computed according to AISC <i>Specification</i> Section E3.', tag='p')
 
       # Gets Critical Stresses Data
-      text.newline(r'Slenderness Ratio', tag='h1')
+      text.newline(r'Slenderness Ratio', tag='h2')
 
       text.newline(r'$\dfrac{L_{cx}}{r_x} = \dfrac{' + sigfigstr(Lcx) + r'\text{ in.}}{' + \
               sigfigstr(rx) + r'\text{ in.}} = ' + sigfigstr(Lcx/rx) + r'$', tag='p', cls='eqn')
@@ -175,7 +177,7 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
           Lc_over_r = Lcy/ry
 
       
-      text.newline(r'Nominal Compressive Strength', tag='h1')
+      text.newline(r'Nominal Compressive Strength', tag='h2')
 
       text.newline(r'The available critical stresses may be interpolated from AISC <i>Manual</i> Table 4-14 or calculated directly according to AISC <i>Specification</i> Section E3 as follows.', tag='p')
       text.newline(r'Calculate the elastic critical buckling stress, $F_{{e}}$', tag='p')
@@ -213,6 +215,8 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       Pn = Fn * A
 
       text.newline(r'$P_n = F_n A_g = (' + sigfigstr(Fn) + r'\text{ ksi})(' + sigfigstr(A) + r'\text{ in.}^2) = ' + sigfigstr(Pn) + r'\text{ kips}$', tag='p', cls='eqn') 
+
+      text.newline(r'Available Compressive Strength', tag='h2')
       text.newline('For LRFD:', tag='p')
       text.newline(r'$\phi_c P_n = 0.90 (' + sigfigstr(Pn) + r'\text{ kips}) = ' + sigfigstr(0.9*Pn) + r'\text{ kips}$', tag='p', cls='eqn')     
       text.newline('For ASD:', tag='p')
