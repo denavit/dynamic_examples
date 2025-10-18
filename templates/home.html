@@ -26,37 +26,26 @@
     </script>
   </head>
 
-  <body>
-    <form action="/" method="POST">
-      <div class="section">
-        <div class="headerText col-4">
-          <h1>Dynamic Engineering Calculators</h1>
-          <h4>
-            A collection of web pages for dynamically generating descriptive
-            example calculations.
-          </h4>
-        </div>
-      </div>
-      <div class="section">
-        <div class="col-1"></div>
-        <div class="col-2">
-          <a href="/wideFlange" style = "margin: 10px auto;" class="generalButton">Axial Compression Strength of Wide Flange Steel Columns (Basic)</a>
-          <a href="/boltFED" style = "margin: 10px auto;" class="generalButton">Bolt Tensile Strength Calculation According to FED-STD-H28/2B</a>
-        </div>
-        <div class="col-1"></div>
-      </div>
-      <div class="section">
-        <div class="headerText col-4" style="text-align: center;">
-          <p>
-            Developed by Mark Denavit and Jonathan Smith at the University of
-            Tennessee, Knoxville.
-          </p>
-          <p>
-            This work was supported by the Naval Engineering Education
-            Consortium [Award Number N00174-22-1-0017].
-          </p>
-        </div>
-      </div>
-    </form>
+  <body style="max-width: 800px;">
+    <div class="header">
+      <h1>Dynamic Engineering Calculators</h1>
+      <h4>A collection of web pages for dynamically generating descriptive example calculations.</h4>
+    </div>
+    <div class="output">
+      <h3>Strucutral Steel Design</h3>
+      <ul>
+        <li><a href="/wideFlange">Axial Compression Strength of Wide Flange Steel Columns (Basic)</a></li>
+      </ul>
+    
+      <h3>Threaded Fasteners</h3>
+      <ul>
+        <li><a href="/boltFED">Bolt Tensile Strength Calculation According to FED-STD-H28/2B</a></li>
+      </ul>
+    
+    </div>
+    <div class="footer">
+      <p>Developed by Mark Denavit and Jonathan Smith at the University of Tennessee, Knoxville.</p>
+      <p>This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].</p>
+    </div>
   </body>
 </html>

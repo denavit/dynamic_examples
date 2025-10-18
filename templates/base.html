@@ -29,20 +29,17 @@
   <body>
     <form action="{{ name }}" method="POST">
       <div id="main">
-        <div class="section">
-          <div class = "col-4">
-            <a class="generalButton" style = "width: 15%;" href="/">Home</a>
-          </div>
-          <div class = "col-4 headerDiv">
-            {{headerText|safe}}
-          </div>
+        <div class= "navbar">
+            <a class="generalButton" href="/">Home</a>
         </div>
+        <hr />
+        <div class= "header">{{headerText|safe}}</div>
         <hr />
         <div class="input">{{inputText|safe}}</div>
         <hr />
         <div class="output">{{outputText|safe}}</div>
         <hr />
-        <div class="footer" style="text-align: center;">{{footerText|safe}}</div>
+        <div class="footer">{{footerText|safe}}</div>
       </div>
     </form>
   </body>
