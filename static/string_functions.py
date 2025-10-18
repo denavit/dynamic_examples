@@ -2,7 +2,10 @@ from math import floor, log10
 
 def sigfigstr(n,sigfigs=4):
     n = float(n)
-    sigfigsleft = floor(log10(n)) + 1
+    if abs(n) < 1.:
+        sigfigsleft = 0
+    else:
+        sigfigsleft = floor(log10(abs(n))) + 1
     if sigfigsleft > sigfigs:
         n = int(round(n,sigfigs-sigfigsleft))
         return f'{n:0,}'
