@@ -15,12 +15,6 @@ body {
   margin: 0 auto;
 }
 
-[class*="col-"] {
-  float: left;
-  padding: 15px 15px 15px 15px;
-  display: table-cell;
-}
-
 .main {
   justify-content: center
 }
@@ -45,6 +39,18 @@ body {
   width: 100%
 }
 
+.input {
+  display: table-cell;
+  float: left;
+  align-items: center;
+  position: relative;
+  color: black;
+  padding: 15px;
+  /* text-align: center; */
+  margin: auto;
+  width: 100%
+}
+
 .footer {
   display: block;
   align-items: center;
@@ -57,12 +63,6 @@ body {
 }
 
 select {
-  padding: 5px;
-}
-
-.unit {
-  font-size: 12px;
-  width: 5%;
 }
 
 .section::after {
@@ -110,13 +110,13 @@ label:not(.div_flange, .div_web, .unit) {
   text-align: right;
   float: left;
   clear: left;
-  width: 35%;
+  width: 25%;
   padding-right: 2px;
   margin-left: -20%;
   vertical-align: middle;
 }
 
-.boltInputLabel {
+.input_label {
   text-align: right;
   float: left;
   clear: left;
@@ -125,42 +125,26 @@ label:not(.div_flange, .div_web, .unit) {
   vertical-align: middle;
 }
 
-.boltDropdownLabel {
-  text-align: right;
-  float: left;
-  clear: left;
-  width: 50%;
-  padding-right: 2px;
-  vertical-align: middle;
-}
-
-.boltInput {
-  width: 30%;
-}
-
-/* Input Formatting */
-
-input {
-  width: 70%;
+.input_dropdown {
   padding: 5px;
+  text-align: left;
+  float: left;
+  box-sizing:content-box;
+  width: 25%;
+  vertical-align: middle;
 }
 
-/* Specifying Column Width */
-
-.col-1 {
-  width: 27.5%;
+.input_textbox {
+  padding: 5px;
+  box-sizing:content-box;
+  width: 25%;
 }
 
-.col-2 {
-  width: 45%;
-}
-
-.col-3 {
-  width: 50%;
-}
-
-.col-4 {
-  width: 100%;
+.input_units {
+  text-align: left;
+  clear: right;
+  padding-left: 2px;
+  vertical-align: middle;
 }
 
 /* Buttons */
