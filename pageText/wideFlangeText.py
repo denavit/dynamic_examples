@@ -14,53 +14,39 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       
       text = htmlstr(default_indent=10);
 
-      text.newline(r'<div class="section">')
-      text.newline(r' <div class="col-3 alignment">')
-      text.newline(r' <div style = "text-align: center;>')
-      text.newline(r'  <label class="member_select_label" for="memberDropdown" style="vertical-align: middle" id="test" >Selected Member: </label>')
-      text.newline(r'  <select class="memberDropdown" id="memberDropdown" name="memberDropdown">')
-
+      text.newline(r'<label class="input_label" for="memberDropdown">Wide Flange Section: </label>')
+      text.newline(r'<select class="input_dropdown" id="memberDropdown" name="memberDropdown">')
       for selectMember in names():
-          if selectMember == 'W14X159':
-            text.newline(r'<option id="' + f'{selectMember}' + r" value=" + f'{selectMember}' + r'" selected>' + f'{selectMember}' + r'</option>') 
-          else:
-            text.newline(r'<option id="' + f'{selectMember}' + r" value=" + f'{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
+          text.newline(r'  <option id="' + f'{selectMember}' + r" value=" + f'{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
+      text.newline(r'</select>')
 
-      text.newline(r'  </select>')
-      text.newline(r' </div>')
-      text.newline(r' <button class = "generalButton" style = "width: 50%; margin: 10px auto;" type = "submit">Calculate</button>')
-      text.newline(r' </div>')
-      text.newline(r' <script>')
+      text.newline(r'  <label class="input_label" for="Fy">$F_y$ (specified minimum yield stress):</label>')
+      text.newline(r'  <input class="input_textbox" type="text" id="Fy" value=' + f'{'%g'%(Fy)}' + r' name="Fy" />')
+      text.newline(r'  <label class="input_units">ksi</label>')
+
+      text.newline(r'  <label class="input_label" for="E">$E$ (modulus of elasticity):</label>')
+      text.newline(r'  <input class="input_textbox" type="text" id="E" value=' + f'{'%g'%(Eksi)}' + r' name="E" />')
+      text.newline(r'  <label class="input_units">ksi</label>')
+
+      text.newline(r'  <label class="input_label" for="Lcx">$L_{cx}$ (effective length for major-axis buckling):</label>')
+      text.newline(r'  <input class="input_textbox" type="text" id="Lcx" value=' + f'{'%g'%(Lcx)}' + r' name="Lcx" />')
+      text.newline(r'  <label class="input_units">in.</label>')
+
+      text.newline(r'  <label class="input_label" for="Lcy">$L_{cy}$ (effective length for minor-axis buckling):</label>')
+      text.newline(r'  <input class="input_textbox" type="text" id="Lcy" value=' + f'{'%g'%(Lcy)}' + r' name="Lcy" />')
+      text.newline(r'  <label class="input_units"> in</label>')
+
+      text.newline(r'<button class = "generalButton" style="display: block; margin-top: 3px;" type = "submit">Calculate</button>')
+
+      text.newline(r'<script>')
       text.newline(r'  document.getElementById("memberDropdown").onchange = function () {')
-      text.newline(r'   sessionStorage.setItem(')
-      text.newline(r'    "flangeSelectItem",')
-      text.newline(r'    document.getElementById("memberDropdown").value);')
-      text.newline(r'   this.form.submit();};')
+      text.newline(r'    sessionStorage.setItem("flangeSelectItem",document.getElementById("memberDropdown").value);')
+      text.newline(r'    this.form.submit();')
+      text.newline(r'  };')
       text.newline(r'  if (sessionStorage.getItem("flangeSelectItem")) {')
-      text.newline(r'   document.getElementById("memberDropdown").options[')
-      text.newline(r'    sessionStorage.getItem("flangeSelectItem")')
-      text.newline(r'   ].selected = true;}')
-      text.newline(r' </script>')
-
-      text.newline(r' <div class="col-3">')
-      text.newline(r'  <label class="member member_space">' + f'{member}' + r'</label> <br />')
-      text.newline(r'  <label class = "wideFlangeInputLabel" for="Fy">F<sub>y</sub> : </label>')
-      text.newline(r'  <input class="user_input" type="text" id="Fy" value=' + f'{'%g'%(Fy)}' + r' name="Fy" />')
-      text.newline(r'  <label class="unit"> ksi</label> <br />')
-
-      text.newline(r'  <label class="wideFlangeInputLabel" for="E">E : </label>')
-      text.newline(r'  <input class="user_input" type="text" id="E" value=' + f'{'%g'%(Eksi)}' + r' name="E" />')
-      text.newline(r'  <label class="unit"> ksi</label> <br />')
-
-      text.newline(r'  <label class="wideFlangeInputLabel" for="Lcx">L<sub>cx</sub> : </label>')
-      text.newline(r'  <input class="user_input" type="text" id="Lcx" value=' + f'{'%g'%(Lcx)}' + r' name="Lcx" />')
-      text.newline(r'  <label class="unit"> in</label> <br />')
-
-      text.newline(r'  <label class="wideFlangeInputLabel" for="Lcy">L<sub>cy</sub> : </label>')
-      text.newline(r'  <input class="user_input" type="text" id="Lcy" value=' + f'{'%g'%(Lcy)}' + r' name="Lcy" />')
-      text.newline(r'  <label class="unit"> in</label>')
-      text.newline(r' </div>')
-      text.newline(r'</div>')
+      text.newline(r'    document.getElementById("memberDropdown").options[sessionStorage.getItem("flangeSelectItem")].selected = true;')
+      text.newline(r'  }')
+      text.newline(r'</script>')
 
       return text.string
   

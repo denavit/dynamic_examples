@@ -81,46 +81,12 @@ select {
 
 /* Label Formatting */
 
-.wideFlangeInputLabel {
-  text-align: right;
-  float: left;
-  clear: left;
-  width: 10%;
-  padding-right: 2px;
-  vertical-align: middle;
-}
-
-label:not(.div_flange, .div_web, .unit) {
-  font-size: 15px;
-  vertical-align: middle;
-}
-
-.member_select_label {
-  padding-left: 20%;
-  justify-content: center;
-  vertical-align: middle;
-}
-
-.member_space {
-  padding-left: 43%;
-  vertical-align: middle;
-}
-
-.memberInputLabel {
-  text-align: right;
-  float: left;
-  clear: left;
-  width: 25%;
-  padding-right: 2px;
-  margin-left: -20%;
-  vertical-align: middle;
-}
-
 .input_label {
   text-align: right;
   float: left;
   clear: left;
   width: 50%;
+  padding-top: 5px;
   padding-right: 2px;
   vertical-align: middle;
 }
