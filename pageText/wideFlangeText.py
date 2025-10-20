@@ -10,14 +10,17 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       text.newline('Example calculation of the available strength (ASD and LRFD) of wide flange steel columns without slender elements for the limit state of flexural buckling according to the 2022 AISC <i>Specification</i> and 16th Edition AISC <i>Manual</i>.', tag='p')
       return text.string
   
-  def input(Fy, Eksi, Lcx, Lcy):
+  def input(member, Fy, Eksi, Lcx, Lcy):
       
       text = htmlstr(default_indent=10);
 
       text.newline(r'<label class="input_label" for="memberDropdown">Wide Flange Section: </label>')
       text.newline(r'<select class="input_dropdown" id="memberDropdown" name="memberDropdown">')
       for selectMember in names():
-          text.newline(r'  <option id="' + f'{selectMember}' + r" value=" + f'{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
+          if selectMember == member:
+            text.newline(r'  <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'" selected>' + f'{selectMember}' + r'</option>')
+          else:
+            text.newline(r'  <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
       text.newline(r'</select>')
 
       text.newline(r'  <label class="input_label" for="Fy">$F_y$ (specified minimum yield stress):</label>')
@@ -216,4 +219,4 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       text.newline('This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].', tag='p')
       return text.string
 
-  return header(), input(Fy, Eksi, Lcx, Lcy), output(member, Fy, Eksi, Lcx, Lcy), footer()
+  return header(), input(member, Fy, Eksi, Lcx, Lcy), output(member, Fy, Eksi, Lcx, Lcy), footer()
