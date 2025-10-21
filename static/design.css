@@ -79,39 +79,36 @@ select {
   margin: auto;
 }
 
-/* Label Formatting */
+/* Input Formatting */
+
+.input_wrapper {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 50% 30% 15%;
+  gap: 2px;
+  grid-auto-rows: minmax(2em, auto);
+}
 
 .input_label {
+  grid-column: 1;
   text-align: right;
-  float: left;
-  clear: left;
-  width: 50%;
-  padding-top: 5px;
-  padding-right: 2px;
-  vertical-align: middle;
+  line-height: 2em; 
+  min-height: 2em;
 }
 
-.input_dropdown {
-  padding: 5px;
-  text-align: left;
-  float: left;
+.input_box {
+  grid-column: 2;
   box-sizing:content-box;
-  width: 25%;
-  vertical-align: middle;
-}
-
-.input_textbox {
-  padding: 5px;
-  box-sizing:content-box;
-  width: 25%;
+  min-height: 2em;
 }
 
 .input_units {
+  grid-column: 3;
   text-align: left;
-  clear: right;
-  padding-left: 2px;
-  vertical-align: middle;
+  line-height: 2em;
+  text-align: left;  
 }
+
 
 /* Buttons */
 

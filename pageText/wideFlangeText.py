@@ -14,30 +14,35 @@ def wideFlangeText(member,Fy,Eksi,Lcx,Lcy):
       
       text = htmlstr(default_indent=10);
 
-      text.newline(r'<label class="input_label" for="memberDropdown">Wide Flange Section: </label>')
-      text.newline(r'<select class="input_dropdown" id="memberDropdown" name="memberDropdown">')
+      text.newline(r'<div class="input_wrapper">')     
+      text.newline(r'  <label class="input_label" for="memberDropdown">Wide Flange Section: </label>')
+      text.newline(r'  <select class="input_box" id="memberDropdown" name="memberDropdown">')
       for selectMember in names():
           if selectMember == member:
-            text.newline(r'  <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'" selected>' + f'{selectMember}' + r'</option>')
+            text.newline(r'    <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'" selected>' + f'{selectMember}' + r'</option>')
           else:
-            text.newline(r'  <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
-      text.newline(r'</select>')
+            text.newline(r'    <option id="' + f'{selectMember}"' + r" value=" + f'"{selectMember}' + r'">' + f'{selectMember}' + r'</option>') 
+      text.newline(r'  </select>')
+      text.newline(r'  <label class="input_units">&nbsp;</label>')
+
 
       text.newline(r'  <label class="input_label" for="Fy">$F_y$ (specified minimum yield stress):</label>')
-      text.newline(r'  <input class="input_textbox" type="text" id="Fy" value=' + f'{'%g'%(Fy)}' + r' name="Fy" />')
+      text.newline(r'  <input class="input_box" type="text" id="Fy" value=' + f'{'%g'%(Fy)}' + r' name="Fy" />')
       text.newline(r'  <label class="input_units">ksi</label>')
 
       text.newline(r'  <label class="input_label" for="E">$E$ (modulus of elasticity):</label>')
-      text.newline(r'  <input class="input_textbox" type="text" id="E" value=' + f'{'%g'%(Eksi)}' + r' name="E" />')
+      text.newline(r'  <input class="input_box" type="text" id="E" value=' + f'{'%g'%(Eksi)}' + r' name="E" />')
       text.newline(r'  <label class="input_units">ksi</label>')
 
       text.newline(r'  <label class="input_label" for="Lcx">$L_{cx}$ (effective length for major-axis buckling):</label>')
-      text.newline(r'  <input class="input_textbox" type="text" id="Lcx" value=' + f'{'%g'%(Lcx)}' + r' name="Lcx" />')
+      text.newline(r'  <input class="input_box" type="text" id="Lcx" value=' + f'{'%g'%(Lcx)}' + r' name="Lcx" />')
       text.newline(r'  <label class="input_units">in.</label>')
 
       text.newline(r'  <label class="input_label" for="Lcy">$L_{cy}$ (effective length for minor-axis buckling):</label>')
-      text.newline(r'  <input class="input_textbox" type="text" id="Lcy" value=' + f'{'%g'%(Lcy)}' + r' name="Lcy" />')
-      text.newline(r'  <label class="input_units"> in</label>')
+      text.newline(r'  <input class="input_box" type="text" id="Lcy" value=' + f'{'%g'%(Lcy)}' + r' name="Lcy" />')
+      text.newline(r'  <label class="input_units" for="Lcy">in.</label>')
+      text.newline(r'</div>')
+
 
       text.newline(r'<button class = "generalButton" style="display: block; margin-top: 3px;" type = "submit">Calculate</button>')
 
