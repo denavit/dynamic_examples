@@ -11,6 +11,8 @@ html {
 
 body {
   max-width: 1200px;
+  padding-left: 4px;
+  padding-right: 4px;
   position: relative;
   margin: 0 auto;
 }
@@ -36,7 +38,6 @@ body {
   padding: 15px;
   text-align: center;
   margin: auto;
-  width: 100%
 }
 
 .input {
@@ -59,7 +60,6 @@ body {
   padding: 15px;
   text-align: center;
   margin: auto;
-  width: 100%  
 }
 
 select {
