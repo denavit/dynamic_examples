@@ -7,43 +7,38 @@ from math import sqrt, pi
 
 class WideFlangeColumnBasic(Page):
     
-  def __init__(self,member,Fy,Eksi,Lcx,Lcy):
+  def __init__(self,member,Fy_str,E_str,Lcx_str,Lcy_str):
       self.member = member
-      self.Fy = Fy
-      self.Eksi = Eksi
-      self.Lcx = Lcx
-      self.Lcy = Lcy
+      self.Fy_str = Fy_str
+      self.E_str = E_str
+      self.Lcx_str = Lcx_str
+      self.Lcy_str = Lcy_str
       self.name = r'/wide_flange_column_basic'
       self.title = 'Wide Flange Steel Members'
 
   @classmethod
   def from_page(cls):
-      if request.form.get('memberDropdown') == None:
+      member = request.form.get('memberDropdown')
+      if member is None:
           member = 'W14X159'
-      else:
-          member = request.form.get('memberDropdown')
 
-      try:
-          Fy = float(request.values.get('Fy'))
-      except:
-          Fy = 50
+      Fy_str = request.values.get('Fy')
+      if Fy_str is None:
+          Fy_str = '50'
+         
+      E_str = request.values.get('E')
+      if E_str is None:
+          E_str = '50'
           
-      try:
-          Eksi = float(request.values.get('E'))
-      except:
-          Eksi = 29000
-   
-      try:
-          Lcx = float(request.values.get('Lcx'))
-      except:
-          Lcx = 240
-    
-      try:
-          Lcy = float(request.values.get('Lcy'))
-      except:
-          Lcy = 240    
+      Lcx_str = request.values.get('Lcx')
+      if Lcx_str is None:
+          Lcx_str = '240'
+          
+      Lcy_str = request.values.get('Lcy')
+      if Lcy_str is None:
+          Lcy_str = '240'  
       
-      return cls(member,Fy,Eksi,Lcx,Lcy)
+      return cls(member,Fy_str,E_str,Lcx_str,Lcy_str)
       
 
   def header(self):
@@ -69,19 +64,19 @@ class WideFlangeColumnBasic(Page):
 
 
       text.newline(r'  <label class="input_label" for="Fy">$F_y$ (specified minimum yield stress):</label>')
-      text.newline(r'  <input class="input_box" type="text" id="Fy" value=' + f'{'%g'%(self.Fy)}' + r' name="Fy" />')
+      text.newline(r'  <input class="input_box" type="text" id="Fy" value="' + self.Fy_str + r'" name="Fy" />')
       text.newline(r'  <label class="input_units">ksi</label>')
 
       text.newline(r'  <label class="input_label" for="E">$E$ (modulus of elasticity):</label>')
-      text.newline(r'  <input class="input_box" type="text" id="E" value=' + f'{'%g'%(self.Eksi)}' + r' name="E" />')
+      text.newline(r'  <input class="input_box" type="text" id="E" value="' + self.E_str + r'" name="E" />')
       text.newline(r'  <label class="input_units">ksi</label>')
 
       text.newline(r'  <label class="input_label" for="Lcx">$L_{cx}$ (effective length for major-axis buckling):</label>')
-      text.newline(r'  <input class="input_box" type="text" id="Lcx" value=' + f'{'%g'%(self.Lcx)}' + r' name="Lcx" />')
+      text.newline(r'  <input class="input_box" type="text" id="Lcx" value="' + self.Lcx_str + r'" name="Lcx" />')
       text.newline(r'  <label class="input_units">in.</label>')
 
       text.newline(r'  <label class="input_label" for="Lcy">$L_{cy}$ (effective length for minor-axis buckling):</label>')
-      text.newline(r'  <input class="input_box" type="text" id="Lcy" value=' + f'{'%g'%(self.Lcy)}' + r' name="Lcy" />')
+      text.newline(r'  <input class="input_box" type="text" id="Lcy" value="' + self.Lcy_str + r'" name="Lcy" />')
       text.newline(r'  <label class="input_units" for="Lcy">in.</label>')
       text.newline(r'</div>')
 
@@ -106,19 +101,47 @@ class WideFlangeColumnBasic(Page):
       # Check Input
       bad_input = False
       
+      try:
+        Fy = float(self.Fy_str)
+      except:
+        bad_input = True
+        text.newline(r'The yield stress, $F_y$, must be a number', tag='p')
+
+      try:
+        E = float(self.E_str)
+      except:
+        bad_input = True
+        text.newline(r'The modulus of elasticity, $E$, must be a number', tag='p')
+        
+      try:
+        Lcx = float(self.Lcx_str)
+      except:
+        bad_input = True
+        text.newline(r'The effective length about the x-axis, $L_{cx}$, must be a number', tag='p')
+        
+      try:
+        Lcy = float(self.Lcy_str)
+      except:
+        bad_input = True
+        text.newline(r'The effective length about the y-axis, $L_{cy}$, must be a number', tag='p')
+
+      if bad_input:
+        return text.string
+
+            
       if self.member == None:
         text.newline(f'Error: member must be defined.', tag='p')
         bad_input = True
 
-      if self.Fy <= 0:
+      if Fy <= 0:
         text.newline(f'Error: steel yield stress must be greater than zero.', tag='p')
         bad_input = True
 
-      if self.Eksi <= 0:
+      if E <= 0:
         text.newline(f'Error: modulus of elasticity stress must be greater than zero.', tag='p')
         bad_input = True
       
-      if self.Lcx < 0 or self.Lcy < 0:
+      if Lcx < 0 or Lcy < 0:
         text.newline(f'Error: effective lengths must be greater than or equal to zero.', tag='p')
         bad_input = True
      
@@ -144,7 +167,7 @@ class WideFlangeColumnBasic(Page):
       text.newline(r'Slenderness Check', tag='h2')
       
       # Check flange slenderness
-      lambdar_flange = 0.56 * sqrt(self.Eksi / self.Fy)
+      lambdar_flange = 0.56 * sqrt(E/Fy)
 
       text.newline(f'The width-to-thickness ratio of the flanges of the {self.member} is:', tag='p')
       text.newline(r'$\dfrac{b_f}{2t_f} = ' + sigfigstr(bf2tf) + '$', tag='p', cls='eqn')
@@ -157,12 +180,12 @@ class WideFlangeColumnBasic(Page):
           compare_result1 = r' \geq '
           compare_result2 = 'nonslender'          
 
-      text.newline(r'$\begin{aligned}\lambda_{r} &= 0.56\sqrt{\dfrac{E}{F_{y}}} \\ &= 0.56\sqrt{\dfrac{' + sigfigstr(self.Eksi) + r'\text{ ksi}}{' + \
-              sigfigstr(self.Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_flange) + compare_result1 + sigfigstr(bf2tf) + r'\end{aligned}$', tag='p', cls='eqn')
+      text.newline(r'$\begin{aligned}\lambda_{r} &= 0.56\sqrt{\dfrac{E}{F_{y}}} \\ &= 0.56\sqrt{\dfrac{' + sigfigstr(E) + r'\text{ ksi}}{' + \
+              sigfigstr(Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_flange) + compare_result1 + sigfigstr(bf2tf) + r'\end{aligned}$', tag='p', cls='eqn')
       text.newline(f'therefore the flanges are {compare_result2}.', tag='p')
       
       # Check web slenderness
-      lambdar_web = 1.49 * sqrt(self.Eksi / self.Fy)
+      lambdar_web = 1.49 * sqrt(E/Fy)
 
       text.newline(f'The width-to-thickness ratio of the web of the {self.member} is:', tag='p')
       text.newline(r'$\dfrac{h}{t_w} = ' + sigfigstr(htw) + '$', tag='p', cls='eqn')
@@ -175,8 +198,8 @@ class WideFlangeColumnBasic(Page):
           compare_result1 = r' \geq '
           compare_result2 = 'nonslender'
 
-      text.newline(r'$\begin{aligned}\lambda_{r} &= 1.49\sqrt{\dfrac{E}{F_{y}}} \\ &= 1.49\sqrt{\dfrac{' + sigfigstr(self.Eksi) + r'\text{ ksi}}{' + \
-              sigfigstr(self.Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_web) + compare_result1 + sigfigstr(htw) + r'\end{aligned}$', tag='p', cls='eqn')
+      text.newline(r'$\begin{aligned}\lambda_{r} &= 1.49\sqrt{\dfrac{E}{F_{y}}} \\ &= 1.49\sqrt{\dfrac{' + sigfigstr(E) + r'\text{ ksi}}{' + \
+              sigfigstr(Fy) + r'\text{ ksi}}} \\ &= ' + sigfigstr(lambdar_web) + compare_result1 + sigfigstr(htw) + r'\end{aligned}$', tag='p', cls='eqn')
       text.newline(f'therefore the web is {compare_result2}.', tag='p')
 
       # Check if Section E3 applies
@@ -197,20 +220,20 @@ class WideFlangeColumnBasic(Page):
       # Gets Critical Stresses Data
       text.newline(r'Slenderness Ratio', tag='h2')
 
-      text.newline(r'$\dfrac{L_{cx}}{r_x} = \dfrac{' + sigfigstr(self.Lcx) + r'\text{ in.}}{' + \
-              sigfigstr(rx) + r'\text{ in.}} = ' + sigfigstr(self.Lcx/rx) + r'$', tag='p', cls='eqn')
+      text.newline(r'$\dfrac{L_{cx}}{r_x} = \dfrac{' + sigfigstr(Lcx) + r'\text{ in.}}{' + \
+              sigfigstr(rx) + r'\text{ in.}} = ' + sigfigstr(Lcx/rx) + r'$', tag='p', cls='eqn')
 
 
-      text.newline(r'$\dfrac{L_{cy}}{r_y} = \dfrac{' + sigfigstr(self.Lcy) + r'\text{ in.}}{' + \
-              sigfigstr(ry) + r'\text{ in.}} = ' + sigfigstr(self.Lcy/ry) + r'$', tag='p', cls='eqn')
+      text.newline(r'$\dfrac{L_{cy}}{r_y} = \dfrac{' + sigfigstr(Lcy) + r'\text{ in.}}{' + \
+              sigfigstr(ry) + r'\text{ in.}} = ' + sigfigstr(Lcy/ry) + r'$', tag='p', cls='eqn')
 
         
-      if self.Lcx/rx > self.Lcy/ry:
-          text.newline(r'Because $\dfrac{L_{cx}}{r_x} > \dfrac{L_{cy}}{r_y}$, major-axis buckling controls and $\dfrac{L_{c}}{r} =  ' + sigfigstr(self.Lcx/rx) + '$', tag='p')
-          Lc_over_r = self.Lcx/rx
+      if Lcx/rx > Lcy/ry:
+          text.newline(r'Because $\dfrac{L_{cx}}{r_x} > \dfrac{L_{cy}}{r_y}$, major-axis buckling controls and $\dfrac{L_{c}}{r} =  ' + sigfigstr(Lcx/rx) + '$', tag='p')
+          Lc_over_r = Lcx/rx
       else:
-          text.newline(r'Because $\dfrac{L_{cy}}{r_y} > \dfrac{L_{cx}}{r_x}$, minor-axis buckling controls and $\dfrac{L_{c}}{r} =  ' + sigfigstr(self.Lcy/ry) + '$', tag='p')
-          Lc_over_r = self.Lcy/ry
+          text.newline(r'Because $\dfrac{L_{cy}}{r_y} > \dfrac{L_{cx}}{r_x}$, minor-axis buckling controls and $\dfrac{L_{c}}{r} =  ' + sigfigstr(Lcy/ry) + '$', tag='p')
+          Lc_over_r = Lcy/ry
 
       
       text.newline(r'Nominal Compressive Strength', tag='h2')
@@ -218,26 +241,26 @@ class WideFlangeColumnBasic(Page):
       text.newline(r'The available critical stresses may be interpolated from AISC <i>Manual</i> Table 4-14 or calculated directly according to AISC <i>Specification</i> Section E3 as follows.', tag='p')
       text.newline(r'Calculate the elastic critical buckling stress, $F_{{e}}$', tag='p')
 
-      Fe = pi**2 * self.Eksi / Lc_over_r**2
+      Fe = pi**2 * E / Lc_over_r**2
       text.newline(r'$\begin{aligned}F_e &= \dfrac{\pi^2 E}{\left(\dfrac{L_c}{r}\right)^2} \\' + \
-              r'&= \dfrac{\pi^2 (' + sigfigstr(self.Eksi) + r'\text{ ksi})}{(' + sigfigstr(Lc_over_r) + r')^2} \\' + \
+              r'&= \dfrac{\pi^2 (' + sigfigstr(E) + r'\text{ ksi})}{(' + sigfigstr(Lc_over_r) + r')^2} \\' + \
               r'&= ' + sigfigstr(Fe) + r'\text{ ksi} \end{aligned}$', tag='p', cls='eqn')
 
       text.newline('Calculate the nominal stress, $F_{{n}}$', tag='p')
 
-      text.newline(r'$4.71\sqrt{\dfrac{E}{F_y}} = 4.71\sqrt{\dfrac{' + sigfigstr(self.Eksi) + r'\text{ ksi}}{' + sigfigstr(self.Fy) + r'\text{ ksi}}} = ' + sigfigstr(4.71*sqrt(self.Eksi/self.Fy)) + r'$', tag='p', cls='eqn')
+      text.newline(r'$4.71\sqrt{\dfrac{E}{F_y}} = 4.71\sqrt{\dfrac{' + sigfigstr(E) + r'\text{ ksi}}{' + sigfigstr(Fy) + r'\text{ ksi}}} = ' + sigfigstr(4.71*sqrt(E/Fy)) + r'$', tag='p', cls='eqn')
            
-      if Lc_over_r <= 4.71*sqrt(self.Eksi/self.Fy):
-          text.newline(r'Because $\dfrac{L_c}{r} = ' + sigfigstr(Lc_over_r) + r'\leq 4.71\sqrt{\dfrac{E}{F_y}} = ' + sigfigstr(4.71*sqrt(self.Eksi/self.Fy)) + r'$, inelastic buckling governs and $F_n$ is determined using AISC <i>Specification</i> Equation E3-2', tag='p')
+      if Lc_over_r <= 4.71*sqrt(E/Fy):
+          text.newline(r'Because $\dfrac{L_c}{r} = ' + sigfigstr(Lc_over_r) + r'\leq 4.71\sqrt{\dfrac{E}{F_y}} = ' + sigfigstr(4.71*sqrt(E/Fy)) + r'$, inelastic buckling governs and $F_n$ is determined using AISC <i>Specification</i> Equation E3-2', tag='p')
 
-          Fn = 0.658**(self.Fy/Fe)*self.Fy
+          Fn = 0.658**(Fy/Fe)*Fy
 
           text.newline(r'$\begin{aligned}F_n &= \left(0.658^{\dfrac{F_y}{F_e}}\right)F_y \\' + \
-                  r'&= \left[0.658^\dfrac{' + sigfigstr(self.Fy) + r'\text{ ksi}}{' + sigfigstr(Fe) + r'\text{ ksi}}\right](' + sigfigstr(self.Fy) + r'\text{ ksi}) \\' + \
+                  r'&= \left[0.658^\dfrac{' + sigfigstr(Fy) + r'\text{ ksi}}{' + sigfigstr(Fe) + r'\text{ ksi}}\right](' + sigfigstr(Fy) + r'\text{ ksi}) \\' + \
                   r'&=' + sigfigstr(Fn) + r'\text{ ksi} \end{aligned}$', tag='p', cls='eqn')
                   
       else:
-          text.newline(r'Because $\dfrac{L_c}{r} = ' + sigfigstr(Lc_over_r) + r'> 4.71\sqrt{\dfrac{E}{F_y}} = ' + sigfigstr(4.71*sqrt(self.Eksi/self.Fy)) + r'$, elastic buckling governs and $F_n$ is determined using AISC <i>Specification</i> Equation E3-3', tag='p')
+          text.newline(r'Because $\dfrac{L_c}{r} = ' + sigfigstr(Lc_over_r) + r'> 4.71\sqrt{\dfrac{E}{F_y}} = ' + sigfigstr(4.71*sqrt(E/Fy)) + r'$, elastic buckling governs and $F_n$ is determined using AISC <i>Specification</i> Equation E3-3', tag='p')
       
           Fn = 0.877 * Fe
 
