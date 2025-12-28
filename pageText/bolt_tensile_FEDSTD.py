@@ -1,17 +1,43 @@
-from math import floor, log10, sqrt, pi
-from dictionaries.ASME_B11 import ASME_B11_UN_2A2B_dict
-from dictionaries.threads import *
+from .base_class import Page
+from flask import request
 from static.string_functions import htmlstr, sigfigstr
 
-def boltFEDText(bolt, UTSs_str, UTSn_str):
+from dictionaries.ASME_B11 import ASME_B11_UN_2A2B_dict
+from dictionaries.threads import Assembly
+from math import sqrt, pi
 
-    def boltText_header():
+class BoltTensileFEDSTD(Page):
+    
+    def __init__(self,bolt,UTSs_str,UTSn_str):
+        self.bolt = bolt
+        self.UTSs_str = UTSs_str
+        self.UTSn_str = UTSn_str
+        self.name = r'/bolt_tensile_FEDSTD'
+        self.title = 'FED-STD H28/2B Tensile Strength'
+
+    @classmethod
+    def from_page(cls):
+        bolt = request.form.get('boltDropdown')
+        if bolt is None:
+            bolt = '1/2-13'          
+
+        UTSs_str = request.values.get('UTSs')
+        if UTSs_str is None:
+            UTSs_str = 110000
+        
+        UTSn_str = request.values.get('UTSn')
+        if UTSn_str is None:
+            UTSn_str = 105000
+        
+        return cls(bolt,UTSs_str,UTSn_str)
+    
+    def header(self):
         text = htmlstr(default_indent=10);
         text.newline('Bolt Tensile Strength Calculation According to FED-STD-H28/2B', tag='h1')
         return text.string
 
 
-    def boltText_input(UTSs_str,UTSn_str):
+    def input(self):
 
         text = htmlstr(default_indent=10);
 
@@ -30,11 +56,11 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
         text.newline(r'  <label class="input_units" for="boltDropdown">&nbsp;</label>')
 
         text.newline(r'  <label class="input_label" for="UTSs">$UTS_s$ (Strength of Externally Threaded Part):</label>')
-        text.newline(r'  <input class="input_textbox" type="text" id="UTSs" value=' + f'"{UTSs_str}"' + r' name="UTSs"/>')
+        text.newline(r'  <input class="input_textbox" type="text" id="UTSs" value=' + f'"{self.UTSs_str}"' + r' name="UTSs"/>')
         text.newline(r'  <label class="input_units" for="UTSs">psi</label>')
 
         text.newline(r'  <label class="input_label" for="UTSn">$UTS_n$ (Strength of Internally Threaded Part):</label>')
-        text.newline(r'  <input class="input_box" type="text" id="UTSn" value=' + f'"{UTSn_str}"' + r' name="UTSn"/>')
+        text.newline(r'  <input class="input_box" type="text" id="UTSn" value=' + f'"{self.UTSn_str}"' + r' name="UTSn"/>')
         text.newline(r'  <label class="input_units" for="UTSn">psi</label>')
         text.newline(r'</div>')
 
@@ -52,20 +78,20 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
 
         return text.string
         
-    def boltText_output(bolt, UTSs_str,UTSn_str):
+    def output(self):
 
         text = htmlstr(default_indent=10);
         
         # Check input and convert to numbers
         bad_input = False
         try:
-            UTSs = float(UTSs_str)
+            UTSs = float(self.UTSs_str)
         except:
             bad_input = True
             text.newline(r'<p>The ultimate tensile strength of the externally threaded part must be a number</p>')
 
         try:
-            UTSn = float(UTSn_str)
+            UTSn = float(self.UTSn_str)
         except:
             bad_input = True
             text.newline(r'<p>The ultimate tensile strength of the internally threaded part must be a number</p>')
@@ -85,11 +111,11 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
             return text.string    
         
         # Thread Form Dimensions
-        thread_data = ASME_B11_UN_2A2B_dict[bolt]
+        thread_data = ASME_B11_UN_2A2B_dict[self.bolt]
         boltObj = Assembly(thread_data, UTSs, UTSn)
 
         text.newline('Thread Form Dimensions', tag='h1')
-        text.newline(f'A {bolt} thread has a nominal size of ' + sigfigstr(boltObj.dbsc) + ' in. and ' + str(boltObj.n) + ' threads/in.', tag='p')
+        text.newline(f'A {self.bolt} thread has a nominal size of ' + sigfigstr(boltObj.dbsc) + ' in. and ' + str(boltObj.n) + ' threads/in.', tag='p')
         text.newline(r'$d_{bsc} = ' + sigfigstr(boltObj.dbsc) + r'\text{ in.}$',tag='p',cls='eqn')
         text.newline(r'$n = ' + str(boltObj.n) + r'\text{ threads/in.}$',tag='p',cls='eqn')
         
@@ -184,11 +210,9 @@ def boltFEDText(bolt, UTSs_str, UTSn_str):
             text.newline(f'Therefore, the required length of engagement is either ' + sigfigstr(boltObj.LEr_FEDSTD_16()) + ' in. if the internal threads are stronger than the external threads by a sufficient amount that combined failure will not occur or ' + sigfigstr(boltObj.LEr_FEDSTD_13()) + ' in. if combined failure may occur.', tag='p')  
         return text.string
 
-    def boltText_footer():
+    def footer(self):
 
         text = htmlstr(default_indent=10);
         text.newline('Developed by Jonathan Smith and Mark Denavit at the University of Tennessee, Knoxville.', tag='p')
         text.newline('This work was supported by the Naval Engineering Education Consortium [Award Number N00174-22-1-0017].', tag='p')
         return text.string
-    
-    return boltText_header(), boltText_input(UTSs_str,UTSn_str), boltText_output(bolt, UTSs_str,UTSn_str), boltText_footer()
