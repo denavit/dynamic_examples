@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from pageText.wide_flange_column_basic import WideFlangeColumnBasic
+from pageText.wide_flange_beam_basic import WideFlangeBeamBasic
 from pageText.bolt_tensile_FEDSTD import BoltTensileFEDSTD
 
 app = Flask(__name__)
@@ -12,6 +13,11 @@ def home():
 @app.route('/wide_flange_column_basic', methods = ['POST', 'GET'])
 def wide_flange_column_basic():
     page_obj = WideFlangeColumnBasic.from_page()
+    return page_obj.render_template()
+
+@app.route('/wide_flange_beam_basic', methods = ['POST', 'GET'])
+def wide_flange_beam_basic():
+    page_obj = WideFlangeBeamBasic.from_page()
     return page_obj.render_template()
     
 @app.route('/bolt_tensile_FEDSTD', methods = ['POST', 'GET'])
