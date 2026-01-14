@@ -28,7 +28,7 @@ class WideFlangeColumnBasic(Page):
          
       E_str = request.values.get('E')
       if E_str is None:
-          E_str = '50'
+          E_str = '29000'
           
       Lcx_str = request.values.get('Lcx')
       if Lcx_str is None:
